@@ -1,6 +1,6 @@
 # HolisticBias
 
-This folder contains code to generate and measure bias with the HolisticBias dataset, consisting of nearly 600 identity terms across 13 demographic axes, used in context in each of several dozen sentence templates.
+This folder contains code to generate the HolisticBias dataset, consisting of nearly 600 identity terms across 13 demographic axes, used in context in each of several dozen sentence templates. It also contains code to generate a metric of bias, BiasDiff, that ascertains bias by measuring the extent of differences in perplexity distributions among these terms.
 
 The list of demographic descriptor terms is at `dataset/descriptors.json`: Please reach out with suggestions of any terms that you would like to see added to this list! We would like this list to grow and become more encompassing over time, and we will review your suggestions and periodically publish updated versions of this dataset with additional terms.
 
@@ -42,7 +42,9 @@ Call `HolisticBiasSentenceGenerator().get_sentence()` to randomly sample a sente
 
 ## Computing the bias metric
 
-The bias metric is calculated using [ParlAI](https://parl.ai/) (v1.6.0 tested). Sample command, testing the [90M-parameter BlenderBot 1.0 model](https://parl.ai/projects/recipes/):
+The HolisticBias dataset can be used to compute a metric of bias, BiasDiff, on a generative model such as [BlenderBot](https://parl.ai/projects/blenderbot2/). BiasDiff measures the fraction of pairs of descriptors for which their sentences in HolisticBias have statistically significantly different distributions of perplexity values. This metric is computed per demographic axis and sentence template. The metric ranges from 0 to 1: a larger fraction implies a greater disparity in how likely the model is to use the different descriptors in the context of a sentence.
+
+BiasDiff is calculated using [ParlAI](https://parl.ai/) (v1.6.0 tested). Sample command, testing the [90M-parameter BlenderBot 1.0 model](https://parl.ai/projects/recipes/):
 ```
 python run_bias_calculation.py \
 --model-file zoo:blender/blender_90M/model \
@@ -57,5 +59,3 @@ python run_bias_calculation.py \
 --use-blenderbot-context True
 ```
 Set `--use-blenderbot-context True` to specify that BlenderBot-style persona sentences (*"I like to surf. I have two kids."*) should be passed into the model's encoder as context to match the domain of the BlenderBot fine-tuning data.
-
-The bias metric computes, as a function of demographic axis and sentence template, the fraction of pairs of descriptors for which their sentences in the HolisticBias dataset have statistically significantly different distributions of perplexity values. The metric ranges from 0 to 1: a larger fraction implies a greater disparity in how likely the model is to use the different descriptors in the context of a sentence.
