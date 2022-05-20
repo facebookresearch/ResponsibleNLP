@@ -4,7 +4,7 @@ This folder contains code to generate the HolisticBias dataset, consisting of ne
 
 The list of demographic descriptor terms is at `dataset/descriptors.json`: Please reach out with suggestions of any terms that you would like to see added to this list! We would like this list to grow and become more encompassing over time, and we will review your suggestions and periodically publish updated versions of this dataset with additional terms.
 
-Paper: Eric Michael Smith, Melissa Hall, Melanie Kambadur, Eleonora Presani, Adina Williams. "I'm sorry to hear that": finding bias in language models with a holistic descriptor dataset. 2022.
+Paper: Eric Michael Smith, Melissa Hall, Melanie Kambadur, Eleonora Presani, Adina Williams. *"I'm sorry to hear that": finding bias in language models with a holistic descriptor dataset.* 2022. [(arXiv)](https://arxiv.org/pdf/2205.09209.pdf)
 
 ## Generating the dataset
 
@@ -59,3 +59,20 @@ python run_bias_calculation.py \
 --use-blenderbot-context True
 ```
 Set `--use-blenderbot-context True` to specify that BlenderBot-style persona sentences (*"I like to surf. I have two kids."*) should be passed into the model's encoder as context to match the domain of the BlenderBot fine-tuning data.
+
+
+## Citation
+
+If you would like to use this dataset or code in your own work, please cite this paper with the following BibTeX entry:
+```
+@article{smith2022imsorry,
+  doi = {10.48550/ARXIV.2205.09209},
+  url = {https://arxiv.org/abs/2205.09209},
+  author = {Smith, Eric Michael and Hall, Melissa and Kambadur, Melanie and Presani, Eleonora and Williams, Adina},
+  keywords = {Computation and Language (cs.CL), Computers and Society (cs.CY), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  title = {"I'm sorry to hear that": finding bias in language models with a holistic descriptor dataset},
+  publisher = {arXiv},
+  year = {2022},
+  copyright = {Creative Commons Attribution Share Alike 4.0 International}
+}
+```
