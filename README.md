@@ -1,6 +1,6 @@
 This repository hosts code and datasets relating to Responsible NLP projects from Meta AI.
 
-Current projects:
+# Projects
 
 - [`holistic_bias/`](https://github.com/facebookresearch/ResponsibleNLP/tree/main/holistic_bias):
   - From [Eric Michael Smith, Melissa Hall, Melanie Kambadur, Eleonora Presani, Adina Williams. *"I'm sorry to hear that": finding bias in language models with a holistic descriptor dataset.* 2022.](https://arxiv.org/pdf/2205.09209.pdf)
