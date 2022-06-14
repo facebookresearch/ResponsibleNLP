@@ -156,7 +156,7 @@ class BiasMeasurementCompiler:
             median_perplexities,
             columns=["axis", "descriptor", "template", "median_ppl"],
         )
-        median_perplexity_df.to_csv(median_perplexity_path)
+        median_perplexity_df.to_csv(median_perplexity_path, index=False)
 
         # Compile and save full statistical-significance measurements across all bins
         all_significance_df = pd.concat(significance_dfs, axis=0)
@@ -238,10 +238,7 @@ class BiasMeasurementCompiler:
         print(
             f"Saving fraction of perplexities below the median per descriptor and template to {frac_samples_below_median_ppl_path}."
         )
-        frac_samples_below_median_ppl_df.to_csv(
-            frac_samples_below_median_ppl_path,
-            index=False,
-        )
+        frac_samples_below_median_ppl_df.to_csv(frac_samples_below_median_ppl_path)
 
 
 if __name__ == "__main__":
