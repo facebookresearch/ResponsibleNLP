@@ -228,7 +228,7 @@ class BiasMeasurementCompiler:
                 values="frac_below_median_ppl",
             )
             .assign(love_hate_diff=lambda df: df[love_template] - df[hate_template])
-            .sort_values("love_hate_diff")
+            .sort_values(["axis", "descriptor"])
         )
         print(
             f"Saving median perplexity across all descriptors to {median_ppl_per_template_path}."
@@ -238,7 +238,10 @@ class BiasMeasurementCompiler:
         print(
             f"Saving fraction of perplexities below the median per descriptor and template to {frac_samples_below_median_ppl_path}."
         )
-        frac_samples_below_median_ppl_df.to_csv(frac_samples_below_median_ppl_path)
+        frac_samples_below_median_ppl_df.to_csv(
+            frac_samples_below_median_ppl_path,
+            index=False,
+        )
 
 
 if __name__ == "__main__":
