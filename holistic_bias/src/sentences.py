@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 # Copyright (c) Facebook, Inc. and its affiliates.
-# This source code is licensed under the MIT license found in the
+# All rights reserved.
+#
+# This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 
 """
@@ -18,7 +20,7 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
-from src.util import NO_PREFERENCE_DATA_STRING, NONE_STRING, RANDOM_SEED
+from holistic_bias.src.util import NO_PREFERENCE_DATA_STRING, NONE_STRING, RANDOM_SEED
 
 
 class HolisticBiasSentenceGenerator:
@@ -56,14 +58,14 @@ class HolisticBiasSentenceGenerator:
 
     # Paths to JSONs
     JSON_FOLDER = os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), '..', 'dataset'
+        os.path.dirname(os.path.abspath(__file__)), "..", "dataset"
     )
-    DESCRIPTORS_PATH = os.path.join(JSON_FOLDER, 'descriptors.json')
-    NOUNS_PATH = os.path.join(JSON_FOLDER, 'nouns.json')
+    DESCRIPTORS_PATH = os.path.join(JSON_FOLDER, "descriptors.json")
+    NOUNS_PATH = os.path.join(JSON_FOLDER, "nouns.json")
     STANDALONE_NOUN_PHRASES_PATH = os.path.join(
-        JSON_FOLDER, 'standalone_noun_phrases.json'
+        JSON_FOLDER, "standalone_noun_phrases.json"
     )
-    SENTENCE_TEMPLATES_PATH = os.path.join(JSON_FOLDER, 'sentence_templates.json')
+    SENTENCE_TEMPLATES_PATH = os.path.join(JSON_FOLDER, "sentence_templates.json")
 
     # Load information from JSONs
     with open(DESCRIPTORS_PATH) as f:
@@ -151,7 +153,7 @@ class HolisticBiasSentenceGenerator:
                     "plural_noun_phrase", possibly_templated_noun_phrase
                 )
                 noun_phrase_preference = noun_phrase_obj.get(
-                    'preference', cls.NO_PREFERENCE_DATA_STRING
+                    "preference", cls.NO_PREFERENCE_DATA_STRING
                 )
                 # Lists whether a noun phrase has been labeled as dispreferred or
                 # polarizing
@@ -230,13 +232,13 @@ class HolisticBiasSentenceGenerator:
         if isinstance(descriptor_obj, str):
             # No metadata found
             descriptor_obj = {"descriptor": descriptor_obj}
-        descriptor = descriptor_obj['descriptor']
-        descriptor_gender = descriptor_obj.get('gender', cls.NONE_STRING)
+        descriptor = descriptor_obj["descriptor"]
+        descriptor_gender = descriptor_obj.get("gender", cls.NONE_STRING)
         # Set the gender associated with the descriptor, if any
-        descriptor_article = descriptor_obj.get('article', cls._get_article(descriptor))
+        descriptor_article = descriptor_obj.get("article", cls._get_article(descriptor))
         # Allow for manual specification of the correct indefinite article
         descriptor_preference = descriptor_obj.get(
-            'preference', cls.NO_PREFERENCE_DATA_STRING
+            "preference", cls.NO_PREFERENCE_DATA_STRING
         )
         # Lists whether a term has been labeled as dispreferred or polarizing
 
@@ -319,12 +321,12 @@ class HolisticBiasSentenceGenerator:
         # Inputs
         if filters is None:
             filters = {}
-        suffix = '__small_set' if use_small_set else ''
+        suffix = "__small_set" if use_small_set else ""
 
         # Save paths
         os.makedirs(save_folder, exist_ok=True)
-        noun_phrase_path = os.path.join(save_folder, f'noun_phrases{suffix}.csv')
-        sentence_path = os.path.join(save_folder, f'sentences{suffix}.csv')
+        noun_phrase_path = os.path.join(save_folder, f"noun_phrases{suffix}.csv")
+        sentence_path = os.path.join(save_folder, f"sentences{suffix}.csv")
 
         if os.path.exists(sentence_path):
 
@@ -341,9 +343,9 @@ class HolisticBiasSentenceGenerator:
             # Optionally sample a smaller number of descriptors for speed
             if use_small_set:
                 print(
-                    f'Sampling a set of {self.NUM_DESCRIPTORS_IN_SMALL_SET:d} descriptors.'
+                    f"Sampling a set of {self.NUM_DESCRIPTORS_IN_SMALL_SET:d} descriptors."
                 )
-                all_descriptors = sorted(noun_phrase_df['descriptor'].unique().tolist())
+                all_descriptors = sorted(noun_phrase_df["descriptor"].unique().tolist())
                 rng = np.random.default_rng(RANDOM_SEED)
                 selected_descriptors = rng.choice(
                     all_descriptors,
@@ -351,11 +353,11 @@ class HolisticBiasSentenceGenerator:
                     replace=False,
                 )
                 noun_phrase_df = noun_phrase_df[
-                    lambda df: df['descriptor'].isin(selected_descriptors)
+                    lambda df: df["descriptor"].isin(selected_descriptors)
                 ]
 
             # Save noun phrase dataframe
-            print(f'Saving noun phrases and metadata to {noun_phrase_path}.')
+            print(f"Saving noun phrases and metadata to {noun_phrase_path}.")
             noun_phrase_df.to_csv(noun_phrase_path, index=False)
 
             # Loop over noun phrases, templates, and all variants, and create all
@@ -435,12 +437,12 @@ class HolisticBiasSentenceGenerator:
 
         selected_sentence_metadata = random.choice(self.sentences).copy()
         sentence = selected_sentence_metadata["text"]
-        template = selected_sentence_metadata['template']
-        noun = selected_sentence_metadata['noun']
-        if '{plural_noun_phrase}' in template:
-            noun_phrase = selected_sentence_metadata['plural_noun_phrase']
-        elif '{noun_phrase}' in template:
-            noun_phrase = selected_sentence_metadata['noun_phrase']
+        template = selected_sentence_metadata["template"]
+        noun = selected_sentence_metadata["noun"]
+        if "{plural_noun_phrase}" in template:
+            noun_phrase = selected_sentence_metadata["plural_noun_phrase"]
+        elif "{noun_phrase}" in template:
+            noun_phrase = selected_sentence_metadata["noun_phrase"]
         else:
             raise ValueError(
                 f'Noun phrase pluralization cannot be determined from the template "{template}"!'
@@ -461,8 +463,8 @@ class HolisticBiasSentenceGenerator:
 
         if variant_metadata["remove_descriptor_hyphens"]:
             assert (
-                '-' not in noun
-            ), 'The hyphen in the noun will be incorrectly removed!'
+                "-" not in noun
+            ), "The hyphen in the noun will be incorrectly removed!"
             new_variant_noun_phrase = variant_noun_phrase.replace("-", " ")
             sentence = re.sub(
                 r"\b{}\b".format(re.escape(variant_noun_phrase)),
@@ -472,7 +474,7 @@ class HolisticBiasSentenceGenerator:
             variant_noun_phrase = new_variant_noun_phrase
 
         if variant_metadata["lowercase_descriptor"]:
-            assert noun == noun.lower(), 'The noun will be incorrectly lowercased!'
+            assert noun == noun.lower(), "The noun will be incorrectly lowercased!"
             new_variant_noun_phrase = variant_noun_phrase.lower()
             sentence = re.sub(
                 r"\b{}\b".format(re.escape(variant_noun_phrase)),
@@ -493,5 +495,5 @@ class HolisticBiasSentenceGenerator:
         return {
             **selected_sentence_metadata,
             **variant_metadata,
-            'variant_noun_phrase': variant_noun_phrase,
+            "variant_noun_phrase": variant_noun_phrase,
         }
