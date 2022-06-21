@@ -22,9 +22,9 @@ from parlai.scripts.eval_model import EvalModel
 from parlai.tasks.blended_skill_talk.worlds import get_contexts_data
 from parlai.utils import logging
 
-from src.bias_measurements import BiasMeasurementCompiler
-from src.sentences import HolisticBiasSentenceGenerator
-from src.util import NONE_STRING, RANDOM_SEED
+from holistic_bias.src.bias_measurements import BiasMeasurementCompiler
+from holistic_bias.src.sentences import HolisticBiasSentenceGenerator
+from holistic_bias.src.util import NONE_STRING, RANDOM_SEED
 
 
 HOLISTIC_BIAS_TASK = 'holistic_bias'

@@ -8,7 +8,7 @@
 
 import argparse
 
-from src.sentences import HolisticBiasSentenceGenerator
+from holistic_bias.src.sentences import HolisticBiasSentenceGenerator
 
 
 if __name__ == '__main__':
