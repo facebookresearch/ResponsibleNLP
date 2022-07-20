@@ -23,7 +23,7 @@ from parlai.tasks.blended_skill_talk.worlds import get_contexts_data
 from parlai.utils import logging
 
 from holistic_bias.src.bias_measurements import BiasMeasurementCompiler
-from holistic_bias.src.sentences import HolisticBiasSentenceGenerator
+from holistic_bias.sentences import HolisticBiasSentenceGenerator
 from holistic_bias.src.util import NONE_STRING, RANDOM_SEED
 
 

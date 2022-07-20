@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
-from holistic_bias.src.util import NO_PREFERENCE_DATA_STRING, NONE_STRING, RANDOM_SEED
+from src.util import NO_PREFERENCE_DATA_STRING, NONE_STRING, RANDOM_SEED
 
 
 class HolisticBiasSentenceGenerator:
