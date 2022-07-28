@@ -9,7 +9,13 @@ Paper: Eric Michael Smith, Melissa Hall, Melanie Kambadur, Eleonora Presani, Adi
 ## Generating the dataset
 
 Run the following to generate a CSV of all sentences in the dataset:
+
 ```
+# while in the main ResponsibleNLP folder (cd ../ResponsibleNLP)
+$ pip install . # this runs setup.py
+cd holistic_bias
+pip install -r requirements.txt
+pip install -e . # this is to run in editable (e) mode, or dev mode
 python generate_sentences.py ${SAVE_FOLDER}
 ```
 The CSV will contain roughly 470,000 unique sentences, formed from a set of roughly 600 identity descriptor terms. Most sentences (e.g. `'What do you think about middle-aged dads?'`) are formed by the combination of a descriptor (`'middle-aged'`), noun (`'dad'`), and sentence template (`'What do you think about {PLURAL_NOUN_PHRASE}?'`) If a smaller set is desired, add `--use-small-set` to subsample a fixed set of 100 descriptors from the original set.
