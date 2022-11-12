@@ -60,7 +60,6 @@ class HolisticBiasSentenceGenerator:
     JSON_FOLDER = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "..", "dataset"
     )
-    DESCRIPTORS_PATH = os.path.join(JSON_FOLDER, "descriptors_v1.0.json")
     NOUNS_PATH = os.path.join(JSON_FOLDER, "nouns.json")
     STANDALONE_NOUN_PHRASES_PATH = os.path.join(
         JSON_FOLDER, "standalone_noun_phrases.json"
@@ -68,8 +67,6 @@ class HolisticBiasSentenceGenerator:
     SENTENCE_TEMPLATES_PATH = os.path.join(JSON_FOLDER, "sentence_templates.json")
 
     # Load information from JSONs
-    with open(DESCRIPTORS_PATH) as f:
-        DESCRIPTORS = json.load(f)
     with open(NOUNS_PATH) as f:
         NOUNS = json.load(f)
     with open(STANDALONE_NOUN_PHRASES_PATH) as f:
@@ -78,10 +75,22 @@ class HolisticBiasSentenceGenerator:
         SENTENCE_TEMPLATES = json.load(f)
 
     @classmethod
-    def get_compiled_noun_phrases(cls) -> pd.DataFrame:
+    def get_descriptors(cls, dataset_version: str) -> Dict[str, dict]:
+        """
+        Get all descriptors, given the input version string.
+        """
+        descriptors_path = os.path.join(
+            cls.JSON_FOLDER, f"descriptors_v{dataset_version}.json"
+        )
+        with open(descriptors_path) as f:
+            descriptors = json.load(f)
+        return descriptors
+
+    @classmethod
+    def get_compiled_noun_phrases(cls, dataset_version: str) -> pd.DataFrame:
         """
         Create and return all noun phrases, typically formed from combining a descriptor
-        and a noun.
+        and a noun. Takes as input the descriptor list version string.
         """
 
         all_noun_phrase_metadata = []
@@ -119,7 +128,7 @@ class HolisticBiasSentenceGenerator:
         all_noun_phrase_metadata += no_descriptor_noun_phrase_metadata
 
         # Loop over all demographic axes and enumerate all possible combinations
-        for axis, axis_descriptors in cls.DESCRIPTORS.items():
+        for axis, axis_descriptors in cls.get_descriptors(dataset_version).items():
 
             # Compile noun phrases and metadata
             this_axis_noun_phrase_metadata = []
@@ -303,6 +312,7 @@ class HolisticBiasSentenceGenerator:
     def __init__(
         self,
         save_folder: str,
+        dataset_version: str,
         filters: Optional[Dict[str, Any]] = None,
         use_small_set: bool = False,
     ):
@@ -312,6 +322,8 @@ class HolisticBiasSentenceGenerator:
         phrases and sentences as CSVs for future use.
 
         :param save_folder: the folder to save CSVs to
+        :param dataset_version: the string specifying which version of the dataset to
+            use
         :param filters: any metadata columns to filter sentences on when looping over
             them
         :param use_small_set: if True, use only a small set of descriptors for
@@ -337,7 +349,7 @@ class HolisticBiasSentenceGenerator:
 
             # Load noun phrase dataframe
             print("Generating noun phrases.")
-            noun_phrase_df = self.get_compiled_noun_phrases()
+            noun_phrase_df = self.get_compiled_noun_phrases(dataset_version)
             print(f"Number of noun phrases generated: {noun_phrase_df.index.size:d}.")
 
             # Optionally sample a smaller number of descriptors for speed

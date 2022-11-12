@@ -24,10 +24,10 @@ from parlai.utils import logging
 
 from holistic_bias.src.bias_measurements import BiasMeasurementCompiler
 from holistic_bias.src.sentences import HolisticBiasSentenceGenerator
-from holistic_bias.src.util import NONE_STRING, RANDOM_SEED
+from holistic_bias.src.util import DEFAULT_DATASET_VERSION, NONE_STRING, RANDOM_SEED
 
 
-HOLISTIC_BIAS_TASK = 'holistic_bias'
+HOLISTIC_BIAS_TASK = "holistic_bias"
 
 
 @register_teacher(HOLISTIC_BIAS_TASK)
@@ -42,30 +42,36 @@ class HolisticBiasTeacher(DialogTeacher):
         cls, parser: ParlaiParser, partial_opt: Optional[Opt] = None
     ) -> ParlaiParser:
         super().add_cmdline_args(parser, partial_opt)
-        group = parser.add_argument_group('HolisticBiasTeacher arguments')
+        group = parser.add_argument_group("HolisticBiasTeacher arguments")
         group.add_argument(
-            '--use-small-set',
-            type='bool',
-            default=False,
-            help='Use only a small set of descriptors for speed',
+            "--dataset-version",
+            type=str,
+            default=DEFAULT_DATASET_VERSION,
+            help="Which version of the dataset to load",
         )
         group.add_argument(
-            '--use-blenderbot-context',
-            type='bool',
+            "--use-small-set",
+            type="bool",
             default=False,
-            help='Add BlenderBot-style persona strings to the context',
+            help="Use only a small set of descriptors for speed",
+        )
+        group.add_argument(
+            "--use-blenderbot-context",
+            type="bool",
+            default=False,
+            help="Add BlenderBot-style persona strings to the context",
         )
         return parser
 
     def __init__(self, opt, shared=None):
-        opt['datafile'] = 'no_file'  # Not needed here
-        if opt['world_logs'] is None or opt['world_logs'] == '':
+        opt["datafile"] = "no_file"  # Not needed here
+        if opt["world_logs"] is None or opt["world_logs"] == "":
             raise ValueError(
-                '--world-logs must be set to specify the output results path!'
+                "--world-logs must be set to specify the output results path!"
             )
-        if opt['num_examples'] != -1:
+        if opt["num_examples"] != -1:
             raise ValueError(
-                '--num-examples must be unset so that all sentences can be evaluated!'
+                "--num-examples must be unset so that all sentences can be evaluated!"
             )
         self.id = HOLISTIC_BIAS_TASK
         super().__init__(opt, shared)
@@ -81,42 +87,43 @@ class HolisticBiasTeacher(DialogTeacher):
         rng = np.random.default_rng(RANDOM_SEED)
 
         # Subsample sentences
-        sentence_generator_save_folder = os.path.dirname(self.opt['world_logs'])
+        sentence_generator_save_folder = os.path.dirname(self.opt["world_logs"])
         sentence_generator = HolisticBiasSentenceGenerator(
             save_folder=sentence_generator_save_folder,
-            use_small_set=self.opt['use_small_set'],
+            dataset_version=self.opt["dataset_version"],
+            use_small_set=self.opt["use_small_set"],
         )
         filtered_sentences = [
             sentence_metadata
             for sentence_metadata in sentence_generator.sentences
             if (
-                sentence_metadata['noun_phrase_type']
+                sentence_metadata["noun_phrase_type"]
                 in [
-                    'descriptor_noun',
-                    'noun_descriptor',
+                    "descriptor_noun",
+                    "noun_descriptor",
                 ]
-                and sentence_metadata['descriptor_gender'] == NONE_STRING
+                and sentence_metadata["descriptor_gender"] == NONE_STRING
             )
         ]
         # All comparisons should between phrases containing both a noun and a descriptor
         # for the counts to be large enough. We also remove gendered descriptors (e.g.
         # "Latina") because we won't have samples for them for as many nouns as the
         # others.
-        logging.info(f'{len(filtered_sentences):d} valid sentences identified.')
+        logging.info(f"{len(filtered_sentences):d} valid sentences identified.")
 
         # Load BlendedSkillTalk contexts data
-        if self.opt['use_blenderbot_context']:
+        if self.opt["use_blenderbot_context"]:
             contexts_data = get_contexts_data(self.opt, shared=None)
         else:
             contexts_data = None
 
         logging.info(
-            'Compiling all sentences with optional context. This may take several minutes...'
+            "Compiling all sentences with optional context. This may take several minutes..."
         )
 
         for sentence_metadata in filtered_sentences:
 
-            if self.opt['use_blenderbot_context']:
+            if self.opt["use_blenderbot_context"]:
                 # Choose a random BlendedSkillTalk context so that the HolisticBias
                 # sentence is in-domain given the bot's training data. Include only the
                 # first two lines, which are persona strings, because including Wizard
@@ -124,14 +131,14 @@ class HolisticBiasTeacher(DialogTeacher):
                 # the HolisticBias sentence seem non-sensical given that context
                 context_pair = rng.choice(contexts_data)
                 context = rng.choice(context_pair)
-                relevant_context = '\n'.join(context.split('\n')[:2])
+                relevant_context = "\n".join(context.split("\n")[:2])
             else:
-                relevant_context = '__SILENCE__'
+                relevant_context = "__SILENCE__"
 
             modified_sentence_metadata = {
                 **sentence_metadata,
-                'text': relevant_context,
-                'labels': [sentence_metadata['text']],
+                "text": relevant_context,
+                "labels": [sentence_metadata["text"]],
             }
             yield modified_sentence_metadata, True
 
@@ -145,7 +152,7 @@ class EvalModelOnHolisticBias(EvalModel):
         return parser
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     EvalModelOnHolisticBias.main()
     parser_ = EvalModelOnHolisticBias.setup_args()
     opt_ = parser_.parse_args()
