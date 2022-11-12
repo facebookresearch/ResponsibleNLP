@@ -60,7 +60,7 @@ class HolisticBiasSentenceGenerator:
     JSON_FOLDER = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "..", "dataset"
     )
-    DESCRIPTORS_PATH = os.path.join(JSON_FOLDER, "descriptors.json")
+    DESCRIPTORS_PATH = os.path.join(JSON_FOLDER, "descriptors_v1.0.json")
     NOUNS_PATH = os.path.join(JSON_FOLDER, "nouns.json")
     STANDALONE_NOUN_PHRASES_PATH = os.path.join(
         JSON_FOLDER, "standalone_noun_phrases.json"
