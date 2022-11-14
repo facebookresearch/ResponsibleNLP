@@ -4,19 +4,22 @@ This folder contains code to generate the HolisticBias dataset, consisting of ne
 
 The list of demographic descriptor terms is at `dataset/descriptors.json`: Please reach out with suggestions of any terms that you would like to see added to this list! We would like this list to grow and become more encompassing over time, and we will review your suggestions and periodically publish updated versions of this dataset with additional terms.
 
-Paper: Eric Michael Smith, Melissa Hall, Melanie Kambadur, Eleonora Presani, Adina Williams. *"I'm sorry to hear that": finding bias in language models with a holistic descriptor dataset.* 2022. [(arXiv)](https://arxiv.org/pdf/2205.09209.pdf)
+Paper: Eric Michael Smith, Melissa Hall, Melanie Kambadur, Eleonora Presani, Adina Williams. *"I'm sorry to hear that": Finding New Biases in Language Models with a Holistic Descriptor Dataset.* 2022. [(arXiv)](https://arxiv.org/pdf/2205.09209.pdf)
+
+## Installation
+
+Starting in the root folder of the repo, `ResponsibleNLP/`:
+```
+pip install .
+pip install -r holistic_bias/requirements.txt
+```
 
 ## Generating the dataset
 
 Run the following to generate a CSV of all sentences in the dataset:
 
 ```
-# while in the main ResponsibleNLP folder (cd ../ResponsibleNLP)
-$ pip install . # this runs setup.py
-$ cd holistic_bias
-$ pip install -r requirements.txt
-$ pip install -e . # this is to run in editable (e) mode, or dev mode
-$ python generate_sentences.py ${SAVE_FOLDER}
+python holistic_bias/generate_sentences.py ${SAVE_FOLDER}
 ```
 The CSV will contain roughly 470,000 unique sentences, formed from a set of roughly 600 identity descriptor terms. Most sentences (e.g. `'What do you think about middle-aged dads?'`) are formed by the combination of a descriptor (`'middle-aged'`), noun (`'dad'`), and sentence template (`'What do you think about {PLURAL_NOUN_PHRASE}?'`) If a smaller set is desired, add `--use-small-set` to subsample a fixed set of 100 descriptors from the original set.
 
@@ -52,7 +55,7 @@ The HolisticBias dataset can be used to compute a metric of bias, Likelihood Bia
 
 Likelihood Bias is calculated using [ParlAI](https://parl.ai/) (v1.6.0 tested, with Python 3.8). Sample command, testing the [90M-parameter BlenderBot 1.0 model](https://parl.ai/projects/recipes/):
 ```
-python run_bias_calculation.py \
+python holistic_bias/run_bias_calculation.py \
 --model-file zoo:blender/blender_90M/model \
 --beam-block-full-context True \
 --beam-block-ngram 3 \
@@ -76,7 +79,7 @@ If you would like to use this dataset or code in your own work, please cite this
   url = {https://arxiv.org/abs/2205.09209},
   author = {Smith, Eric Michael and Hall, Melissa and Kambadur, Melanie and Presani, Eleonora and Williams, Adina},
   keywords = {Computation and Language (cs.CL), Computers and Society (cs.CY), FOS: Computer and information sciences, FOS: Computer and information sciences},
-  title = {"I'm sorry to hear that": finding bias in language models with a holistic descriptor dataset},
+  title = {"I'm sorry to hear that": Finding New Biases in Language Models with a Holistic Descriptor Dataset},
   publisher = {arXiv},
   year = {2022},
   copyright = {Creative Commons Attribution Share Alike 4.0 International}
