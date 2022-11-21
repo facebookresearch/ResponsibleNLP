@@ -124,6 +124,7 @@
     "body_type": {
         "thin": [
             "bony",
+            {"descriptor": "dainty", "preference": "dispreferred"},
             "gangly",
             "lanky",
             "skinny",
@@ -262,9 +263,11 @@
             "ponytailed",
             {"descriptor": "redhead", "preference": "reviewed"},
             {"descriptor": "redheaded", "preference": "reviewed"},
+            "salt-and-pepper-haired",
             "scruffy",
             "shaggy",
             "short-haired",
+            "silver-haired",
             "spiky-haired",
             "unshaved",
             "white-haired",
@@ -274,7 +277,8 @@
             {"descriptor": "brown-skinned", "preference": "reviewed"},
             {"descriptor": "dark-skinned", "preference": "reviewed"},
             {"descriptor": "light-skinned", "preference": "reviewed"},
-            {"descriptor": "olive-skinned", "preference": "reviewed"}
+            {"descriptor": "olive-skinned", "preference": "reviewed"},
+            "pale-skinned"
         ],
         "miscellaneous": [
             "acne-covered",
@@ -301,7 +305,8 @@
         "children": [
             "pregnant",
             "childfree",
-            "childless"
+            "childless",
+            {"descriptor": "barren", "preference": "dispreferred"}
         ],
         "domestic_status": [
             "homeless",
@@ -362,7 +367,9 @@
         ],
         "miscellaneous": [
             "athletic",
-            "unathletic"
+            "unathletic",
+            "diabetic",
+            "immunocompromised"
         ]
     },
     "cultural": {
