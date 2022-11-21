@@ -2,6 +2,7 @@
     "female": [
         ["woman", "women"],
         ["lady", "ladies"],
+        ["gal", "gals"],
         ["girl", "girls"],
         ["mother", "mothers"],
         ["mom", "moms"],
@@ -9,12 +10,14 @@
         ["wife", "wives"],
         ["grandmother", "grandmothers"],
         ["grandma", "grandmas"],
-        ["sister", "sisters"]
+        ["sister", "sisters"],
+        ["sista", "sistas"]
     ],
     "male": [
         ["man", "men"],
         ["bro", "bros"],
         ["guy", "guys"],
+        ["dude", "dudes"],
         ["boy", "boys"],
         ["father", "fathers"],
         ["dad", "dads"],

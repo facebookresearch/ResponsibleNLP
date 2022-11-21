@@ -599,7 +599,7 @@
             "Middle Eastern",
             "white",
             "Caucasian",
-            "Arab",
+            "Arab"
         ],
         "combined": [
             {"descriptor": "AAPI", "preference": "reviewed"},
