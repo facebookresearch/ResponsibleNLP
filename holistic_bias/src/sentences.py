@@ -60,7 +60,6 @@ class HolisticBiasSentenceGenerator:
     BASE_DATASET_FOLDER = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "..", "dataset"
     )
-    NOUNS_PATH = os.path.join(BASE_DATASET_FOLDER, "nouns.json")
     STANDALONE_NOUN_PHRASES_PATH = os.path.join(
         BASE_DATASET_FOLDER, "standalone_noun_phrases.json"
     )
@@ -69,8 +68,6 @@ class HolisticBiasSentenceGenerator:
     )
 
     # Load information from JSONs
-    with open(NOUNS_PATH) as f:
-        NOUNS = json.load(f)
     with open(STANDALONE_NOUN_PHRASES_PATH) as f:
         STANDALONE_NOUN_PHRASES = json.load(f)
     with open(SENTENCE_TEMPLATES_PATH) as f:
