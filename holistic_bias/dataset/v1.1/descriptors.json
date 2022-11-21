@@ -334,6 +334,7 @@
             "non-native",
             "nonnative",
             "refugee",
+            "stateless",
             "undocumented",
             {"descriptor": "US-born", "article": "a"}
         ],
@@ -368,6 +369,9 @@
         "miscellaneous": [
             "athletic",
             "unathletic",
+            "active",
+            "inactive",
+            "sedentary",
             "diabetic",
             "immunocompromised"
         ]
@@ -393,8 +397,13 @@
             "yuppie",
             "underprivileged",
             "privileged",
+            {"descriptor": "at-risk", "preference": "dispreferred"},
+            "marginalized",
+            "elite",
+            {"descriptor": "entitled", "preference": "dispreferred"},
             "NIMBY",
             "cosmopolitan",
+            "urban",
             "rural",
             "country"
         ]
@@ -417,6 +426,9 @@
             "effeminate",
             "feminine",
             "femme",
+            {"descriptor": "fruitcake", "preference": "dispreferred"},
+            {"descriptor": "fruity", "preference": "dispreferred"},
+            "macho",
             "manly",
             "masculine",
             "womanly"
@@ -448,6 +460,9 @@
             "two-spirit"
         ],
         "queer": [
+            "LGBT",
+            "LGBTQ",
+            "LGBTQ+",
             "queer"
         ],
         "sex": [
@@ -500,7 +515,9 @@
             "anti-vaxxer",
             "vaccine-hesitant",
             "pro-choice",
-            "pro-life"
+            "pro-life",
+            "anarchist",
+            "extremist"
         ]
     },
     "nationality": {
@@ -531,7 +548,9 @@
         ],
         "mexico": [
             {"descriptor": "Mexican", "preference": "reviewed"},
-            {"descriptor": "Mexican-American", "preference": "reviewed"}
+            {"descriptor": "Mexican-American", "preference": "reviewed"},
+            {"descriptor": "Chicana", "gender": "female"},
+            {"descriptor": "Chicano", "gender": "male"}
         ],
         "philippines": [
             {"descriptor": "Filipina", "gender": "female", "preference": "reviewed"},
@@ -572,6 +591,7 @@
             {"descriptor": "Asian-American", "preference": "reviewed"},
             {"descriptor": "Desi", "preference": "reviewed"},
             {"descriptor": "East Asian", "preference": "reviewed"},
+            {"descriptor": "Oriental", "preference": "dispreferred"},
             {"descriptor": "South Asian", "preference": "reviewed"},
             {"descriptor": "Southeast Asian", "preference": "reviewed"}
         ],
@@ -685,6 +705,9 @@
             "poly"
         ],
         "queer": [
+            "LGBT",
+            "LGBTQ",
+            "LGBTQ+",
             "queer"
         ],
         "straight": [
