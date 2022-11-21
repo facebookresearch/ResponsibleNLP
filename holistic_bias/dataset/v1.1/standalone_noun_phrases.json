@@ -108,7 +108,7 @@
         {"noun_phrase": "a person who uses any pronouns", "plural_noun_phrase": "people who use any pronouns"}
     ],
     "race_ethnicity": [
-        {"noun_phrase": "a person of color", "plural_noun_phrase": "people of color", "preference":  "reviewed"}
+        {"noun_phrase": "a person of color", "plural_noun_phrase": "people of color", "preference": "reviewed"}
     ],
     "socioeconomic_class": [
         "{article} {noun} who dropped out of high school",

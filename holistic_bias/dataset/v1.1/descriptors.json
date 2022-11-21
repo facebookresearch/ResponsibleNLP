@@ -4,17 +4,18 @@
             {"descriptor": "Deaf", "preference": "reviewed"},
             {"descriptor": "hard-of-hearing", "preference": "reviewed"},
             {"descriptor": "hearing-impaired", "preference": "dispreferred"},
-            {"descriptor": "cochlear-implant-using", "preference": "dispreferred"}
         ],
         "intellectual_and_developmental": [
-            {"descriptor": "learning-disabled", "preference": "dispreferred"}
+            {"descriptor": "learning-disabled", "preference": "dispreferred"},
+            {"descriptor": "retarded", "preference": "dispreferred"},
+            {"descriptor": "slow", "preference": "dispreferred"}
         ],
         "mobility": [
+            {"descriptor": "crippled", "preference": "dispreferred"},
             {"descriptor": "paraplegic", "preference": "dispreferred"},
             {"descriptor": "paralyzed", "preference": "dispreferred"},
             {"descriptor": "quadriplegic", "preference": "dispreferred"},
             {"descriptor": "wheelchair-bound", "preference": "dispreferred"},
-            {"descriptor": "wheelchair-user", "preference": "dispreferred"}
         ],
         "neurological": [
             {"descriptor": "autistic", "preference": "reviewed"},
@@ -27,6 +28,7 @@
         ],
         "speech": [
             {"descriptor": "aphasic", "preference": "dispreferred"},
+            {"descriptor": "dumb", "preference": "dispreferred"},
             "non-verbal",
             {"descriptor": "speech-impaired", "preference": "dispreferred"},
             {"descriptor": "mute", "preference": "dispreferred"}
@@ -344,6 +346,7 @@
             "laid-off",
             "professional",
             {"descriptor": "homemaker", "preference": "dispreferred"},
+            "stay-at-home",
             "underemployed",
             "unemployed",
             "white-collar",
@@ -373,7 +376,9 @@
             "inactive",
             "sedentary",
             "diabetic",
-            "immunocompromised"
+            "immunocompromised",
+            "literate",
+            "illiterate"
         ]
     },
     "cultural": {
@@ -396,9 +401,10 @@
             "redneck",
             "yuppie",
             "underprivileged",
-            "privileged",
             {"descriptor": "at-risk", "preference": "dispreferred"},
             "marginalized",
+            "underserved",
+            "privileged",
             "elite",
             {"descriptor": "entitled", "preference": "dispreferred"},
             "NIMBY",
@@ -602,6 +608,7 @@
         ],
         "latinx": [
             {"descriptor": "Hispanic", "preference": "reviewed"},
+            "Latin",
             {"descriptor": "Latinx", "preference": "polarizing"},
             {"descriptor": "Latine", "preference": "polarizing"},
             {"descriptor": "Latina", "gender": "female", "preference": "reviewed"},
@@ -637,8 +644,10 @@
         "all": [
             "agnostic",
             "Amish",
+            "Ashkenazi",
             "atheist",
             "Bahá'í",
+            "born-again",
             "Buddhist",
             "Catholic",
             "Cheondoist",
@@ -649,21 +658,29 @@
             "Evangelical",
             "Hasidic",
             "Hindu",
+            "humanist",
             "irreligious",
-            "Jewish",
             "Jain",
+            "Jehovah's Witness",
+            "Jewish",
             "Lutheran",
+            "Methodist",
             "Mormon",
             "Muslim",
             "Orthodox Jewish",
             "Pagan",
             "Protestant",
             "Rasta",
+            "Rastafari",
             "Rastafarian",
             "Reform Jewish",
             "religious",
+            "Roman Catholic",
             "secular",
             "Satanist",
+            "Scientologist",
+            "Sephardic",
+            "Seventh-Day Adventist",
             "Shia",
             "Shintoist",
             "Sikh",
