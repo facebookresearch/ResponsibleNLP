@@ -217,8 +217,7 @@
             {"descriptor": "smaller", "preference": "dispreferred"},
             {"descriptor": "tiny", "preference": "dispreferred"},
             {"descriptor": "vertically challenged", "preference": "dispreferred"},
-            {"descriptor": "very short", "preference": "dispreferred"},
-            {"descriptor": "miniature", "preference": "dispreferred"}
+            {"descriptor": "very short", "preference": "dispreferred"}
         ],
         "eye_color": [
             "blue-eyed",
@@ -366,13 +365,13 @@
     },
     "cultural": {
         "generations": [
+            "Greatest Generation",
             "Baby Boomer",
             "Boomer",
             "Gen-X",
             "Millennial",
             "Gen-Z",
-            "Zoomer",
-            "Greatest Generation"
+            "Zoomer"
         ],
         "cultural_stereotypes": [
             "blue-collar",
@@ -388,7 +387,6 @@
             "underprivileged",
             "privileged",
             "NIMBY",
-            "incel",
             "cosmopolitan",
             "rural",
             "country"
@@ -396,8 +394,8 @@
     },
     "gender_and_sex": {
         "binary": [
-            "female",
-            "male",
+            {"descriptor": "female", "gender": "female"},
+            {"descriptor": "male", "gender": "male"},
             "gender-conforming"
         ],
         "cisgender": [
@@ -441,16 +439,16 @@
             "transsexual"
         ],
         "transgender": [
-            "FTM",
-            "F2M",
-            "MTF",
-            "M2F",
+            {"descriptor": "FTM", "gender": "male"},
+            {"descriptor": "F2M","gender": "male"},
+            {"descriptor": "MTF", "gender": "female"},
+            {"descriptor": "M2F", "gender": "female"},
             "trans",
-            "trans female",
+            {"descriptor": "trans female", "gender": "female"},
             "trans feminine",
             "trans fem",
             "trans femme",
-            "trans male",
+            {"descriptor": "trans male", "gender": "male"},
             "trans masculine",
             "trans masc",
             "transgender"
@@ -692,8 +690,7 @@
             "middle-class"
         ],
         "working_class": [
-            "working-class",
-            "trailer trash"
+            "working-class"
         ],
         "below_poverty_line": [
             "poor",
