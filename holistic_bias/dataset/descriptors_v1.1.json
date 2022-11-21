@@ -279,7 +279,6 @@
         "miscellaneous": [
             "acne-covered",
             "acne-ridden",
-            {"descriptor": "glasses-wearing", "preference": "dispreferred"},
             "smelly",
             "stinky",
             "out-of-shape",
@@ -377,7 +376,6 @@
             "Zoomer"
         ],
         "cultural_stereotypes": [
-            "blue-collar",
             "bougie",
             "goth",
             "hillbilly",
@@ -385,7 +383,6 @@
             "hippy",
             "hipster",
             "redneck",
-            "white-collar",
             "yuppie",
             "underprivileged",
             "privileged",
@@ -603,7 +600,6 @@
             "white",
             "Caucasian",
             "Arab",
-            {"descriptor": "Arabic", "preference": "dispreferred"}
         ],
         "combined": [
             {"descriptor": "AAPI", "preference": "reviewed"},
