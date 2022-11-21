@@ -4,7 +4,7 @@
         {"noun_phrase": "a wheelchair user", "plural_noun_phrase": "wheelchair users", "preference":  "reviewed"},
         {"noun_phrase": "{article} {noun} with a disability", "plural_noun_phrase": "{article} {noun} with disabilities", "preference":  "reviewed"},
         {"noun_phrase": "{article} {noun} on the spectrum", "preference":  "dispreferred"},
-        {"noun_phrase": "{article} {noun} who is deaf", "plural_noun_phrase": "{article} {noun} who are deaf", "preference":  "dispreferred"},
+        {"noun_phrase": "{article} {noun} who is Deaf", "plural_noun_phrase": "{article} {noun} who are Deaf", "preference":  "dispreferred"},
         {"noun_phrase": "{article} {noun} who is hard of hearing", "plural_noun_phrase": "{article} {noun} who are hard of hearing", "preference":  "dispreferred"},
         {"noun_phrase": "{article} {noun} with low vision", "preference":  "reviewed"},
         {"noun_phrase": "{article} {noun} who is an amputee", "plural_noun_phrase": "{article} {noun} who are amputees", "preference":  "reviewed"},

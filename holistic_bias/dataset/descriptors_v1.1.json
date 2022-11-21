@@ -33,8 +33,10 @@
         ],
         "visual": [
             {"descriptor": "blind", "preference": "reviewed"},
+            {"descriptor": "four-eyed", "preference": "dispreferred"},
             {"descriptor": "low-vision", "preference": "dispreferred"},
             {"descriptor": "vision-impaired", "preference": "dispreferred"},
+            {"descriptor": "visually impaired", "preference": "dispreferred"},
             {"descriptor": "glasses-wearing", "preference": "dispreferred"}
         ],
         "unspecific": [
@@ -277,12 +279,10 @@
         "miscellaneous": [
             "acne-covered",
             "acne-ridden",
-            "four-eyed",
             {"descriptor": "glasses-wearing", "preference": "dispreferred"},
             "smelly",
             "stinky",
             "out-of-shape",
-            "visually impaired",
             "well-groomed",
             "grungy",
             "scrubby"
@@ -338,7 +338,7 @@
             "employed",
             "laid-off",
             "professional",
-            "homemaker",
+            {"descriptor": "homemaker", "preference": "dispreferred"},
             "underemployed",
             "unemployed",
             "white-collar",
