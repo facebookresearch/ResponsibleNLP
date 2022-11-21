@@ -28,7 +28,7 @@ class HolisticBiasSentenceGenerator:
     Generate sentences from the HolisticBias dataset, with stylistic variations applied.
     """
 
-    # Template building constants
+    # Constants for building templates
     NONE_STRING = NONE_STRING
     NO_PREFERENCE_DATA_STRING = NO_PREFERENCE_DATA_STRING
     NO_NOUN_TEMPLATE = "{descriptor}"
@@ -60,18 +60,6 @@ class HolisticBiasSentenceGenerator:
     BASE_DATASET_FOLDER = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "..", "dataset"
     )
-    STANDALONE_NOUN_PHRASES_PATH = os.path.join(
-        BASE_DATASET_FOLDER, "standalone_noun_phrases.json"
-    )
-    SENTENCE_TEMPLATES_PATH = os.path.join(
-        BASE_DATASET_FOLDER, "sentence_templates.json"
-    )
-
-    # Load information from JSONs
-    with open(STANDALONE_NOUN_PHRASES_PATH) as f:
-        STANDALONE_NOUN_PHRASES = json.load(f)
-    with open(SENTENCE_TEMPLATES_PATH) as f:
-        SENTENCE_TEMPLATES = json.load(f)
 
     @classmethod
     def get_dataset_folder(cls, dataset_version: str) -> str:
@@ -103,6 +91,32 @@ class HolisticBiasSentenceGenerator:
         with open(nouns_path) as f:
             nouns = json.load(f)
         return nouns
+
+    @classmethod
+    def get_sentence_templates(cls, dataset_version: str) -> Dict[str, dict]:
+        """
+        Get all sentence templates, given the input version string.
+        """
+        dataset_folder = cls.get_dataset_folder(dataset_version)
+        sentence_templates_path = os.path.join(
+            dataset_folder, "sentence_templates.json"
+        )
+        with open(sentence_templates_path) as f:
+            sentence_templates = json.load(f)
+        return sentence_templates
+
+    @classmethod
+    def get_standalone_noun_phrases(cls, dataset_version: str) -> Dict[str, list]:
+        """
+        Get all standalone noun phrases, given the input version string.
+        """
+        dataset_folder = cls.get_dataset_folder(dataset_version)
+        standalone_noun_phrases_path = os.path.join(
+            dataset_folder, "standalone_noun_phrases.json"
+        )
+        with open(standalone_noun_phrases_path) as f:
+            standalone_noun_phrases = json.load(f)
+        return standalone_noun_phrases
 
     @classmethod
     def get_compiled_noun_phrases(cls, dataset_version: str) -> pd.DataFrame:
@@ -169,7 +183,8 @@ class HolisticBiasSentenceGenerator:
 
         # Add in standalone noun phrases
         standalone_noun_phrase_metadata = []
-        for axis, axis_noun_phrases in cls.STANDALONE_NOUN_PHRASES.items():
+        standalone_noun_phrases = cls.get_standalone_noun_phrases(dataset_version)
+        for axis, axis_noun_phrases in standalone_noun_phrases.items():
             for noun_phrase_obj in axis_noun_phrases:
 
                 # Extract out metadata
@@ -399,6 +414,7 @@ class HolisticBiasSentenceGenerator:
             # possible templated sentences
             print("Looping over noun phrases, templates, and all variants:")
             all_sentence_metadata = []
+            sentence_templates = self.get_sentence_templates(dataset_version)
             for _, noun_phrase_series in tqdm(noun_phrase_df.iterrows()):
                 noun_phrase_metadata = noun_phrase_series.to_dict()
                 if noun_phrase_metadata["noun"] == self.NONE_STRING:
@@ -406,11 +422,11 @@ class HolisticBiasSentenceGenerator:
                     # like "Deaf"), so don't use templates that require noun phrases
                     template_choices = {
                         template: specs
-                        for template, specs in self.SENTENCE_TEMPLATES.items()
+                        for template, specs in sentence_templates.items()
                         if not specs.get("must_be_noun", False)
                     }
                 else:
-                    template_choices = self.SENTENCE_TEMPLATES
+                    template_choices = sentence_templates
                 for template, template_specs in template_choices.items():
                     template_metadata = {
                         "template": template,
