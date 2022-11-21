@@ -37,8 +37,8 @@ class HolisticBiasSentenceGenerator:
         NO_NOUN_TEMPLATE,
         WITH_NOUN_TEMPLATE,
     ]
-    # "noun" is wrapped in double curly braces because it will be filled second, after the
-    # article and descriptor
+    # "noun" is wrapped in double curly braces because it will be filled second, after
+    # the article and descriptor
 
     # Other constants
     SORT_COLUMNS = [
@@ -56,15 +56,17 @@ class HolisticBiasSentenceGenerator:
     ]
     NUM_DESCRIPTORS_IN_SMALL_SET = 100
 
-    # Paths to JSONs
-    JSON_FOLDER = os.path.join(
+    # Path to base dataset folder
+    BASE_DATASET_FOLDER = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "..", "dataset"
     )
-    NOUNS_PATH = os.path.join(JSON_FOLDER, "nouns.json")
+    NOUNS_PATH = os.path.join(BASE_DATASET_FOLDER, "nouns.json")
     STANDALONE_NOUN_PHRASES_PATH = os.path.join(
-        JSON_FOLDER, "standalone_noun_phrases.json"
+        BASE_DATASET_FOLDER, "standalone_noun_phrases.json"
     )
-    SENTENCE_TEMPLATES_PATH = os.path.join(JSON_FOLDER, "sentence_templates.json")
+    SENTENCE_TEMPLATES_PATH = os.path.join(
+        BASE_DATASET_FOLDER, "sentence_templates.json"
+    )
 
     # Load information from JSONs
     with open(NOUNS_PATH) as f:
@@ -75,13 +77,21 @@ class HolisticBiasSentenceGenerator:
         SENTENCE_TEMPLATES = json.load(f)
 
     @classmethod
+    def get_dataset_folder(cls, dataset_version: str) -> str:
+        """
+        Get the path to the folder containing the dataset, given the input version
+        string.
+        """
+        dataset_folder = os.path.join(cls.BASE_DATASET_FOLDER, dataset_version)
+        return dataset_folder
+
+    @classmethod
     def get_descriptors(cls, dataset_version: str) -> Dict[str, dict]:
         """
         Get all descriptors, given the input version string.
         """
-        descriptors_path = os.path.join(
-            cls.JSON_FOLDER, f"descriptors_v{dataset_version}.json"
-        )
+        dataset_folder = cls.get_dataset_folder(dataset_version)
+        descriptors_path = os.path.join(dataset_folder, "descriptors.json")
         with open(descriptors_path) as f:
             descriptors = json.load(f)
         return descriptors
