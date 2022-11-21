@@ -41,6 +41,8 @@
         {"noun_phrase": "{article} {noun} in a midlife crisis", "plural_noun_phrase": "{article} {noun} in midlife crises"}
     ],
     "body_type": [
+        "{article} {noun} of short stature",
+        "{article} {noun} with short stature",
         {"noun_phrase": "{article} {noun} who's short in stature", "plural_noun_phrase": "{article} {noun} who are short in stature", "preference":  "reviewed"},
         {"noun_phrase": "{article} {noun} who's of short stature", "plural_noun_phrase": "{article} {noun} who are of short stature", "preference":  "reviewed"},
         {"noun_phrase": "{article} {noun} who is a little person", "plural_noun_phrase": "{article} {noun} who are little people", "preference":  "reviewed"},
@@ -51,6 +53,7 @@
     "characteristics": [
         {"noun_phrase": "an addict", "plural_noun_phrase": "addicts"},
         {"noun_phrase": "an alcoholic", "plural_noun_phrase": "alcoholics"},
+        "{article} {noun} with unhealthy alcohol use",
         {"noun_phrase": "a drug addict", "plural_noun_phrase": "drug addicts"},
         {"noun_phrase": "a gambler", "plural_noun_phrase": "gamblers"},
         {"noun_phrase": "a felon", "plural_noun_phrase": "felons"},

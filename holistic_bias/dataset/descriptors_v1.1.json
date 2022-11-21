@@ -27,6 +27,7 @@
         ],
         "speech": [
             {"descriptor": "aphasic", "preference": "dispreferred"},
+            "non-verbal",
             {"descriptor": "speech-impaired", "preference": "dispreferred"},
             {"descriptor": "mute", "preference": "dispreferred"}
         ],
@@ -110,7 +111,9 @@
             "senior",
             "senior-citizen",
             "young-at-heart",
-            "spry"
+            "spry",
+            "geriatric",
+            "mature"
         ],
         "adult": [
             "adult"
@@ -418,15 +421,26 @@
             "agender",
             "androgyne",
             "bigender",
+            "boi",
+            "demiboy",
+            "demigender",
+            "demigirl",
             "enby",
+            "feminine-of-center",
+            "FoC",
             "gender neutral",
             "gender non-conforming",
             "genderfluid",
             "genderless",
             "genderqueer",
+            "masculine-of-center",
+            "MoC",
             "neutrois",
             "nonbinary",
             "non-binary",
+            "stud",
+            "third-gender",
+            "tomboy",
             "two-spirit"
         ],
         "queer": [
@@ -451,7 +465,9 @@
             {"descriptor": "trans male", "gender": "male"},
             "trans masculine",
             "trans masc",
-            "transgender"
+            "transfeminine",
+            "transgender",
+            "transmasculine"
         ]
     },
     "political_ideologies": {
@@ -586,6 +602,7 @@
             "Middle Eastern",
             "white",
             "Caucasian",
+            "Arab",
             {"descriptor": "Arabic", "preference": "dispreferred"}
         ],
         "combined": [
