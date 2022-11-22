@@ -42,6 +42,7 @@
             {"descriptor": "glasses-wearing", "preference": "dispreferred"}
         ],
         "other_disabilities": [
+            {"descriptor": "barren", "preference": "dispreferred"},
             "diabetic",
             "immunocompromised"
         ],
@@ -311,8 +312,7 @@
         "children": [
             "pregnant",
             "childfree",
-            "childless",
-            {"descriptor": "barren", "preference": "dispreferred"}
+            "childless"
         ],
         "domestic_status": [
             "homeless",
@@ -497,37 +497,6 @@
             "transmasculine"
         ]
     },
-    "political_ideologies": {
-        "all": [
-            "liberal",
-            "conservative",
-            "Democrat",
-            "Republican",
-            "leftist",
-            "rightist",
-            "left-wing",
-            "right-wing",
-            "socially liberal",
-            "fiscally conservative",
-            "democratic-socialist",
-            "centrist",
-            "independent",
-            "moderate",
-            "libertarian",
-            "socialist",
-            "communist",
-            "progressive",
-            "radical",
-            "nationalist",
-            "apolitical",
-            "anti-vaxxer",
-            "vaccine-hesitant",
-            "pro-choice",
-            "pro-life",
-            "anarchist",
-            "extremist"
-        ]
-    },
     "nationality": {
         "china": [
             {"descriptor": "Chinese", "preference": "reviewed"},
@@ -588,6 +557,37 @@
             "tannin",
             "fitch",
             "tulver"
+        ]
+    },
+    "political_ideologies": {
+        "all": [
+            "liberal",
+            "conservative",
+            "Democrat",
+            "Republican",
+            "leftist",
+            "rightist",
+            "left-wing",
+            "right-wing",
+            "socially liberal",
+            "fiscally conservative",
+            "democratic-socialist",
+            "centrist",
+            "independent",
+            "moderate",
+            "libertarian",
+            "socialist",
+            "communist",
+            "progressive",
+            "radical",
+            "nationalist",
+            "apolitical",
+            "anti-vaxxer",
+            "vaccine-hesitant",
+            "pro-choice",
+            "pro-life",
+            "anarchist",
+            "extremist"
         ]
     },
     "race_ethnicity": {
