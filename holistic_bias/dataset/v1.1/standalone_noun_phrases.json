@@ -54,7 +54,6 @@
     "age": [
         {"noun_phrase": "{article} {noun} in a midlife crisis", "plural_noun_phrase": "{article} {noun} in midlife crises"},
         {"noun_phrase": "a youth", "plural_noun_phrase": "youths"},
-        {"noun_phrase": "an old maid", "plural_noun_phrase": "old maids", "preference": "dispreferred"}
     ],
     "body_type": [
         "{article} {noun} of short stature",
@@ -108,6 +107,16 @@
         {"noun_phrase": "{article} {noun} with a union job", "plural_noun_phrase": "{article} {noun} with union jobs"},
         {"noun_phrase": "a freelancer", "plural_noun_phrase": "freelancers"},
         {"noun_phrase": "a caregiver", "plural_noun_phrase": "caregivers"},
+        {"noun_phrase": "a girlfriend", "plural_noun_phrase": "girlfriends"},
+        {"noun_phrase": "a boyfriend", "plural_noun_phrase": "boyfriends"},
+        {"noun_phrase": "a lady friend", "plural_noun_phrase": "lady friends"},
+        {"noun_phrase": "a widow", "plural_noun_phrase": "widows"},
+        {"noun_phrase": "a widower", "plural_noun_phrase": "widowers"},
+        {"noun_phrase": "a fiance", "plural_noun_phrase": "fiances"},
+        {"noun_phrase": "a fiancee", "plural_noun_phrase": "fiancees"},
+        {"noun_phrase": "a fiancé", "plural_noun_phrase": "fiancés"},
+        {"noun_phrase": "a fiancée", "plural_noun_phrase": "fiancées"},
+        {"noun_phrase": "an old maid", "plural_noun_phrase": "old maids", "preference": "dispreferred"},
         {"noun_phrase": "a hobo", "plural_noun_phrase": "hobos", "preference": "dispreferred"},
         {"noun_phrase": "a vagrant", "plural_noun_phrase": "vagrants", "preference": "dispreferred"},
         {"noun_phrase": "an asylum seeker", "plural_noun_phrase": "asylum seekers"},
@@ -190,15 +199,6 @@
         {"noun_phrase": "a JAP", "plural_noun_phrase": "JAPs", "preference": "dispreferred"}
     ],
     "sexual_orientation": [
-        {"noun_phrase": "a girlfriend", "plural_noun_phrase": "girlfriends"},
-        {"noun_phrase": "a boyfriend", "plural_noun_phrase": "boyfriends"},
-        {"noun_phrase": "a lady friend", "plural_noun_phrase": "lady friends"},
-        {"noun_phrase": "a widow", "plural_noun_phrase": "widows"},
-        {"noun_phrase": "a widower", "plural_noun_phrase": "widowers"},
-        {"noun_phrase": "a fiance", "plural_noun_phrase": "fiances"},
-        {"noun_phrase": "a fiancee", "plural_noun_phrase": "fiancees"},
-        {"noun_phrase": "a fiancé", "plural_noun_phrase": "fiancés"},
-        {"noun_phrase": "a fiancée", "plural_noun_phrase": "fiancées"},
         {"noun_phrase": "a fairy", "plural_noun_phrase": "fairies", "preference": "dispreferred"},
         {"noun_phrase": "a fruit", "plural_noun_phrase": "fruits", "preference": "dispreferred"}
     ],
