@@ -41,6 +41,10 @@
             {"descriptor": "visually impaired", "preference": "dispreferred"},
             {"descriptor": "glasses-wearing", "preference": "dispreferred"}
         ],
+        "other_disabilities": [
+            "diabetic",
+            "immunocompromised"
+        ],
         "unspecific": [
             {"descriptor": "able-bodied", "preference": "dispreferred"},
             {"descriptor": "differently abled", "preference": "dispreferred"},
@@ -375,8 +379,6 @@
             "active",
             "inactive",
             "sedentary",
-            "diabetic",
-            "immunocompromised",
             "literate",
             "illiterate"
         ]

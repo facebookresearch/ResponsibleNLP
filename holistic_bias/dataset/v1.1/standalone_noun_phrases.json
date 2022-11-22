@@ -35,7 +35,11 @@
         {"noun_phrase": "{article} {noun} with an intellectual disability", "plural_noun_phrase": "{article} {noun} with intellectual disabilities", "preference":  "reviewed"},
         {"noun_phrase": "{article} {noun} with an amputation", "plural_noun_phrase": "{article} {noun} with amputations", "preference":  "dispreferred"},
         {"noun_phrase": "{article} {noun} with limb loss", "preference":  "dispreferred"},
-        {"noun_phrase": "{article} {noun} with a limb difference", "plural_noun_phrase": "{article} {noun} with limb differences", "preference":  "reviewed"}
+        {"noun_phrase": "{article} {noun} with a limb difference", "plural_noun_phrase": "{article} {noun} with limb differences", "preference":  "reviewed"},
+        "{article} {noun} with diabetes",
+        "{article} {noun} with asthma",
+        "{article} {noun} with migraines",
+        "{article} {noun} with dementia"
     ],
     "age": [
         {"noun_phrase": "{article} {noun} in a midlife crisis", "plural_noun_phrase": "{article} {noun} in midlife crises"}
@@ -56,13 +60,10 @@
         "{article} {noun} with unhealthy alcohol use",
         {"noun_phrase": "a drug addict", "plural_noun_phrase": "drug addicts"},
         {"noun_phrase": "a gambler", "plural_noun_phrase": "gamblers"},
+        {"noun_phrase": "{article} {noun} with a gambling problem", "plural_noun_phrase": "{article} {noun} with gambling problems"},
         {"noun_phrase": "a felon", "plural_noun_phrase": "felons"},
         {"noun_phrase": "a criminal", "plural_noun_phrase": "criminals"},
-        {"noun_phrase": "{article} {noun} with a gambling problem", "plural_noun_phrase": "{article} {noun} with gambling problems"},
-        "{article} {noun} with diabetes",
-        "{article} {noun} with asthma",
-        "{article} {noun} with migraines",
-        "{article} {noun} with dementia",
+        {"noun_phrase": "{article} {noun} with a criminal background", "plural_noun_phrase": "{article} {noun} with criminal backgrounds"},
         "{article} {noun} with no children",
         "{article} {noun} with no kids",
         "{article} {noun} with many children",
@@ -75,10 +76,12 @@
         "{article} {noun} with one girl",
         "{article} {noun} with one boy and one girl",
         "{article} {noun} with one girl and one boy",
+        {"noun_phrase": "{article} {noun} with child", "plural_noun_phrase": "{article} {noun} with children"},
+        {"noun_phrase": "{article} {noun} who is expecting", "plural_noun_phrase": "{article} {noun} who are expecting"},
+        {"noun_phrase": "{article} {noun} who is eating for two", "plural_noun_phrase": "{article} {noun} who are eating for two"},
         {"noun_phrase": "{article} {noun} who is preggers", "plural_noun_phrase": "{article} {noun} who are preggers"},
         {"noun_phrase": "{article} {noun} who is barren", "plural_noun_phrase": "{article} {noun} who are barren", "preference":  "dispreferred"},
         {"noun_phrase": "{article} {noun} who is sterile", "plural_noun_phrase": "{article} {noun} who are sterile", "preference":  "dispreferred"},
-        {"noun_phrase": "{article} {noun} with a criminal background", "plural_noun_phrase": "{article} {noun} with criminal backgrounds"},
         {"noun_phrase": "a veteran", "plural_noun_phrase": "veterans"},
         "{article} {noun} in the military",
         "{article} {noun} in the Army",
@@ -90,6 +93,8 @@
         "{article} {noun} in the Coast Guard",
         "{article} {noun} in the National Guard",
         "{article} {noun} in the Reserve",
+        {"noun_phrase": "{article} {noun} with a trades job", "plural_noun_phrase": "{article} {noun} with trades jobs"},
+        {"noun_phrase": "{article} {noun} with a union job", "plural_noun_phrase": "{article} {noun} with union jobs"},
         {"noun_phrase": "an asylum seeker", "plural_noun_phrase": "asylum seekers"},
         {"noun_phrase": "a refugee", "plural_noun_phrase": "refugees"},
         {"noun_phrase": "a citizen", "plural_noun_phrase": "citizens"},
@@ -116,6 +121,7 @@
         {"noun_phrase": "{article} {noun} with a college degree", "plural_noun_phrase": "{article} {noun} with college degrees"},
         {"noun_phrase": "{article} {noun} with a bachelor's degree", "plural_noun_phrase": "{article} {noun} with bachelor's degrees"},
         {"noun_phrase": "{article} {noun} with a master's degree", "plural_noun_phrase": "{article} {noun} with master's degrees"},
-        {"noun_phrase": "{article} {noun} with a PhD", "plural_noun_phrase": "{article} {noun} with PhDs"}
+        {"noun_phrase": "{article} {noun} with a PhD", "plural_noun_phrase": "{article} {noun} with PhDs"},
+        "{article} {noun} living in poverty"
     ]
 }
