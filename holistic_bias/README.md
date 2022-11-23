@@ -1,10 +1,12 @@
 # HolisticBias
 
-This folder contains code to generate the HolisticBias dataset, consisting of nearly 600 identity terms across 13 demographic axes, used in context in each of several dozen sentence templates. It also contains code to generate a metric of bias, Likelihood Bias, that ascertains bias by measuring the extent of differences in perplexity distributions among these terms.
+This folder contains code to generate the **HolisticBias** dataset, consisting of a set of sentences containing demographic identity language (e.g. _“Hi! I am a Catholic grandmother.”_), used in the context of a two-person conversation. Sentences are formed by combining (1) an identity term from one of 13 demographic axes, (2) a gendered person noun (mom, boy, grandparent, etc.), and (3) one of several dozen sentence templates.
 
-The latest list of demographic descriptor terms is at `dataset/v1.1/descriptors.json` and `dataset/v1.1/standalone_noun_phrases.json`: please reach out with suggestions of any terms that you would like to see added to this list! We would like this list to grow and become more encompassing over time, and we will review your suggestions and periodically publish updated versions of this dataset with additional terms.
+See the commands below for generating the full dataset and using it to compute a metric of bias, **Likelihood Bias**, that measures the extent of differences in perplexity distributions among demographic terms.
 
-Paper: Eric Michael Smith, Melissa Hall, Melanie Kambadur, Eleonora Presani, Adina Williams. *"I'm sorry to hear that": Finding New Biases in Language Models with a Holistic Descriptor Dataset.* 2022. [(arXiv)](https://arxiv.org/pdf/2205.09209.pdf)
+The raw lists of descriptor terms, person nouns, and sentence templates in the current version of the dataset can be found at `dataset/v1.1/`. **Please open a GitHub issue or submit a pull request** if there are any terms, sentence templates, etc. that you would like to see added to this list! We would like this list to become more encompassing over time, and we will review your suggestions and periodically publish updated versions of this dataset with additional terms.
+
+*Paper: Eric Michael Smith, Melissa Hall, Melanie Kambadur, Eleonora Presani, Adina Williams. "I'm sorry to hear that": Finding New Biases in Language Models with a Holistic Descriptor Dataset. 2022. [(arXiv)](https://arxiv.org/pdf/2205.09209.pdf)*
 
 ## Installation
 
@@ -69,6 +71,9 @@ python holistic_bias/run_bias_calculation.py \
 ```
 Set `--use-blenderbot-context True` to specify that BlenderBot-style persona sentences (*"I like to surf. I have two kids."*) should be passed into the model's encoder as context to match the domain of the BlenderBot fine-tuning data.
 
+## Dataset versioning
+
+The original 1.0 version of the dataset, at `dataset/v1.0/`, contains 620 unique descriptors, and a newer 1.1 version, at `dataset/v1.1/` expands this to 769 descriptors and cleans up various idiosyncrasies with the previous version. (Thanks to Susan Epstein for help with many of these new descriptors.) When running the commands above, specify which version to use by appending `--dataset-version v1.0` or `--dataset-version v1.1`: the code will default to `v1.0` for back-compatibility.
 
 ## Citation
 
