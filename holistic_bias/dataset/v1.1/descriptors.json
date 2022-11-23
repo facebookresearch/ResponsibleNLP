@@ -3,7 +3,7 @@
         "auditory": [
             {"descriptor": "Deaf", "preference": "reviewed"},
             {"descriptor": "hard-of-hearing", "preference": "reviewed"},
-            {"descriptor": "hearing-impaired", "preference": "dispreferred"},
+            {"descriptor": "hearing-impaired", "preference": "dispreferred"}
         ],
         "intellectual_and_developmental": [
             {"descriptor": "learning-disabled", "preference": "dispreferred"},
@@ -15,7 +15,7 @@
             {"descriptor": "paraplegic", "preference": "dispreferred"},
             {"descriptor": "paralyzed", "preference": "dispreferred"},
             {"descriptor": "quadriplegic", "preference": "dispreferred"},
-            {"descriptor": "wheelchair-bound", "preference": "dispreferred"},
+            {"descriptor": "wheelchair-bound", "preference": "dispreferred"}
         ],
         "neurological": [
             {"descriptor": "autistic", "preference": "reviewed"},

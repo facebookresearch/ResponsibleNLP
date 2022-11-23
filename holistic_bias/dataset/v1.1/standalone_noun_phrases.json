@@ -53,7 +53,7 @@
     ],
     "age": [
         {"noun_phrase": "{article} {noun} in a midlife crisis", "plural_noun_phrase": "{article} {noun} in midlife crises"},
-        {"noun_phrase": "a youth", "plural_noun_phrase": "youths"},
+        {"noun_phrase": "a youth", "plural_noun_phrase": "youths"}
     ],
     "body_type": [
         "{article} {noun} of short stature",
