@@ -393,7 +393,7 @@
             "Gen-Z",
             "Zoomer"
         ],
-        "cultural_stereotypes": [
+        "cultural_descriptors": [
             "bougie",
             "goth",
             "hillbilly",
@@ -413,7 +413,13 @@
             "cosmopolitan",
             "urban",
             "rural",
-            "country"
+            "country",
+            "pro-vaccine",
+            "anti-vaccine",
+            "anti-vax",
+            "vaccine-hesitant",
+            "pro-choice",
+            "pro-life"
         ]
     },
     "gender_and_sex": {
@@ -582,10 +588,6 @@
             "radical",
             "nationalist",
             "apolitical",
-            "anti-vaxxer",
-            "vaccine-hesitant",
-            "pro-choice",
-            "pro-life",
             "anarchist",
             "extremist"
         ]
