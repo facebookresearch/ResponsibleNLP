@@ -28,7 +28,7 @@ class HolisticBiasSentenceGenerator:
     Generate sentences from the HolisticBias dataset, with stylistic variations applied.
     """
 
-    # Template building constants
+    # Constants for building templates
     NONE_STRING = NONE_STRING
     NO_PREFERENCE_DATA_STRING = NO_PREFERENCE_DATA_STRING
     NO_NOUN_TEMPLATE = "{descriptor}"
@@ -37,8 +37,8 @@ class HolisticBiasSentenceGenerator:
         NO_NOUN_TEMPLATE,
         WITH_NOUN_TEMPLATE,
     ]
-    # "noun" is wrapped in double curly braces because it will be filled second, after the
-    # article and descriptor
+    # "noun" is wrapped in double curly braces because it will be filled second, after
+    # the article and descriptor
 
     # Other constants
     SORT_COLUMNS = [
@@ -56,32 +56,73 @@ class HolisticBiasSentenceGenerator:
     ]
     NUM_DESCRIPTORS_IN_SMALL_SET = 100
 
-    # Paths to JSONs
-    JSON_FOLDER = os.path.join(
+    # Path to base dataset folder
+    BASE_DATASET_FOLDER = os.path.join(
         os.path.dirname(os.path.abspath(__file__)), "..", "dataset"
     )
-    DESCRIPTORS_PATH = os.path.join(JSON_FOLDER, "descriptors.json")
-    NOUNS_PATH = os.path.join(JSON_FOLDER, "nouns.json")
-    STANDALONE_NOUN_PHRASES_PATH = os.path.join(
-        JSON_FOLDER, "standalone_noun_phrases.json"
-    )
-    SENTENCE_TEMPLATES_PATH = os.path.join(JSON_FOLDER, "sentence_templates.json")
-
-    # Load information from JSONs
-    with open(DESCRIPTORS_PATH) as f:
-        DESCRIPTORS = json.load(f)
-    with open(NOUNS_PATH) as f:
-        NOUNS = json.load(f)
-    with open(STANDALONE_NOUN_PHRASES_PATH) as f:
-        STANDALONE_NOUN_PHRASES = json.load(f)
-    with open(SENTENCE_TEMPLATES_PATH) as f:
-        SENTENCE_TEMPLATES = json.load(f)
 
     @classmethod
-    def get_compiled_noun_phrases(cls) -> pd.DataFrame:
+    def get_dataset_folder(cls, dataset_version: str) -> str:
+        """
+        Get the path to the folder containing the dataset, given the input version
+        string.
+        """
+        dataset_folder = os.path.join(cls.BASE_DATASET_FOLDER, dataset_version)
+        return dataset_folder
+
+    @classmethod
+    def get_descriptors(cls, dataset_version: str) -> Dict[str, dict]:
+        """
+        Get all descriptors, given the input version string.
+        """
+        dataset_folder = cls.get_dataset_folder(dataset_version)
+        descriptors_path = os.path.join(dataset_folder, "descriptors.json")
+        with open(descriptors_path) as f:
+            descriptors = json.load(f)
+        return descriptors
+
+    @classmethod
+    def get_nouns(cls, dataset_version: str) -> Dict[str, list]:
+        """
+        Get all nouns, given the input version string.
+        """
+        dataset_folder = cls.get_dataset_folder(dataset_version)
+        nouns_path = os.path.join(dataset_folder, "nouns.json")
+        with open(nouns_path) as f:
+            nouns = json.load(f)
+        return nouns
+
+    @classmethod
+    def get_sentence_templates(cls, dataset_version: str) -> Dict[str, dict]:
+        """
+        Get all sentence templates, given the input version string.
+        """
+        dataset_folder = cls.get_dataset_folder(dataset_version)
+        sentence_templates_path = os.path.join(
+            dataset_folder, "sentence_templates.json"
+        )
+        with open(sentence_templates_path) as f:
+            sentence_templates = json.load(f)
+        return sentence_templates
+
+    @classmethod
+    def get_standalone_noun_phrases(cls, dataset_version: str) -> Dict[str, list]:
+        """
+        Get all standalone noun phrases, given the input version string.
+        """
+        dataset_folder = cls.get_dataset_folder(dataset_version)
+        standalone_noun_phrases_path = os.path.join(
+            dataset_folder, "standalone_noun_phrases.json"
+        )
+        with open(standalone_noun_phrases_path) as f:
+            standalone_noun_phrases = json.load(f)
+        return standalone_noun_phrases
+
+    @classmethod
+    def get_compiled_noun_phrases(cls, dataset_version: str) -> pd.DataFrame:
         """
         Create and return all noun phrases, typically formed from combining a descriptor
-        and a noun.
+        and a noun. Takes as input the descriptor list version string.
         """
 
         all_noun_phrase_metadata = []
@@ -91,7 +132,7 @@ class HolisticBiasSentenceGenerator:
         # For instance, this will allow for "I'm a man" as a control for "I'm a blind
         # man"
         no_descriptor_noun_phrase_metadata = []
-        for group_gender, gender_noun_tuples in cls.NOUNS.items():
+        for group_gender, gender_noun_tuples in cls.get_nouns(dataset_version).items():
             for noun, plural_noun in gender_noun_tuples:
                 noun_phrase = no_descriptor_template.format(
                     article=cls._get_article(noun)
@@ -119,14 +160,15 @@ class HolisticBiasSentenceGenerator:
         all_noun_phrase_metadata += no_descriptor_noun_phrase_metadata
 
         # Loop over all demographic axes and enumerate all possible combinations
-        for axis, axis_descriptors in cls.DESCRIPTORS.items():
+        for axis, axis_descriptors in cls.get_descriptors(dataset_version).items():
 
             # Compile noun phrases and metadata
             this_axis_noun_phrase_metadata = []
             for bucket, descriptor_info in axis_descriptors.items():
                 for descriptor_obj in descriptor_info:
                     this_axis_noun_phrase_metadata += cls._get_noun_phrase_metadata(
-                        descriptor_obj=descriptor_obj
+                        descriptor_obj=descriptor_obj,
+                        dataset_version=dataset_version,
                     )
                 this_axis_noun_phrase_metadata = [
                     {"bucket": bucket, **noun_phrase_metadata}
@@ -141,7 +183,8 @@ class HolisticBiasSentenceGenerator:
 
         # Add in standalone noun phrases
         standalone_noun_phrase_metadata = []
-        for axis, axis_noun_phrases in cls.STANDALONE_NOUN_PHRASES.items():
+        standalone_noun_phrases = cls.get_standalone_noun_phrases(dataset_version)
+        for axis, axis_noun_phrases in standalone_noun_phrases.items():
             for noun_phrase_obj in axis_noun_phrases:
 
                 # Extract out metadata
@@ -160,6 +203,7 @@ class HolisticBiasSentenceGenerator:
 
                 # Fill in the noun if needed, and add gender metadata
                 if "{noun}" in possibly_templated_noun_phrase:
+                    nouns = cls.get_nouns(dataset_version)
                     noun_phrase_metadata = [
                         {
                             "axis": axis,
@@ -180,7 +224,7 @@ class HolisticBiasSentenceGenerator:
                             ).lstrip(),
                             "noun_phrase_type": "noun_descriptor",
                         }
-                        for group_gender, gender_noun_tuples in cls.NOUNS.items()
+                        for group_gender, gender_noun_tuples in nouns.items()
                         for noun, plural_noun in gender_noun_tuples
                     ]
                 else:
@@ -221,7 +265,9 @@ class HolisticBiasSentenceGenerator:
 
     @classmethod
     def _get_noun_phrase_metadata(
-        cls, descriptor_obj: Union[str, dict]
+        cls,
+        descriptor_obj: Union[str, dict],
+        dataset_version: str,
     ) -> List[Dict[str, Any]]:
         """
         For the given descriptor (maybe accompanied by additional metadata), enumerate
@@ -260,6 +306,7 @@ class HolisticBiasSentenceGenerator:
 
             # Fill in the noun if needed, and add gender metadata
             if "{noun}" in template:
+                nouns = cls.get_nouns(dataset_version)
                 noun_phrase_metadata = [
                     {
                         "descriptor": descriptor,
@@ -274,7 +321,7 @@ class HolisticBiasSentenceGenerator:
                         ),
                         "noun_phrase_type": "descriptor_noun",
                     }
-                    for noun_gender, noun_tuples in cls.NOUNS.items()
+                    for noun_gender, noun_tuples in nouns.items()
                     for noun, plural_noun in noun_tuples
                     if (
                         descriptor_gender == cls.NONE_STRING
@@ -303,6 +350,7 @@ class HolisticBiasSentenceGenerator:
     def __init__(
         self,
         save_folder: str,
+        dataset_version: str,
         filters: Optional[Dict[str, Any]] = None,
         use_small_set: bool = False,
     ):
@@ -312,6 +360,8 @@ class HolisticBiasSentenceGenerator:
         phrases and sentences as CSVs for future use.
 
         :param save_folder: the folder to save CSVs to
+        :param dataset_version: the string specifying which version of the dataset to
+            use
         :param filters: any metadata columns to filter sentences on when looping over
             them
         :param use_small_set: if True, use only a small set of descriptors for
@@ -337,7 +387,7 @@ class HolisticBiasSentenceGenerator:
 
             # Load noun phrase dataframe
             print("Generating noun phrases.")
-            noun_phrase_df = self.get_compiled_noun_phrases()
+            noun_phrase_df = self.get_compiled_noun_phrases(dataset_version)
             print(f"Number of noun phrases generated: {noun_phrase_df.index.size:d}.")
 
             # Optionally sample a smaller number of descriptors for speed
@@ -364,6 +414,7 @@ class HolisticBiasSentenceGenerator:
             # possible templated sentences
             print("Looping over noun phrases, templates, and all variants:")
             all_sentence_metadata = []
+            sentence_templates = self.get_sentence_templates(dataset_version)
             for _, noun_phrase_series in tqdm(noun_phrase_df.iterrows()):
                 noun_phrase_metadata = noun_phrase_series.to_dict()
                 if noun_phrase_metadata["noun"] == self.NONE_STRING:
@@ -371,11 +422,11 @@ class HolisticBiasSentenceGenerator:
                     # like "Deaf"), so don't use templates that require noun phrases
                     template_choices = {
                         template: specs
-                        for template, specs in self.SENTENCE_TEMPLATES.items()
+                        for template, specs in sentence_templates.items()
                         if not specs.get("must_be_noun", False)
                     }
                 else:
-                    template_choices = self.SENTENCE_TEMPLATES
+                    template_choices = sentence_templates
                 for template, template_specs in template_choices.items():
                     template_metadata = {
                         "template": template,

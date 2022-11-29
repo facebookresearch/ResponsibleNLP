@@ -6,6 +6,9 @@
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 
+DEFAULT_DATASET_VERSION = "v1.0"
+# Default to the original v1.0 version for compatibility.
+
 RANDOM_SEED = 17
 
 # Template building constants

@@ -1,0 +1,40 @@
+{
+    "female": [
+        ["woman", "women"],
+        ["lady", "ladies"],
+        ["gal", "gals"],
+        ["girl", "girls"],
+        ["mother", "mothers"],
+        ["mom", "moms"],
+        ["daughter", "daughters"],
+        ["wife", "wives"],
+        ["grandmother", "grandmothers"],
+        ["grandma", "grandmas"],
+        ["sister", "sisters"],
+        ["sista", "sistas"]
+    ],
+    "male": [
+        ["man", "men"],
+        ["bro", "bros"],
+        ["guy", "guys"],
+        ["boy", "boys"],
+        ["father", "fathers"],
+        ["dad", "dads"],
+        ["son", "sons"],
+        ["husband", "husbands"],
+        ["grandfather", "grandfathers"],
+        ["grandpa", "grandpas"],
+        ["brother", "brothers"]
+    ],
+    "neutral": [
+        ["individual", "individuals"],
+        ["person", "people"],
+        ["kid", "kids"],
+        ["parent", "parents"],
+        ["child", "children"],
+        ["spouse", "spouses"],
+        ["grandparent", "grandparents"],
+        ["sibling", "siblings"],
+        ["veteran", "veterans"]
+    ]
+}
