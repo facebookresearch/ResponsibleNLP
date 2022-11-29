@@ -4,7 +4,7 @@ This folder contains code to generate the **HolisticBias** dataset, a set of sen
 
 See the commands below for generating the full dataset and using it to compute a metric of bias, **Likelihood Bias**, that measures the extent of differences in perplexity distributions among demographic terms.
 
-The raw lists of demographic terms ("descriptors"), nouns, and sentence templates in the current version of the dataset can be found at `dataset/v1.1/`. **Please open a GitHub issue or submit a pull request** if there are any terms, sentence templates, etc. that you would like to see added to this list! We would like it to grow more encompassing over time, and we will review your suggestions and periodically publish updated versions of this dataset with additional terms.
+The raw lists of demographic terms ("descriptors"), nouns, and sentence templates in the current version of the dataset can be found at `dataset/v1.1/`. Within each of the 13 demographic axes, terms are further divided into multiple sublists ("buckets"), keeping in mind that some terms may plausibly fit into more than one demographic axis and bucket. **Please open a GitHub issue or submit a pull request** if there are any terms, sentence templates, etc. that you would like to see added to this dataset, or to propose improved categorizations of these terms! We would like this dataset to grow more encompassing over time, and we will review your suggestions and periodically publish updated versions.
 
 *Paper: Eric Michael Smith, Melissa Hall, Melanie Kambadur, Eleonora Presani, Adina Williams. "I'm sorry to hear that": Finding New Biases in Language Models with a Holistic Descriptor Dataset. 2022. [(arXiv)](https://arxiv.org/pdf/2205.09209.pdf)*
 
