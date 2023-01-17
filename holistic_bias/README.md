@@ -8,6 +8,8 @@ The raw lists of demographic terms ("descriptors"), nouns, and sentence template
 
 *Paper: Eric Michael Smith, Melissa Hall, Melanie Kambadur, Eleonora Presani, Adina Williams. "I'm sorry to hear that": Finding New Biases in Language Models with a Holistic Descriptor Dataset. 2022. [(arXiv)](https://arxiv.org/pdf/2205.09209.pdf)*
 
+License information available [here](https://github.com/facebookresearch/ResponsibleNLP/blob/main/LICENSE).
+
 ## Installation
 
 Starting in the root folder of the repo, `ResponsibleNLP/`:
