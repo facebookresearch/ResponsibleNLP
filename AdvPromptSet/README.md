@@ -8,7 +8,7 @@ This folder contains code to generate the AdvPromptSet dataset, a comprehensive 
 - [Toxic Comment Classification Challenge](https://www.kaggle.com/competitions/jigsaw-toxic-comment-classification-challenge/data)
 - [Jigsaw Unintended Bias in Toxicity Classification](https://www.kaggle.com/competitions/jigsaw-unintended-bias-in-toxicity-classification/data).
 
-Organize and unzip the two Jigsaw datasets into `jigsaw_data` folder. The directory tree structure is shown below. 
+Organize and unzip the two Jigsaw datasets. Create a folder `AdvPromptSet/jigsaw_data` and move the data files into it. The directory tree structure is shown below. 
 
 ```
 ├── jigsaw_data
@@ -45,8 +45,10 @@ pip install -r AdvPromptSet/requirements.txt
 
 ### Generating the dataset
 
-Run the below script to obtain AdvPromptSet (both a full set and a balanced set of 10K). The output files are in `out_data` folder.
+Create a folder `AdvPromptSet/out_data` to store the generated dataset. Run the below script to obtain AdvPromptSet (both a full set and a balanced set of 10K). The output files are in `out_data` folder.
+
 ```
+mkdir AdvPromptSet/out_data
 python AdvPromptSet/main.py
 ```
 
