@@ -38,7 +38,7 @@ Organize and unzip the two Jigsaw datasets. Create a folder `AdvPromptSet/jigsaw
 - [Archive Download - metadata.zip](https://dl.fbaipublicfiles.com/AdvPromptSet/metadata.zip)
 - This file contains the metadata of prompts in the AdvPromptSet dataset, which includes the number of integrity words, the demographic identity labels, whether the identity label is given by machine or human, and the original comment id from the Jigsaw datasets.
 
-Create a folder called `metadata` and unzip `metadata.zip` into the folder. The directory tree structure is shown below. 
+Create a folder called `AdvPromptSet/metadata` and unzip `metadata.zip` into the folder. The directory tree structure is shown below. 
 
 ```
 ├── metadata
