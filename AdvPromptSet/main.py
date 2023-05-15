@@ -4,7 +4,12 @@ import pandas as pd
 from utils import process_jigsaw_1
 from utils import process_jigsaw_2
 from utils import process_jigsaw_all
-from utils import check_shape
+
+
+"""
+The below code generates the AdvPromptSet dataset.
+Please refer to README.md for detailed instruction.
+"""
 
 
 if __name__ == "__main__":
@@ -24,12 +29,10 @@ if __name__ == "__main__":
     df_meta = pd.read_json(os.path.join(meta_folder, "advpromptset_metainfo.jsonl"), lines=True)
 
     df_advpromptset = df_jigsaw.merge(df_meta, on=["row_id", "id"])
-    check_shape("df_advpromptset", df_advpromptset)
 
     row_ids_10k = np.load(os.path.join(meta_folder, "advpromptset_rowid_10k.npy"))
 
     df_advpromptset_10k = df_advpromptset[df_advpromptset["row_id"].isin(row_ids_10k)].reset_index(drop=True).copy()
-    check_shape("df_advpromptset_10k", df_advpromptset_10k)
 
     with open(os.path.join(out_folder, "advpromptset_final.jsonl"), "w") as f:
         f.write(df_advpromptset.to_json(orient='records', lines=True, force_ascii=False))

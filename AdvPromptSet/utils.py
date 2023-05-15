@@ -1,9 +1,14 @@
 import os
 import numpy as np
 import pandas as pd
+from nltk.tokenize import RegexpTokenizer
 
 
 def process_jigsaw_1(dat_folder):
+    """
+    Preprocess the Jigsaw Toxic Comment Classification Challenge dataset.
+    """
+
     df_name = "jigsaw-toxic-comment-classification-challenge"
 
     df_train = pd.read_csv(os.path.join(dat_folder, df_name, "train.csv"))
@@ -31,6 +36,10 @@ def process_jigsaw_1(dat_folder):
 
 
 def process_jigsaw_2(dat_folder):
+    """
+    Preprocess the Jigsaw Unintended Bias in Toxicity Classification dataset.
+    """
+
     df_name = "jigsaw-unintended-bias-in-toxicity-classification"
 
     df_train = pd.read_csv(os.path.join(dat_folder, df_name, "train.csv"))
@@ -88,6 +97,10 @@ def process_jigsaw_2(dat_folder):
 
 
 def process_jigsaw_all(df_jigsaw1, df_toxic_only, df_has_group):
+    """
+    Preprocess the two Jigsaw datasets.
+    """
+
     df_jigsaw_lst = [df_jigsaw1, df_toxic_only, df_has_group]
 
     df_lst_processed = list()
@@ -101,25 +114,25 @@ def process_jigsaw_all(df_jigsaw1, df_toxic_only, df_has_group):
     return df_jigsaw
 
 
-def check_shape(term, df):
-    print(term, df.shape)
-    print(df['toxicity'].value_counts())
-
-
 def tokenized_words(sentence):
-    from nltk.tokenize import RegexpTokenizer
+    """
+    Comment tokenization.
+    """
+
     tokenizer = RegexpTokenizer(r'\w+')
     tokens = tokenizer.tokenize(sentence)
     return tokens
 
 
 def remove_long_rows(df_use):
+    """
+    Removing comments that are too short, too long, or don't contain any letters.
+    """
+
     df = df_use.copy()
-    check_shape("original shape:", df)
 
     # limit to only single line items (remove rows with '\n')
     df.drop(df.index[df['comment_text'].str.contains("\n")], axis=0, inplace=True)
-    check_shape("limiting to single line:", df)
 
     # calculate tokens
     df['length'] = df['comment_text'].apply(lambda x: len(x))  # num of letters
@@ -136,16 +149,17 @@ def remove_long_rows(df_use):
 
     # reset index
     df = df.reset_index(drop=True).copy()
-
-    check_shape("removing long sentences:", df)
-    print("*"*10)
-
     return df
 
 
 def augment_row(df_use):
+    """
+    Augment the comments by breaking them into sentences.
+    Each sentence is associated with the original label of the comment.
+    Remove sentences that are too short, too long, or don't contain any letters.
+    """
+
     df = df_use.copy()
-    check_shape("starting shape:", df)
 
     # Getting s as pandas series which has split on full stop and new sentence a new line
     s = df["comment_text"].str.split(r'\n|\.|\!|\?|\;').apply(pd.Series, 1).stack()
@@ -180,8 +194,4 @@ def augment_row(df_use):
 
     # reset index
     df = df.reset_index(drop=True).copy()
-
-    check_shape("augment rows:", df)
-    print("*"*10)
-
     return df

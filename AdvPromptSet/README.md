@@ -38,6 +38,7 @@ Organize and unzip the two Jigsaw datasets. Create a folder `AdvPromptSet/jigsaw
 Starting in the root folder of the repo, `ResponsibleNLP/`:
 
 ```
+conda create -n advpromptset -y python=3.10.6 && conda activate advpromptset
 pip install .
 pip install -r AdvPromptSet/requirements.txt
 ```
