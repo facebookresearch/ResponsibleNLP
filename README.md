@@ -10,6 +10,8 @@ This repository hosts code and datasets relating to Responsible NLP projects fro
   - From [Rebecca Qian, Candace Ross, Jude Fernandes, Eric Smith, Douwe Kiela, Adina Williams. *Perturbation Augmentation for Fairer NLP.* 2022.](https://dynabench.org/fairer_nlp.pdf)
   - **PANDA**, an annotated dataset of 100K demographic perturbations of diverse text, rewritten to change gender, race/ethnicity and age references.
   - The perturber, pretrained models, code and other artifacts related to the Perturbation Augmentation for Fairer NLP project will be released shortly.
+- [`AdvPromptSet`](https://github.com/facebookresearch/ResponsibleNLP/tree/main/AdvPromptSet)
+  - **AdvPromptSet**: a comprehensive and challenging adversarial text prompt set with 197,628 prompts of varying toxicity levels and more than 24 sensitive demographic identity groups and combinations. 
 
 -----
 
