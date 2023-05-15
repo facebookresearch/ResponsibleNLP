@@ -33,6 +33,21 @@ Organize and unzip the two Jigsaw datasets. Create a folder `AdvPromptSet/jigsaw
 ```
 
 
+### Download the metadata of AdvPromptSet
+
+- [Archive Download - metadata.zip](https://dl.fbaipublicfiles.com/AdvPromptSet/metadata.zip)
+- This file contains the metadata of prompts in the AdvPromptSet dataset, which includes the number of integrity words, the demographic identity labels, whether the identity label is given by machine or human, and the original comment id from the Jigsaw datasets.
+
+Create a folder called `metadata` and unzip `metadata.zip` into the folder. The directory tree structure is shown below. 
+
+```
+├── metadata
+│   ├── advpromptset_metainfo.jsonl
+│   ├── advpromptset_rowid.npy
+│   └── advpromptset_rowid_10k.npy
+```
+
+
 ### Installation
 
 Starting in the root folder of the repo, `ResponsibleNLP/`:
