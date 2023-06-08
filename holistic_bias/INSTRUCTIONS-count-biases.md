@@ -19,12 +19,12 @@ Download fastext language detection model:
 
 For instance: to compute the biases distribution of the dataset `Anthropic/hh-rlhf` of the field `chosen`, split `test`, processing 100 samples at most. 
 
-`python holistic_bias/get_stats_hb.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test`
+`python holistic_bias/get_stats_hb.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 100`
 
 ## Call count function
 
 To integrate the count function into an existing data processing pipeline (e.g. in Spark), 
-the count_demographics method of CountHolisticBias should be called as showed in the example:
+the count_demographics method of CountHolisticBias can be called as showed in the example below:
 
 ```
 from holistic_bias.src.hb_counts import CountHolisticBias

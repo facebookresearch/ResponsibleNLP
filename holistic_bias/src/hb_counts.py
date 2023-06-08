@@ -1,22 +1,22 @@
 
 import re
 import sys
-
 import typing as tp
+
 from collections import Counter
 from pathlib import Path
 from tqdm import tqdm
 
 import fasttext
-from datasets import load_dataset
+
 from holistic_bias.src.sentences import HolisticBiasSentenceGenerator
 
 
 
 class CountHolisticBias(object):
     """
-    This is the core of the counting. It does the counting based on Holistic_Bias
-    list of nouns and noun phrases, return counters
+    This is the core class for computing Holistic Biases distribution. 
+    It does the counting based on Holistic_Bias list of nouns and noun phrases, return counters
 
     Based on https://github.com/fairinternal/seamless_common/blob/hb_count/stopes/eval/holistic_bias/callback.py
     """
@@ -59,7 +59,6 @@ class CountHolisticBias(object):
                 r_string += ")\\b"
                 self.gender_regs[lang][group_gender] = re.compile(r_string, re.IGNORECASE)
             
-        # Counters
         # Language agnostic counters
         self.count_np: Counter = Counter()
         self.count_gender: Counter = Counter()
@@ -154,7 +153,7 @@ class CountHolisticBias(object):
 
         summary += f"Out of {demographics['_total']} samples: \n" 
         for demog in demographics:
-            if demog != '_total':
+            if demog != '_total':   
                 bucket = demog.split('\t')[1]
                 axis = demog.split('\t')[0]
                 count = demographics[demog]
