@@ -2,7 +2,7 @@
 
 You will find below instructions to compute the holistic bias distribution of HuggingFace datasets. 
 In a nutshell, given a dataset from the [huggingface hub](https://huggingface.co/datasets), you can use the script presented below to compute the distributions of gender and demographic groups based on the [Holistic Bias](https://arxiv.org/abs/2205.09209) dataset. 
-
+In addition, you can call the function CountHolisticBias to use in a custom data processing pipeline. 
 
 ## Setup 
 
