@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+
+# Copyright (c) Facebook, Inc. and its affiliates.
+# All rights reserved.
+#
+# This source code is licensed under the license found in the
+# LICENSE file in the root directory of this source tree.
 
 import re
 import sys
@@ -18,7 +25,6 @@ class CountHolisticBias(object):
     This is the core class for computing Holistic Biases distribution. 
     It does the counting based on Holistic_Bias list of nouns and noun phrases, return counters
 
-    Based on https://github.com/fairinternal/seamless_common/blob/hb_count/stopes/eval/holistic_bias/callback.py
     """
 
     def __init__(

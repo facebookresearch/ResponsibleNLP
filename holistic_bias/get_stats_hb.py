@@ -1,3 +1,12 @@
+#!/usr/bin/env python3
+
+# Copyright (c) Facebook, Inc. and its affiliates.
+# All rights reserved.
+#
+# This source code is licensed under the license found in the
+# LICENSE file in the root directory of this source tree.
+
+
 """
 CountHolisticBias loads the holistic biases templates and gender nouns collections and compute gender and demographics distribution of given datasets.
 
@@ -7,6 +16,7 @@ The dataset can be loaded from the HF datasets library or from a text file.
 
 e.g.  python holistic_bias/get_stats_hb.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 10
 """
+
 import argparse
 import sys
 
