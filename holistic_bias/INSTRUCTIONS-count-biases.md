@@ -8,6 +8,7 @@ In addition, you can call the function CountHolisticBias to use in a custom data
 
 `pip install fasttext`  
 `pip install datasets`
+`pip install stanza`
 
 `git clone git@github.com:facebookresearch/ResponsibleNLP.git`  
 see https://github.com/facebookresearch/ResponsibleNLP/tree/main/holistic_bias for setting it up.  
@@ -19,11 +20,32 @@ Download fastext language detection model:
 `mkdir fasttext_models`   
 `wget https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin`     
  
+## Languages supported and language code
+
+| Language   | Code |
+|------------|------|
+| Spanish    | spa  |
+| English    | en   |
+
+
 ## Compute Biases of Hugging Face Datasets   
 
 For instance: to compute the biases distribution of the dataset `Anthropic/hh-rlhf` of the field `chosen`, split `test`, processing 100 samples at most. 
 
-`python holistic_bias/get_stats_hb.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 100`
+`python holistic_bias/get_stats_hb.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 100 --langs en`       
+
+To add demographic groups distribution add `--count_demographics`       
+
+`python holistic_bias/get_stats_hb.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 10 --langs en --count_demographics`       
+
+## Compute on text file
+
+`python holistic_bias/get_stats_hb.py  --file_dir /private/home/benjaminmuller/dev/biases/data/NTREX/NTREX-128  --file_names newstest2019-src.eng.txt newstest2019-ref.spa.txt --langs en spa --max_samples 100`            
+
+
+`python holistic_bias/get_stats_hb.py  --file_dir /private/home/benjaminmuller/dev/biases/data/flores200_dataset/dev  /private/home/benjaminmuller/dev/biases/data/flores200_dataset/dev /private/home/benjaminmuller/dev/biases/data/NTREX/NTREX-128 /private/home/benjaminmuller/dev/biases/data/NTREX/NTREX-128 --file_names spa_Latn.dev eng_Latn.dev   newstest2019-ref.spa.txt newstest2019-src.eng.txt --langs spa en spa en`        
+
+
 
 ## Call count function
 
