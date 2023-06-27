@@ -43,7 +43,7 @@ To add demographic groups distribution add `--count_demographics`
 
 Compute gender distribution of a single file in English:     
 
-`python holistic_bias/get_stats_hb.py  --file_dir /private/home/benjaminmuller/dev/biases/data/NTREX/NTREX-128  --file_names newstest2019-src.eng.txt newstest2019-ref.spa.txt --langs en spa --max_samples 100`            
+`python holistic_bias/get_stats_hb.py  --file_dir ./data/NTREX/NTREX-128  --file_names newstest2019-src.eng.txt newstest2019-ref.spa.txt --langs en spa --max_samples 100`            
 
 
 add  `--count_demographics`  for demographics distribution
@@ -52,7 +52,7 @@ add  `--count_demographics`  for demographics distribution
 Compute gender distribution of multiple files in English and Spanish    
 
 
-`python holistic_bias/get_stats_hb.py  --file_dir /private/home/benjaminmuller/dev/biases/data/flores200_dataset/dev  /private/home/benjaminmuller/dev/biases/data/flores200_dataset/dev /private/home/benjaminmuller/dev/biases/data/NTREX/NTREX-128 /private/home/benjaminmuller/dev/biases/data/NTREX/NTREX-128 --file_names spa_Latn.dev eng_Latn.dev   newstest2019-ref.spa.txt newstest2019-src.eng.txt --langs spa en spa en`        
+`python holistic_bias/get_stats_hb.py  --file_dir ./data/flores200_dataset/dev ./data/flores200_dataset/dev ./data/NTREX/NTREX-128 ./data/NTREX/NTREX-128 --file_names spa_Latn.dev eng_Latn.dev   newstest2019-ref.spa.txt newstest2019-src.eng.txt --langs spa en spa en`        
 
 
 
