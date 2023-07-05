@@ -50,6 +50,8 @@ class CountHolisticBias(object):
 
         self.noun_phrases = {lang: {} for lang in langs}
         self.gender_regs = {lang: {} for lang in langs}
+        self.gender_ls =  {lang: {} for lang in langs}
+        self.gender_counters =  {lang: {} for lang in langs}
         holistic_bias_data = HolisticBiasSentenceGenerator(store_hb_dir, dataset_version=dataset_version) 
         self.supported_langs = langs
         self.stanza_tokenizer = {}
@@ -73,21 +75,29 @@ class CountHolisticBias(object):
             NOUNS = holistic_bias_data.get_nouns(dataset_version, lang=lang)
             for group_gender, gender_noun_tuples in NOUNS.items():
                 r_string = "\\b("
+                if group_gender not in self.gender_ls[lang]:
+                    self.gender_ls[lang][group_gender] = []
                 for noun, plural_noun in gender_noun_tuples:
+                    
                     if len(noun) == 0:
                         # singular empty
                         assert len(plural_noun)
                         r_string += f"{re.escape(plural_noun)}|"
+                        self.gender_ls[lang][group_gender].append(plural_noun)
                     elif len(plural_noun) == 0: 
                         # plural empty
                         assert len(noun)
                         r_string += f"{re.escape(noun)}|"
+                        self.gender_ls[lang][group_gender].append(noun)
                     else:
                         r_string += f"{re.escape(noun)}|{re.escape(plural_noun)}|"
+                        self.gender_ls[lang][group_gender].extend([noun, plural_noun])
                 r_string = r_string[:-1]
                 r_string += ")\\b"
+                # Depreciated
                 self.gender_regs[lang][group_gender] = re.compile(r_string, re.IGNORECASE)
-            
+                # new way of counting 
+                self.gender_counters[lang][group_gender] = Counter(self.gender_ls[lang][group_gender])
         # Language agnostic counters
         
         self.count_np: Counter = Counter()
@@ -102,9 +112,15 @@ class CountHolisticBias(object):
             self.count_np["_total"] += 1
         # for gender, we count words instead of lines, so we do basic tokenization (eng only)
         sentences = self.stanza_tokenizer[lang](sentence).sentences
+        # verify that segmentation lead to a single sentence
         assert len(sentences) == 1
-
-        self.count_gender["_total"] += len(sentences[0].tokens) # count words
+        tokenized_sentence = sentences[0]
+        
+        cc = len(tokenized_sentence.tokens)
+        tokenized_sentence = [token.text.lower() for token in tokenized_sentence.tokens]
+        
+        assert len(tokenized_sentence) == cc
+        self.count_gender["_total"] += len(tokenized_sentence) # count words
         if not self.only_gender:
             for _idx, w in self.noun_phrases[lang].iterrows():
                 # for each noun_phrases: e.g. (working class man |) (e.g match both plural/singular: bro who is an amputee|bros who are amputees)
@@ -121,7 +137,18 @@ class CountHolisticBias(object):
         
         for group_gender, reg in self.gender_regs[lang].items():            
             # match to list of nouns that are feminine and masculine 
-            self.count_gender[group_gender] += len(reg.findall(sentence))
+            total_match = 0
+            if len(reg.findall(sentence)):
+                tokenized_sentence_counts = Counter(tokenized_sentence)
+                common_elements = set(tokenized_sentence_counts) & set(self.gender_counters[lang][group_gender])
+                
+                for element in common_elements: 
+                    total_match += tokenized_sentence_counts[element]
+            
+            self.count_gender[group_gender] += total_match #+= len(reg.findall(sentence))
+            
+            #if total_match != len(reg.findall(sentence)):
+            #    print(f'{group_gender}: {total_match} <> {len(reg.findall(sentence))} : sentence {sentence} {tokenized_sentence}')
 
     def detect_language(self, text: str):
         # Predict the language using the FastText model
