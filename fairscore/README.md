@@ -8,6 +8,6 @@ Paper: Rebecca Qian, Candace Ross, Jude Fernandes, Eric Smith, Douwe Kiela, Adin
 Perturbation Augmentation NLP DAtaset (PANDA) consists of approximately 100K pairs of human-perturbed text snippets (source, perturbed). PANDA can be used for training a learned perturber that can rewrite text along three demographic axes (age, gender, race), in a way that preserves semantic meaning. PANDA can also be used to evaluate the demographic robustness of language models.
 
 ## NOTE
-Pretrained models, code and other artifacts related to the Perturbation Augmentation for Fairer NLP project will be released shortly.
+Pretrained models can be found at https://huggingface.co/facebook/FairBERTa and https://huggingface.co/facebook/perturber.
 
 Please reach out with feedback, issues and suggestions!
