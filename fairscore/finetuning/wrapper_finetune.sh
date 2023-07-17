@@ -1,5 +1,10 @@
+#!/usr/bin/env python3
 
-#!/bin/bash
+# Copyright (c) Facebook, Inc. and its affiliates.
+# All rights reserved.
+#
+# This source code is licensed under the license found in the
+# LICENSE file in the root directory of this source tree.
 
 echo $SLURMD_NODENAME $SLURM_JOB_ID
 NUM_GPUS=$(nvidia-smi --query-gpu=name --format=csv,noheader | wc -l)

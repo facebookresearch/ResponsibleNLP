@@ -1,4 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+
+# Copyright (c) Facebook, Inc. and its affiliates.
+# All rights reserved.
+#
+# This source code is licensed under the license found in the
+# LICENSE file in the root directory of this source tree.
 
 # see /checkpoint/rebeccaqian/fairscore/roberta/2022-04-25/expt_256_concat.model.pt for a usable state dict
 # roberta from scratch: /checkpoint/rebeccaqian/fairscore/roberta/2022-04-25/512_orig.model.pt
