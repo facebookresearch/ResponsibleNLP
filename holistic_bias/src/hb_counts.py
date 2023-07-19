@@ -14,7 +14,7 @@ from collections import Counter
 from pathlib import Path
 
 from tqdm import tqdm
-
+import requests
 import pandas as pd
 import fasttext
 
@@ -23,6 +23,9 @@ import stanza
 
 LANG = {'es': 'spa'}
 LANGISO = {'spa': 'es'}
+
+GENDER_LS = ['female', 'male', 'neutral', 'unspecified']
+
 
 class CountHolisticBias(object):
     """
@@ -37,28 +40,40 @@ class CountHolisticBias(object):
         ft_model_path: str,
         only_gender : bool = False,
         langs: list = ['en'], 
+        dataset_version='v1.1'
         
     ) -> None:
         
         store_hb_dir = Path(store_hb_dir)
         store_hb_dir.mkdir(exist_ok=True)
-        dataset_version = 'v1.1'
+        
         self.only_gender = only_gender
-        self.lang_detect_model = fasttext.load_model(ft_model_path)
-
+        
+        if ft_model_path:
+            self.lang_detect_model = fasttext.load_model(ft_model_path) 
+        else:
+            print('WARNING: self.lang_detect_model set to None cause ft_model_path is None')
+            self.lang_detect_model = None
+        
 
 
         self.noun_phrases = {lang: {} for lang in langs}
         self.gender_regs = {lang: {} for lang in langs}
         self.gender_ls =  {lang: {} for lang in langs}
         self.gender_counters =  {lang: {} for lang in langs}
+
         holistic_bias_data = HolisticBiasSentenceGenerator(store_hb_dir, dataset_version=dataset_version) 
         self.supported_langs = langs
         self.stanza_tokenizer = {}
         for lang in self.supported_langs:
             lang_iso = LANGISO.get(lang, lang)
-            stanza.download(LANGISO.get(lang, lang))
-            self.stanza_tokenizer[lang] = stanza.Pipeline(lang=lang_iso, processors='tokenize', tokenize_no_ssplit=True)
+            try:
+                stanza.download(LANGISO.get(lang, lang))
+                self.stanza_tokenizer[lang] = stanza.Pipeline(lang=lang_iso, processors='tokenize', tokenize_no_ssplit=True)
+            except requests.exceptions.ConnectionError as e:
+                print('WARNING: Stanza tokenizer cound not be loaded so white-space tokenization instead')
+                self.stanza_tokenizer[lang] = None
+            
             # only loading English data right now: make multilingual when data ready
             if not only_gender:
                 self.noun_phrases[lang] = holistic_bias_data.get_compiled_noun_phrases(dataset_version=dataset_version, lang=lang)
@@ -68,36 +83,45 @@ class CountHolisticBias(object):
                 self.noun_phrases[lang]["noun_phrase_simple"] = self.noun_phrases[lang]["noun_phrase"].apply(lambda s: reg.sub("", s))
                 self.noun_phrases[lang]["noun_phrase_re"] = self.noun_phrases[lang].apply(lambda r: re.compile(f"\\b({r['noun_phrase_simple']}|{r['plural_noun_phrase']})\\b",re.IGNORECASE,), axis=1)
 
-            # build a regexp to find gendered noun mentions
-            # one regexp per group_gender:
-            # 'female' => r"..."
-            # 'male' => r"..."
+            
             NOUNS = holistic_bias_data.get_nouns(dataset_version, lang=lang)
+            
             for group_gender, gender_noun_tuples in NOUNS.items():
-                r_string = "\\b("
+                
                 if group_gender not in self.gender_ls[lang]:
                     self.gender_ls[lang][group_gender] = []
-                for noun, plural_noun in gender_noun_tuples:
+                
+                if dataset_version == 'v1.1':
+                    for noun, plural_noun in gender_noun_tuples:                    
+                        if len(noun) == 0:
+                            # singular empty
+                            assert len(plural_noun)
+                            self.gender_ls[lang][group_gender].append(plural_noun)
+                        elif len(plural_noun) == 0: 
+                            # plural empty
+                            assert len(noun)
                     
-                    if len(noun) == 0:
-                        # singular empty
-                        assert len(plural_noun)
-                        r_string += f"{re.escape(plural_noun)}|"
-                        self.gender_ls[lang][group_gender].append(plural_noun)
-                    elif len(plural_noun) == 0: 
-                        # plural empty
-                        assert len(noun)
-                        r_string += f"{re.escape(noun)}|"
-                        self.gender_ls[lang][group_gender].append(noun)
-                    else:
-                        r_string += f"{re.escape(noun)}|{re.escape(plural_noun)}|"
-                        self.gender_ls[lang][group_gender].extend([noun, plural_noun])
-                r_string = r_string[:-1]
-                r_string += ")\\b"
-                # Depreciated
-                self.gender_regs[lang][group_gender] = re.compile(r_string, re.IGNORECASE)
-                # new way of counting 
+                            self.gender_ls[lang][group_gender].append(noun)
+                        else:
+                    
+                            self.gender_ls[lang][group_gender].extend([noun, plural_noun])
+                    
+                    # new way of counting 
+                    self.gender_counters[lang][group_gender] = Counter(self.gender_ls[lang][group_gender])
+                
+                elif dataset_version == 'v1.2':
+                    for nouns_dict in gender_noun_tuples:     
+                        assert 'singular' in nouns_dict or 'plural' in nouns_dict, f'boken dictionary: {nouns_dict}'
+                        if 'singular' in nouns_dict:
+                            self.gender_ls[lang][group_gender].append(nouns_dict['singular'])
+                        if 'plural' in nouns_dict:
+                            self.gender_ls[lang][group_gender].append(nouns_dict['plural'])
+                    # new way of counting 
+                else:
+                    raise(Exception(f'{dataset_version} is empty'))
+                
                 self.gender_counters[lang][group_gender] = Counter(self.gender_ls[lang][group_gender])
+        
         # Language agnostic counters
         
         self.count_np: Counter = Counter()
@@ -111,15 +135,19 @@ class CountHolisticBias(object):
         if not self.only_gender:
             self.count_np["_total"] += 1
         # for gender, we count words instead of lines, so we do basic tokenization (eng only)
-        sentences = self.stanza_tokenizer[lang](sentence).sentences
-        # verify that segmentation lead to a single sentence
-        assert len(sentences) == 1
-        tokenized_sentence = sentences[0]
+        if  self.stanza_tokenizer[lang]:
+            sentences = self.stanza_tokenizer[lang](sentence).sentences
+            # verify that segmentation lead to a single sentence
+            assert len(sentences) == 1
         
-        cc = len(tokenized_sentence.tokens)
-        tokenized_sentence = [token.text.lower() for token in tokenized_sentence.tokens]
+            tokenized_sentence = sentences[0]
+            cc = len(tokenized_sentence.tokens)
+            tokenized_sentence = [token.text.lower() for token in tokenized_sentence.tokens]
+            assert len(tokenized_sentence) == cc
+        else:
+            tokenized_sentence = sentence.split(' ')
         
-        assert len(tokenized_sentence) == cc
+        
         self.count_gender["_total"] += len(tokenized_sentence) # count words
         if not self.only_gender:
             for _idx, w in self.noun_phrases[lang].iterrows():
@@ -135,20 +163,18 @@ class CountHolisticBias(object):
                     # count the occurence for the category of what was matched (bucket, gender, ) : bucket: type of descriptor; value in the bucket ; 
                     self.count_np[key] += 1
         
-        for group_gender, reg in self.gender_regs[lang].items():            
+        for group_gender in self.gender_counters[lang].keys():            
             # match to list of nouns that are feminine and masculine 
             total_match = 0
-            if len(reg.findall(sentence)):
-                tokenized_sentence_counts = Counter(tokenized_sentence)
-                common_elements = set(tokenized_sentence_counts) & set(self.gender_counters[lang][group_gender])
+            #if len(reg.findall(sentence)):
+            tokenized_sentence_counts = Counter(tokenized_sentence)
+            common_elements = set(tokenized_sentence_counts) & set(self.gender_counters[lang][group_gender])
                 
-                for element in common_elements: 
-                    total_match += tokenized_sentence_counts[element]
+            for element in common_elements: 
+                total_match += tokenized_sentence_counts[element]
             
-            self.count_gender[group_gender] += total_match #+= len(reg.findall(sentence))
+            self.count_gender[group_gender] += total_match
             
-            #if total_match != len(reg.findall(sentence)):
-            #    print(f'{group_gender}: {total_match} <> {len(reg.findall(sentence))} : sentence {sentence} {tokenized_sentence}')
 
     def detect_language(self, text: str):
         # Predict the language using the FastText model
@@ -157,12 +183,14 @@ class CountHolisticBias(object):
         
         label = predictions[0][0].replace('__label__', '')
         return label
+    
 
     def process_lines(self, lines_with_number: tp.Iterator[tp.Tuple[int, str]], lang: str) -> None:
         # iterate over lines
         for line in lines_with_number:
             #TODO: implement lang detect
             self.count_demographics(line, lang)
+
 
     def process_dataset(self, dataset: tp.Iterator[tp.Tuple[int, str]], split: str, 
                         first_level_key: str, second_level_key: str=None, 
@@ -188,7 +216,11 @@ class CountHolisticBias(object):
                 if clean_sample is not None:
                     first_level_val = clean_sample(first_level_val)
                 n_sample_counted+= 1
-                lang_detected = self.detect_language(text=first_level_val)
+                if self.lang_detect_model is not None:
+                    lang_detected = self.detect_language(text=first_level_val)
+                else:
+                    print("WARNING: default lang 'en' ")
+                    lang_detected = 'en'
                 
                 lang_detected = LANG.get(lang_detected, lang_detected)                
                 self.count_demographics(first_level_val, lang_detected)
@@ -211,12 +243,18 @@ class CountHolisticBias(object):
         for i, sample in tqdm(enumerate(file), desc=f'Processing {file.name}'):
             n_sample_counted+=1
             sample = clean_sample(sample)
-            lang_detected = self.detect_language(text=sample)
-            lang_detected = LANG.get(lang_detected, lang_detected)
+            
+            if self.lang_detect_model:
+                lang_detected = self.detect_language(text=sample)
+                lang_detected = LANG.get(lang_detected, lang_detected)
+            else:
+                assert len(expected_langs) == 1
+                lang_detected = expected_langs[0]
             
             if lang_detected not in expected_langs:
                 print(f'Lang detected {lang_detected} of {sample}  not in {expected_langs} skipped')
                 continue 
+                
             self.count_demographics(sample, lang_detected)
             if max_samples is not None:
                 if n_sample_counted>=max_samples:
@@ -225,9 +263,11 @@ class CountHolisticBias(object):
         if verbose:
             print(f'{n_sample_counted} sententes were counted')
 
+
     def final_result(self) -> tp.Tuple[str, Counter, Counter]:
         return (self.supported_langs, self.count_gender, self.count_np)
-    
+
+
     def gender_dist(self):
         final_count = self.final_result()
         lang = final_count[0]
@@ -237,12 +277,15 @@ class CountHolisticBias(object):
         summary += f"Out of {gender_count['_total']} words: \n" 
 
         report = {}
-        for gender_cat in ['neutral', 'male', 'female']:
+        
+        for gender_cat in GENDER_LS: 
             summary += f"{gender_cat} words amounts for {gender_count[gender_cat]} ({gender_count[gender_cat]/gender_count['_total']*100:0.1f}%), "
             report[gender_cat] = [gender_count[gender_cat], gender_count[gender_cat]/gender_count['_total']*100]
         report['total'] = [gender_count['_total'], 100]
         report = pd.DataFrame(report)
+        
         return report
+    
 
     def printout_summary_demographics(self, printout=True, write_dir: str=None):
         final_count = self.final_result()
@@ -253,8 +296,9 @@ class CountHolisticBias(object):
         summary = f"Report for lang {lang}\n\n"
         
         summary += f"Out of {gender_count['_total']} words: \n" 
-        for gender_cat in ['neutral', 'male', 'female']:
+        for gender_cat in GENDER_LS:
             summary += f"{gender_cat} words amounts for {gender_count[gender_cat]} ({gender_count[gender_cat]/gender_count['_total']*100:0.1f}%), "
+        
         summary+="\n\n"
 
         summary += f"Out of {demographics['_total']} samples: \n" 
@@ -265,7 +309,7 @@ class CountHolisticBias(object):
                 
                 gender = demog.split('\t')[2]
                 if axis == '(none)' and bucket == 'null':
-                    assert gender in ['male', 'female', 'neutral']
+                    assert gender in GENDER_LS
                     continue
                 count = demographics[demog]
                 summary += f"{bucket}-{axis} samples amounts for {count} ({count/demographics['_total']*100:0.1f}%),\n"
