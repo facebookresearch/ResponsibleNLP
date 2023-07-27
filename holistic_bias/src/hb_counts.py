@@ -12,19 +12,27 @@ import typing as tp
 
 from collections import Counter
 from pathlib import Path
-
 from tqdm import tqdm
+
 import requests
 import pandas as pd
 import fasttext
-
-from holistic_bias.src.sentences import HolisticBiasSentenceGenerator
 import stanza 
 
-LANG = {'es': 'spa'}
-LANGISO = {'spa': 'es'}
+
+from holistic_bias.src.sentences import HolisticBiasSentenceGenerator
+
+
+LANGISO = {'ben': 'bn', 'cym': 'cy', 'hun': 'hu', 'lit': 'lt', 'pes': 'fa', 'tam': 'ta', 'urd': 'ur', 'bul': 'bg', 'deu': 'de', 'ind': 'id', 'lug': 'lg', 'por': 'pt', 'tel': 'te', 'vie': 'vi', 'cat': 'ca', 'est': 'et', 'ita': 'it', 'mar': 'mr', 'slv': 'sl', 'tgl': 'tl', 'zul': 'zu', 'ckb': 'ckb', 'fra': 'fr', 'kan': 'kn', 'mlt': 'mt', 'spa': 'es', 'tha': 'th', 'cmn': 'zh', 'hin': 'hi', 'kat': 'ka', 'pan': 'pa', 'swh': 'sw', 'tur': 'tr'}
+LANG = {'bn': 'ben', 'cy': 'cym', 'hu': 'hun', 'lt': 'lit', 'fa': 'pes', 'ta': 'tam', 'ur': 'urd', 'bg': 'bul', 'de': 'deu', 'id': 'ind', 'lg': 'lug', 'pt': 'por', 'te': 'tel', 'vi': 'vie', 'ca': 'cat', 'et': 'est', 'it': 'ita', 'mr': 'mar', 'sl': 'slv', 'tl': 'tgl', 'zu': 'zul', 'ckb': 'ckb', 'fr': 'fra', 'kn': 'kan', 'mt': 'mlt', 'es': 'spa', 'th': 'tha', 'zh': 'cmn', 'hi': 'hin', 'ka': 'kat', 'pa': 'pan', 'sw': 'swh', 'tr': 'tur'}
+
 
 GENDER_LS = ['female', 'male', 'neutral', 'unspecified']
+
+
+def count_lines(filename):
+    with open(filename, 'r') as file:
+        return sum(1 for line in file)
 
 
 class CountHolisticBias(object):
@@ -65,14 +73,22 @@ class CountHolisticBias(object):
         holistic_bias_data = HolisticBiasSentenceGenerator(store_hb_dir, dataset_version=dataset_version) 
         self.supported_langs = langs
         self.stanza_tokenizer = {}
+        self.nouns = {}
         for lang in self.supported_langs:
+            
+                
             lang_iso = LANGISO.get(lang, lang)
+            
             try:
                 stanza.download(LANGISO.get(lang, lang))
                 self.stanza_tokenizer[lang] = stanza.Pipeline(lang=lang_iso, processors='tokenize', tokenize_no_ssplit=True)
             except requests.exceptions.ConnectionError as e:
+                print('WARNING: Stanza tokenizer coult not be loaded due to Connection Error so white-space tokenization instead')
+                self.stanza_tokenizer[lang] = None
+            except:
                 print('WARNING: Stanza tokenizer cound not be loaded so white-space tokenization instead')
                 self.stanza_tokenizer[lang] = None
+
             
             # only loading English data right now: make multilingual when data ready
             if not only_gender:
@@ -85,7 +101,7 @@ class CountHolisticBias(object):
 
             
             NOUNS = holistic_bias_data.get_nouns(dataset_version, lang=lang)
-            
+            self.nouns[lang] = NOUNS
             for group_gender, gender_noun_tuples in NOUNS.items():
                 
                 if group_gender not in self.gender_ls[lang]:
@@ -93,6 +109,7 @@ class CountHolisticBias(object):
                 
                 if dataset_version == 'v1.1':
                     for noun, plural_noun in gender_noun_tuples:                    
+                        
                         if len(noun) == 0:
                             # singular empty
                             assert len(plural_noun)
@@ -113,9 +130,9 @@ class CountHolisticBias(object):
                     for nouns_dict in gender_noun_tuples:     
                         assert 'singular' in nouns_dict or 'plural' in nouns_dict, f'boken dictionary: {nouns_dict}'
                         if 'singular' in nouns_dict:
-                            self.gender_ls[lang][group_gender].append(nouns_dict['singular'])
+                            self.gender_ls[lang][group_gender].append(nouns_dict['singular'].lower())
                         if 'plural' in nouns_dict:
-                            self.gender_ls[lang][group_gender].append(nouns_dict['plural'])
+                            self.gender_ls[lang][group_gender].append(nouns_dict['plural'].lower())
                     # new way of counting 
                 else:
                     raise(Exception(f'{dataset_version} is empty'))
@@ -138,7 +155,10 @@ class CountHolisticBias(object):
         if  self.stanza_tokenizer[lang]:
             sentences = self.stanza_tokenizer[lang](sentence).sentences
             # verify that segmentation lead to a single sentence
-            assert len(sentences) == 1
+            if len(sentences) == 0:
+                print(f'Warning: empty sentence: {lang}')
+                return 
+            assert len(sentences) == 1, sentences
         
             tokenized_sentence = sentences[0]
             cc = len(tokenized_sentence.tokens)
@@ -163,6 +183,7 @@ class CountHolisticBias(object):
                     # count the occurence for the category of what was matched (bucket, gender, ) : bucket: type of descriptor; value in the bucket ; 
                     self.count_np[key] += 1
         
+        curr_dic = {key: 0 for key in self.gender_counters[lang]}
         for group_gender in self.gender_counters[lang].keys():            
             # match to list of nouns that are feminine and masculine 
             total_match = 0
@@ -174,6 +195,8 @@ class CountHolisticBias(object):
                 total_match += tokenized_sentence_counts[element]
             
             self.count_gender[group_gender] += total_match
+            curr_dic[group_gender] += total_match
+        return curr_dic
             
 
     def detect_language(self, text: str):
@@ -261,8 +284,10 @@ class CountHolisticBias(object):
                     break
 
         if verbose:
-            print(f'{n_sample_counted} sententes were counted')
-
+            print(f'{n_sample_counted} sentences were processed')
+        
+    
+    
 
     def final_result(self) -> tp.Tuple[str, Counter, Counter]:
         return (self.supported_langs, self.count_gender, self.count_np)

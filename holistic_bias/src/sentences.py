@@ -87,12 +87,13 @@ class HolisticBiasSentenceGenerator:
         Get all nouns, given the input version string.
         """
         dataset_folder = cls.get_dataset_folder(dataset_version)
-        if lang == 'en':
+        if lang.startswith('en'):
             nouns_path = os.path.join(dataset_folder, "nouns.json")
         else:
             nouns_path = os.path.join(dataset_folder, f"{lang}_nouns.json")
         with open(nouns_path) as f:
             nouns = json.load(f)
+            
         return nouns
 
     @classmethod
