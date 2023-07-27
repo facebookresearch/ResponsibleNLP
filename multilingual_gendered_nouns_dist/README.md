@@ -1,4 +1,4 @@
-# Compute Multilingual Holistic Biases Distrubution
+# Compute Multilingual Gender Distrubution
 
 You will find below instructions to compute the holistic bias distribution of HuggingFace datasets. 
 In a nutshell, given a dataset from the [huggingface hub](https://huggingface.co/datasets), you can use the script presented below to compute the distributions of gender and demographic groups based on the [Holistic Bias](https://arxiv.org/abs/2205.09209) dataset. 
@@ -22,65 +22,103 @@ Download fastext language detection model:
  
 ## Languages supported and language code
 
-| Language   | Code |
-|------------|------|
-| Spanish    | spa  |
-| English    | en   |
+| Language    | Code |
+|-------------|------|
+| Arabic      | arb  |
+| Czech       | ces  |
+| Greek       | ell  |
+| Hindi       | hin  |
+| Georgian    | kat  |
+| Marathi     | mar  |
+| Portuguese  | por  |
+| Swedish     | swe  |
+| Turkish     | tur  |
+| Assamese    | asm  |
+| Kurdish     | ckb  |
+| English     | eng  |
+| Hungarian   | hun  |
+| Khakas      | khk  |
+| Maltese     | mlt  |
+| Romanian    | ron  |
+| Swahili     | swh  |
+| Urdu        | urd  |
+| Belarusian  | bel  |
+| Mandarin    | cmn  |
+| Estonian    | est  |
+| Indonesian  | ind  |
+| Kirghiz     | kir  |
+| Dutch       | nld  |
+| Russian     | rus  |
+| Tamil       | tam  |
+| Uzbek       | uzn  |
+| Bengali     | ben  |
+| Welsh       | cym  |
+| Finnish     | fin  |
+| Italian     | ita  |
+| Korean      | kor  |
+| Punjabi     | pan  |
+| Slovak      | slk  |
+| Telugu      | tel  |
+| Vietnamese  | vie  |
+| Bulgarian   | bul  |
+| Danish      | dan  |
+| Irish       | gle  |
+| Kannada     | kan  |
+| Luganda     | lug  |
+| Polish      | pol  |
+| Spanish     | spa  |
+| Thai        | tha  |
+| Zulu        | zul  |
+
 
 
 ## Compute Biases of Hugging Face Datasets   
 
 For instance: to compute the biases distribution of the dataset `Anthropic/hh-rlhf` of the field `chosen`, split `test`, processing 100 samples at most. 
 
-`python holistic_bias/get_stats_hb.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 100 --langs en`       
+`python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 100 --langs en`       
 
 To add demographic groups distribution add `--count_demographics`       
 
-`python holistic_bias/get_stats_hb.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 10 --langs en --count_demographics`       
+`python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 10 --langs en --count_demographics`       
 
 ## Compute on text file
 
 
-Compute gender distribution of a single file in English:     
+Compute gender distribution of a single file in  arb bel vie por eng spa :     
 
-`python holistic_bias/get_stats_hb.py  --file_dir ./data/NTREX/NTREX-128  --file_names newstest2019-src.eng.txt newstest2019-ref.spa.txt --langs en spa --max_samples 100`            
-
-
-add  `--count_demographics`  for demographics distribution
-
-
-Compute gender distribution of multiple files in English and Spanish    
-
-
-`python holistic_bias/get_stats_hb.py  --file_dir ./data/flores200_dataset/dev ./data/flores200_dataset/dev ./data/NTREX/NTREX-128 ./data/NTREX/NTREX-128 --file_names spa_Latn.dev eng_Latn.dev   newstest2019-ref.spa.txt newstest2019-src.eng.txt --langs spa en spa en`        
-
-
+```
+python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py  --file_dir ./data/flores200_dataset/devtest/ \
+    --file_names arb_Arab.devtest bel_Cyrl.devtest vie_Latn.devtest por_Latn.devtest eng_Latn.devtest spa_Latn.devtest  \
+    --langs arb bel vie por eng spa \
+    --max_samples 100
+```
 
 ## Call count function
 
 To integrate the count function into an existing data processing pipeline (e.g. in Spark), 
-the count_demographics method of CountHolisticBias can be called as showed in the example below:
+the count_demographics method of MultilingualGenderDistribution can be called as showed in the example below:
 
 ```
-from holistic_bias.src.hb_counts import CountHolisticBias
+from multilingual_gendered_nouns_dist.src.gender_counts import MultilingualGenderDistribution
 
 # Load Holistic Bias list
-hb_counter = CountHolisticBias(store_hb_dir='./tmp', langs=['en'], ft_model_path='./fasttext_models/lid.176.bin')
+counter = MultilingualGenderDistribution(store_hb_dir='./tmp', langs=['eng'], ft_model_path='./fasttext_models/lid.176.bin')
 
 sample = "Authorities have not identified the man, but local CNN affiliates have named him as Simon Baccanello, a 46-year-old teacher at nearby Elliston Area School."
 
 # detect language
-lang_detected = hb_counter.detect_language(text=sample)
+lang_detected = counter.detect_language(text=sample)
 
 # update counters for sample
-hb_counter.count_demographics(sample, lang_detected)
+counter.count_demographics(sample, lang_detected)
 
 # printout final counts
 hb_counter.printout_summary()
 
 # Expected output:
 #Out of 24 words:
-#neutral words amounts for 0 (0.0%), male words amounts for 1 (4.2%), female words amounts for 0 (0.0%),
+#neutral words amounts for 0 (0.0%), masculine words amounts for 1 (4.2%), feminine words amounts for 0 (0.0%),
 #Out of 1 samples:
 #age-old samples amounts for 1 (100.0%),
 #null-(none) samples amounts for 1 (100.0%),
