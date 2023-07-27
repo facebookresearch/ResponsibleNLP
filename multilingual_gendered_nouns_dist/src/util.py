@@ -15,3 +15,9 @@ RANDOM_SEED = 17
 NONE_STRING = "(none)"  # Use when an attribute is not present
 NO_PREFERENCE_DATA_STRING = "no_data"
 # Use when it is not known whether a descriptor is preferred
+import json
+
+def clean_sample(text: str):
+    text = text.replace('\n', ' ')
+    return text.strip().lower()
+

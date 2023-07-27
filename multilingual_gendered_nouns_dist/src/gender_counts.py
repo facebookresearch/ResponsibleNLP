@@ -14,20 +14,20 @@ from collections import Counter
 from pathlib import Path
 from tqdm import tqdm
 
+import os 
 import requests
 import pandas as pd
 import fasttext
 import stanza 
+import json 
 
 
-from holistic_bias.src.sentences import HolisticBiasSentenceGenerator
+
+LANGISO = {'arb': 'ar','bel':'be','eng': 'en','ben': 'bn', 'cym': 'cy', 'hun': 'hu', 'lit': 'lt', 'pes': 'fa', 'tam': 'ta', 'urd': 'ur', 'bul': 'bg', 'deu': 'de', 'ind': 'id', 'lug': 'lg', 'por': 'pt', 'tel': 'te', 'vie': 'vi', 'cat': 'ca', 'est': 'et', 'ita': 'it', 'mar': 'mr', 'slv': 'sl', 'tgl': 'tl', 'zul': 'zu', 'ckb': 'ckb', 'fra': 'fr', 'kan': 'kn', 'mlt': 'mt', 'spa': 'es', 'tha': 'th', 'cmn': 'zh', 'hin': 'hi', 'kat': 'ka', 'pan': 'pa', 'swh': 'sw', 'tur': 'tr'}
+LANG = {'ar': 'arb','be':'bel', 'en': 'eng','bn': 'ben', 'cy': 'cym', 'hu': 'hun', 'lt': 'lit', 'fa': 'pes', 'ta': 'tam', 'ur': 'urd', 'bg': 'bul', 'de': 'deu', 'id': 'ind', 'lg': 'lug', 'pt': 'por', 'te': 'tel', 'vi': 'vie', 'ca': 'cat', 'et': 'est', 'it': 'ita', 'mr': 'mar', 'sl': 'slv', 'tl': 'tgl', 'zu': 'zul', 'ckb': 'ckb', 'fr': 'fra', 'kn': 'kan', 'mt': 'mlt', 'es': 'spa', 'th': 'tha', 'zh': 'cmn', 'hi': 'hin', 'ka': 'kat', 'pa': 'pan', 'sw': 'swh', 'tr': 'tur'}
 
 
-LANGISO = {'ben': 'bn', 'cym': 'cy', 'hun': 'hu', 'lit': 'lt', 'pes': 'fa', 'tam': 'ta', 'urd': 'ur', 'bul': 'bg', 'deu': 'de', 'ind': 'id', 'lug': 'lg', 'por': 'pt', 'tel': 'te', 'vie': 'vi', 'cat': 'ca', 'est': 'et', 'ita': 'it', 'mar': 'mr', 'slv': 'sl', 'tgl': 'tl', 'zul': 'zu', 'ckb': 'ckb', 'fra': 'fr', 'kan': 'kn', 'mlt': 'mt', 'spa': 'es', 'tha': 'th', 'cmn': 'zh', 'hin': 'hi', 'kat': 'ka', 'pan': 'pa', 'swh': 'sw', 'tur': 'tr'}
-LANG = {'bn': 'ben', 'cy': 'cym', 'hu': 'hun', 'lt': 'lit', 'fa': 'pes', 'ta': 'tam', 'ur': 'urd', 'bg': 'bul', 'de': 'deu', 'id': 'ind', 'lg': 'lug', 'pt': 'por', 'te': 'tel', 'vi': 'vie', 'ca': 'cat', 'et': 'est', 'it': 'ita', 'mr': 'mar', 'sl': 'slv', 'tl': 'tgl', 'zu': 'zul', 'ckb': 'ckb', 'fr': 'fra', 'kn': 'kan', 'mt': 'mlt', 'es': 'spa', 'th': 'tha', 'zh': 'cmn', 'hi': 'hin', 'ka': 'kat', 'pa': 'pan', 'sw': 'swh', 'tr': 'tur'}
-
-
-GENDER_LS = ['female', 'male', 'neutral', 'unspecified']
+GENDER_LS = ['masculine', 'feminine', 'unspecified']
 
 
 def count_lines(filename):
@@ -35,7 +35,7 @@ def count_lines(filename):
         return sum(1 for line in file)
 
 
-class CountHolisticBias(object):
+class MultilingualGenderDistribution(object):
     """
     This is the core class for computing Holistic Biases distribution. 
     It does the counting based on Holistic_Bias list of nouns and noun phrases, return counters
@@ -46,17 +46,14 @@ class CountHolisticBias(object):
         self,
         store_hb_dir: str,
         ft_model_path: str,
-        only_gender : bool = False,
         langs: list = ['en'], 
-        dataset_version='v1.1'
+        dataset_version='v1.0'
         
     ) -> None:
         
         store_hb_dir = Path(store_hb_dir)
         store_hb_dir.mkdir(exist_ok=True)
-        
-        self.only_gender = only_gender
-        
+                
         if ft_model_path:
             self.lang_detect_model = fasttext.load_model(ft_model_path) 
         else:
@@ -69,8 +66,10 @@ class CountHolisticBias(object):
         self.gender_regs = {lang: {} for lang in langs}
         self.gender_ls =  {lang: {} for lang in langs}
         self.gender_counters =  {lang: {} for lang in langs}
-
-        holistic_bias_data = HolisticBiasSentenceGenerator(store_hb_dir, dataset_version=dataset_version) 
+        base_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "dataset")
+        dataset_folder = os.path.join(base_folder, dataset_version)
+        
+        
         self.supported_langs = langs
         self.stanza_tokenizer = {}
         self.nouns = {}
@@ -89,53 +88,22 @@ class CountHolisticBias(object):
                 print('WARNING: Stanza tokenizer cound not be loaded so white-space tokenization instead')
                 self.stanza_tokenizer[lang] = None
 
-            
-            # only loading English data right now: make multilingual when data ready
-            if not only_gender:
-                self.noun_phrases[lang] = holistic_bias_data.get_compiled_noun_phrases(dataset_version=dataset_version, lang=lang)
-                # we want to match noun phrases disregarding the undefinite article
-                # that's added by default, hack around it (ideally this is an option in HB)
-                reg = re.compile(r"^an? ", re.IGNORECASE)
-                self.noun_phrases[lang]["noun_phrase_simple"] = self.noun_phrases[lang]["noun_phrase"].apply(lambda s: reg.sub("", s))
-                self.noun_phrases[lang]["noun_phrase_re"] = self.noun_phrases[lang].apply(lambda r: re.compile(f"\\b({r['noun_phrase_simple']}|{r['plural_noun_phrase']})\\b",re.IGNORECASE,), axis=1)
-
-            
-            NOUNS = holistic_bias_data.get_nouns(dataset_version, lang=lang)
-            self.nouns[lang] = NOUNS
-            for group_gender, gender_noun_tuples in NOUNS.items():
+            with open(os.path.join(dataset_folder, f"{lang}_nouns.json") ) as f:
+                self.nouns[lang] = json.load(f)
+            for group_gender, gender_noun_tuples in self.nouns[lang].items():
                 
                 if group_gender not in self.gender_ls[lang]:
                     self.gender_ls[lang][group_gender] = []
-                
-                if dataset_version == 'v1.1':
-                    for noun, plural_noun in gender_noun_tuples:                    
-                        
-                        if len(noun) == 0:
-                            # singular empty
-                            assert len(plural_noun)
-                            self.gender_ls[lang][group_gender].append(plural_noun)
-                        elif len(plural_noun) == 0: 
-                            # plural empty
-                            assert len(noun)
-                    
-                            self.gender_ls[lang][group_gender].append(noun)
-                        else:
-                    
-                            self.gender_ls[lang][group_gender].extend([noun, plural_noun])
-                    
-                    # new way of counting 
-                    self.gender_counters[lang][group_gender] = Counter(self.gender_ls[lang][group_gender])
-                
-                elif dataset_version == 'v1.2':
+
+                if dataset_version == 'v1.0':
                     for nouns_dict in gender_noun_tuples:     
                         assert 'singular' in nouns_dict or 'plural' in nouns_dict, f'boken dictionary: {nouns_dict}'
                         if 'singular' in nouns_dict:
                             self.gender_ls[lang][group_gender].append(nouns_dict['singular'].lower())
                         if 'plural' in nouns_dict:
                             self.gender_ls[lang][group_gender].append(nouns_dict['plural'].lower())
-                    # new way of counting 
                 else:
-                    raise(Exception(f'{dataset_version} is empty'))
+                    raise(Exception(f'{dataset_version} not supported'))
                 
                 self.gender_counters[lang][group_gender] = Counter(self.gender_ls[lang][group_gender])
         
@@ -149,8 +117,7 @@ class CountHolisticBias(object):
         sentence = line.strip()
         # lines counter
         assert lang in self.supported_langs, f'{lang} not in {self.supported_langs}'
-        if not self.only_gender:
-            self.count_np["_total"] += 1
+
         # for gender, we count words instead of lines, so we do basic tokenization (eng only)
         if  self.stanza_tokenizer[lang]:
             sentences = self.stanza_tokenizer[lang](sentence).sentences
@@ -169,20 +136,7 @@ class CountHolisticBias(object):
         
         
         self.count_gender["_total"] += len(tokenized_sentence) # count words
-        if not self.only_gender:
-            for _idx, w in self.noun_phrases[lang].iterrows():
-                # for each noun_phrases: e.g. (working class man |) (e.g match both plural/singular: bro who is an amputee|bros who are amputees)
-                # ==> count if the phrase includes it: if it does: append counter
-                if w["noun_phrase_re"].search(sentence):
-                    key = (
-                        f"{w['bucket']}\t"
-                        f"{w['axis']}\t"
-                        f"{w['noun_gender']}\t"
-                        f"{w['descriptor_preference']}"
-                    )
-                    # count the occurence for the category of what was matched (bucket, gender, ) : bucket: type of descriptor; value in the bucket ; 
-                    self.count_np[key] += 1
-        
+
         curr_dic = {key: 0 for key in self.gender_counters[lang]}
         for group_gender in self.gender_counters[lang].keys():            
             # match to list of nouns that are feminine and masculine 

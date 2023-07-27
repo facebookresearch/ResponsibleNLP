@@ -8,23 +8,19 @@
 
 
 """
-CountHolisticBias loads the holistic biases templates and gender nouns collections and compute gender and demographics distribution of given datasets.
+MultilingualGenderDistribution loads the gendered noun lists and compute gender of given datasets.
 
 The dataset can be loaded from the HF datasets library or from a text file. 
-
 
 
 # HF
 e.g.  python holistic_bias/get_stats_hb.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 10
 
-# FILE 
- python holistic_bias/get_stats_hb.py  --file_dir /private/home/benjaminmuller/dev/biases/data/NTREX/NTREX-128 --file_names newstest2019-src.eng.txt newstest2019-ref.spa.txt --langs en spa --max_samples 100
-python holistic_bias/get_stats_hb.py  --file_dir /Users/benjaminmuller/Documents/Work/biases/ResponsibleNLP/data/NTREX/NTREX-128 --file_names newstest2019-src.eng.txt  --langs en --max_samples 100
-  
- python holistic_bias/get_stats_hb.py  --file_dir /private/home/benjaminmuller/dev/biases/data/flores200_dataset/dev  /private/home/benjaminmuller/dev/biases/data/flores200_dataset/dev /private/home/benjaminmuller/dev/biases/data/NTREX/NTREX-128 /private/home/benjaminmuller/dev/biases/data/NTREX/NTREX-128 --file_names spa_Latn.dev eng_Latn.dev   newstest2019-ref.spa.txt newstest2019-src.eng.txt --langs spa en  spa en
 
- 
-
+python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py  --file_dir /private/home/benjaminmuller/dev/biases/data/flores200_dataset/devtest/ \
+    --file_names arb_Arab.devtest bel_Cyrl.devtest vie_Latn.devtest por_Latn.devtest eng_Latn.devtest spa_Latn.devtest  \
+    --langs arb bel vie por eng spa \
+    --max_samples 100
  """
 
 import argparse
@@ -35,12 +31,11 @@ from pathlib import Path
 sys.path.append('.')
 
 from datasets import load_dataset
-from holistic_bias.src.hb_counts import CountHolisticBias
-from holistic_bias.src.hb_counts import LANGISO
-from holistic_bias.src.util import clean_sample
+from multilingual_gendered_nouns_dist.src.gender_counts import MultilingualGenderDistribution
+from multilingual_gendered_nouns_dist.src.gender_counts import LANGISO
+from multilingual_gendered_nouns_dist.src.util import clean_sample
 
 
-SKIP_REPORT_NEUTRAL = True
 
 if __name__ == '__main__':
     
@@ -55,7 +50,7 @@ if __name__ == '__main__':
     #parser.add_argument('--file_dir', type=str, required=False)
     parser.add_argument('--file_dir', type=str, nargs='+', required=False)
     parser.add_argument('--file_names', type=str, nargs='+', required=False)
-    parser.add_argument('--nouns_format_version', type=str, required=False, default='v1.1')
+    parser.add_argument('--nouns_format_version', type=str, required=False, default='v1.0')
     
     parser.add_argument('--dataset', type=str, required=False)
     parser.add_argument('--split', type=str, default='train', required=False)
@@ -63,20 +58,21 @@ if __name__ == '__main__':
     parser.add_argument('--second_level_key', type=str, default=None)
 
     parser.add_argument('--count_demographics', action='store_true', default=False)
-    parser.add_argument('--no_lang_detect', action='store_true', default=False)
+    parser.add_argument('--lang_detect', action='store_true', default=False)
 
     
     args = parser.parse_args()
     report = {} 
-    report_df = {'dataset':[], 'lang':[], 'male':[], 'female':[], 'unspecified':[], 'total':[]}
+    report_df = {'dataset':[], 'lang':[], 'masculine':[], 'feminine':[],  'unspecified':[], 'total':[]}
 
     # Processing HF Dataset
+    if args.lang_detect: 
+        print('Land detect is set to True with --langs provided: the pipeline will check that the identified language is in the list --langs')
     if args.dataset is not None:
         assert len(args.langs) == 1, f'{args.langs} should be of len 1 when processing HF dataset'
         
-        hb_counter = CountHolisticBias(store_hb_dir='./tmp', langs=args.langs, 
-                                       ft_model_path='./fasttext_models/lid.176.bin' if not args.no_lang_detect else None, 
-                                       only_gender=not args.count_demographics, 
+        hb_counter = MultilingualGenderDistribution(store_hb_dir='./tmp', langs=args.langs, 
+                                       ft_model_path='./fasttext_models/lid.176.bin' if args.lang_detect else None, 
                                        dataset_version=args.nouns_format_version)
         dataset = load_dataset(args.dataset) # e.g. "HuggingFaceH4/stack-exchange-preferences"    
         hb_counter.process_dataset(dataset, split=args.split, 
@@ -108,14 +104,13 @@ if __name__ == '__main__':
             if not (file_dir/file_name).is_file():
                 print(f'Warning:  {file_dir/file_name} not found so skipping {lang}')
                 continue
-            if lang != 'eng':
-                if not Path(f'./holistic_bias/dataset/{args.nouns_format_version}/{lang}_nouns.json').is_file():
-                    print(f'WARNING: Gender list for {lang} was not found ./holistic_bias/dataset/{args.nouns_format_version}/{lang}_nouns.json: skipping {lang}')
-                    continue
+            
+            if not Path(f'./multilingual_gendered_nouns_dist/dataset/{args.nouns_format_version}/{lang}_nouns.json').is_file():
+                print(f'WARNING: Gender list for {lang} was not found ./holistic_bias/dataset/{args.nouns_format_version}/{lang}_nouns.json: skipping {lang}')
+                continue
             with open(file_dir/file_name) as file:
-                hb_counter = CountHolisticBias(store_hb_dir='./tmp', langs=[lang], ft_model_path='./fasttext_models/lid.176.bin' if not args.no_lang_detect else None, 
-                                               only_gender=not args.count_demographics, 
-                                               dataset_version=args.nouns_format_version if lang != 'eng' else 'v1.1')
+                hb_counter = MultilingualGenderDistribution(store_hb_dir='./tmp', langs=[lang], ft_model_path='./fasttext_models/lid.176.bin' if  args.lang_detect else None, 
+                                               dataset_version=args.nouns_format_version)
                 hb_counter.process_txt(file=file, clean_sample=clean_sample, max_samples=args.max_samples, expected_langs=[lang])
                     
             stat = hb_counter.gender_dist()
@@ -123,8 +118,6 @@ if __name__ == '__main__':
             report[file_name] = f"{lang} & "
             
             for gender in stat.columns:
-                if SKIP_REPORT_NEUTRAL and gender == 'neutral':
-                    continue
                 if gender != 'total':
                     report[file_name] += f" {stat[gender][1]:0.3f} &"
                     report_df[gender].append(stat[gender][1])
@@ -141,10 +134,10 @@ if __name__ == '__main__':
         _df = _df.sort_values("lang")
         for i in range(_df.shape[0]):
             row = _df.iloc[i]
-            print(f" {row['lang']} &  {row['female']:0.3f}  &   {row['male']:0.3f}  & {row['unspecified']:0.3f} & {row['total']}\\\\" )
+            print(f" {row['lang']} &  {row['feminine']:0.3f}  &   {row['masculine']:0.3f}  & {row['unspecified']:0.3f} & {row['total']}\\\\" )
             
         print('MEAN')
-        print(f"avg. &  {_df['female'].mean():0.3f} ({_df['female'].std():0.2f})  &  {_df['male'].mean():0.3f} ({_df['male'].std():0.2f}) &  {_df['unspecified'].mean():0.3f} ({_df['unspecified'].std():0.2f})& \\bf {row['total']} \\\\")
+        print(f"avg. &  {_df['feminine'].mean():0.3f} ({_df['feminine'].std():0.2f})  &  {_df['masculine'].mean():0.3f} ({_df['masculine'].std():0.2f}) &  {_df['unspecified'].mean():0.3f} ({_df['unspecified'].std():0.2f})& \\bf {row['total']} \\\\")
 
         #_df.to_csv(f'report_{dataset}.csv', index=None)
         print(f'report_{dataset}.csv copied')
