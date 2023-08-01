@@ -14,7 +14,7 @@ The dataset can be loaded from the HF datasets library or from a text file.
 
 
 # HF
-e.g.  python holistic_bias/get_stats_hb.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 10
+e.g.  python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 10
 
 
 python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py  --file_dir /private/home/benjaminmuller/dev/biases/data/flores200_dataset/devtest/ \

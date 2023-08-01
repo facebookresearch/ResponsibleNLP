@@ -25,17 +25,24 @@ def clean_sample(text: str):
 def rename_gender(json_dir): 
     print('read', json_dir)
     with open(json_dir, 'r') as read:
+        print('reading', json_dir)
         file = json.load(read)
-    file['feminine'] = file['female']
-    file['masculine'] = file['male']
-    del file['male']
-    del file['female']
+    if 'feminine' not in file:
+        file['feminine'] = file['female']
+        del file['female']
+    if 'masculine' not in file:
+        file['masculine'] = file['male']
+        del file['male']
+    
+    
+    
+    assert len(file) == 3, file
+    assert {'feminine', 'masculine', 'unspecified'} == set(file.keys()), file
     with open(json_dir, 'w') as write:
         json.dump(file, write, indent=2, ensure_ascii=False)
     print(f'{write} done')
 
-LANGISO = {#'ben': 'bn', 'cym': 'cy', 'hun': 'hu', 'lit': 'lt', 'pes': 'fa', 'tam': 'ta', 'urd': 'ur', 'bul': 'bg', 'deu': 'de', 'ind': 'id', 'lug': 'lg', 'por': 'pt', 'tel': 'te', 'vie': 'vi', 'cat': 'ca', 'est': 'et', 'ita': 'it', 'mar': 'mr', 'slv': 'sl', 'tgl': 'tl', 'zul': 'zu', 'ckb': 'ckb', 'fra': 'fr', 
-           'kan': 'kn', 'mlt': 'mt', 'spa': 'es', 'tha': 'th', 'cmn': 'zh', 'hin': 'hi', 'kat': 'ka', 'pan': 'pa', 'swh': 'sw', 'tur': 'tr'}
+LANGISO = {'arb', 'asm', 'bel', 'ben', 'bul', 'cat', 'ces', 'ckb', 'cmn', 'cym', 'dan', 'deu', 'ell', 'eng', 'est', 'fin', 'fra', 'gle', 'hin', 'hun', 'ind', 'ita', 'jpn', 'kan', 'kat', 'khk', 'kir', 'kor', 'lit', 'lug', 'mar', 'mlt', 'nld', 'pan', 'pes', 'pol', 'por', 'ron', 'rus', 'slk', 'slv', 'spa', 'swe', 'swh', 'tam', 'tel', 'tgl', 'tha', 'tur', 'urd', 'uzn', 'vie', 'yue', 'zul'}
 
-#for lang in LANGISO:
-#    rename_gender(f'/private/home/benjaminmuller/dev/biases/ResponsibleNLP/multilingual_gendered_nouns_dist/dataset/v1.0/{lang}_nouns.json')
+for lang in LANGISO:
+    rename_gender(f'/private/home/benjaminmuller/dev/biases/ResponsibleNLP/multilingual_gendered_nouns_dist/dataset/v1.0/{lang}_nouns.json')
