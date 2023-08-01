@@ -16,11 +16,24 @@ The dataset can be loaded from the HF datasets library or from a text file.
 # HF
 e.g.  python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 10
 
+python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py  --file_dir /private/home/benjaminmuller/dev/biases/data/flores200_dataset/devtest/ \
+    --file_names arb_Arab.devtest bel_Cyrl.devtest vie_Latn.devtest por_Latn.devtest eng_Latn.devtest spa_Latn.devtest  \
+    --langs arb bel vie por eng spa \
+    --max_samples 100
 
 python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py  --file_dir /private/home/benjaminmuller/dev/biases/data/flores200_dataset/devtest/ \
     --file_names arb_Arab.devtest bel_Cyrl.devtest vie_Latn.devtest por_Latn.devtest eng_Latn.devtest spa_Latn.devtest  \
     --langs arb bel vie por eng spa \
     --max_samples 100
+python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py  --file_dir /private/home/benjaminmuller/dev/biases/data/flores200_dataset/dev// \
+    --file_names arb_Arab.dev bel_Cyrl.dev vie_Latn.dev por_Latn.dev eng_Latn.dev spa_Latn.dev  \
+    --langs arb bel vie por eng spa 
+
+
+
+python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py  --file_dir /private/home/benjaminmuller/dev/biases/data/NTREX/NTREX-128/  \
+    --file_names newstest2019-ref.arb.txt newstest2019-ref.bel.txt newstest2019-ref.vie.txt newstest2019-ref.por.txt newstest2019-src.eng.txt newstest2019-ref.spa.txt newstest2019-ref.spa-MX.txt  \
+    --langs arb bel vie por eng spa spa
  """
 
 import argparse
@@ -113,7 +126,7 @@ if __name__ == '__main__':
                                                dataset_version=args.nouns_format_version)
                 hb_counter.process_txt(file=file, clean_sample=clean_sample, max_samples=args.max_samples, expected_langs=[lang])
                     
-            stat = hb_counter.gender_dist()
+            stat = hb_counter.gender_dist(info_file=file_name)
             
             report[file_name] = f"{lang} & "
             
@@ -137,7 +150,7 @@ if __name__ == '__main__':
             print(f" {row['lang']} &  {row['feminine']:0.3f}  &   {row['masculine']:0.3f}  & {row['unspecified']:0.3f} & {row['total']}\\\\" )
             
         print('MEAN')
-        print(f"avg. &  {_df['feminine'].mean():0.3f} ({_df['feminine'].std():0.2f})  &  {_df['masculine'].mean():0.3f} ({_df['masculine'].std():0.2f}) &  {_df['unspecified'].mean():0.3f} ({_df['unspecified'].std():0.2f})& \\bf {row['total']} \\\\")
+        print(f"avg. &  {_df['feminine'].mean():0.3f} ({_df['feminine'].std():0.2f})  &  {_df['masculine'].mean():0.3f} ({_df['masculine'].std():0.2f}) &  {_df['unspecified'].mean():0.3f} ({_df['unspecified'].std():0.2f})& \\bf {_df['total']} \\\\")
 
         #_df.to_csv(f'report_{dataset}.csv', index=None)
         print(f'report_{dataset}.csv copied')

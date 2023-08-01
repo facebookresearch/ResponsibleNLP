@@ -27,7 +27,7 @@ LANGISO = {'arb': 'ar','bel':'be','eng': 'en','ben': 'bn', 'cym': 'cy', 'hun': '
 LANG = {'ar': 'arb','be':'bel', 'en': 'eng','bn': 'ben', 'cy': 'cym', 'hu': 'hun', 'lt': 'lit', 'fa': 'pes', 'ta': 'tam', 'ur': 'urd', 'bg': 'bul', 'de': 'deu', 'id': 'ind', 'lg': 'lug', 'pt': 'por', 'te': 'tel', 'vi': 'vie', 'ca': 'cat', 'et': 'est', 'it': 'ita', 'mr': 'mar', 'sl': 'slv', 'tl': 'tgl', 'zu': 'zul', 'ckb': 'ckb', 'fr': 'fra', 'kn': 'kan', 'mt': 'mlt', 'es': 'spa', 'th': 'tha', 'zh': 'cmn', 'hi': 'hin', 'ka': 'kat', 'pa': 'pan', 'sw': 'swh', 'tr': 'tur'}
 
 
-GENDER_LS = ['masculine', 'feminine', 'unspecified']
+GENDER_LS = ['feminine', 'masculine',  'unspecified']
 
 
 def count_lines(filename):
@@ -63,7 +63,6 @@ class MultilingualGenderDistribution(object):
 
 
         self.noun_phrases = {lang: {} for lang in langs}
-        self.gender_regs = {lang: {} for lang in langs}
         self.gender_ls =  {lang: {} for lang in langs}
         self.gender_counters =  {lang: {} for lang in langs}
         base_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "dataset")
@@ -128,9 +127,7 @@ class MultilingualGenderDistribution(object):
             assert len(sentences) == 1, sentences
         
             tokenized_sentence = sentences[0]
-            cc = len(tokenized_sentence.tokens)
             tokenized_sentence = [token.text.lower() for token in tokenized_sentence.tokens]
-            assert len(tokenized_sentence) == cc
         else:
             tokenized_sentence = sentence.split(' ')
         
@@ -147,8 +144,10 @@ class MultilingualGenderDistribution(object):
                 
             for element in common_elements: 
                 total_match += tokenized_sentence_counts[element]
-            
+                    
             self.count_gender[group_gender] += total_match
+            
+            
             curr_dic[group_gender] += total_match
         return curr_dic
             
@@ -165,7 +164,6 @@ class MultilingualGenderDistribution(object):
     def process_lines(self, lines_with_number: tp.Iterator[tp.Tuple[int, str]], lang: str) -> None:
         # iterate over lines
         for line in lines_with_number:
-            #TODO: implement lang detect
             self.count_demographics(line, lang)
 
 
@@ -247,7 +245,7 @@ class MultilingualGenderDistribution(object):
         return (self.supported_langs, self.count_gender, self.count_np)
 
 
-    def gender_dist(self):
+    def gender_dist(self, info_file: str):
         final_count = self.final_result()
         lang = final_count[0]
         gender_count = final_count[1]
@@ -260,6 +258,8 @@ class MultilingualGenderDistribution(object):
         for gender_cat in GENDER_LS: 
             summary += f"{gender_cat} words amounts for {gender_count[gender_cat]} ({gender_count[gender_cat]/gender_count['_total']*100:0.1f}%), "
             report[gender_cat] = [gender_count[gender_cat], gender_count[gender_cat]/gender_count['_total']*100]
+            if gender_count[gender_cat]==0:
+                print(f'WARNING {lang} {gender_cat}: 0 match file {info_file}')
         report['total'] = [gender_count['_total'], 100]
         report = pd.DataFrame(report)
         
