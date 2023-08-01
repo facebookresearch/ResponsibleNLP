@@ -39,15 +39,17 @@ python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py  --file_
 import argparse
 import sys
 import pandas as pd
+import numpy as np
 from pathlib import Path
 
 sys.path.append('.')
 
 from datasets import load_dataset
 from multilingual_gendered_nouns_dist.src.gender_counts import MultilingualGenderDistribution
-from multilingual_gendered_nouns_dist.src.gender_counts import LANGISO
 from multilingual_gendered_nouns_dist.src.util import clean_sample
 
+RANK_TO_BOLD_BOS = ['', '\\underline{', '\\bf ']
+RANK_TO_BOLD_EOS = ['', '}', '']
 
 
 if __name__ == '__main__':
@@ -95,7 +97,7 @@ if __name__ == '__main__':
                                 max_samples=args.max_samples)
 
         stat = hb_counter.gender_dist()
-        report[args.dataset] = f"{LANGISO.get(args.langs[0], args.langs[0])} & {stat['female'][1]:0.3f} & {stat['male'][1]:0.3f} & {stat['neutral'][1]:0.3f} & {stat['total'][0]} \\ % {args.dataset}"
+        report[args.dataset] = f"{args.langs[0]} & {stat['female'][1]:0.3f} & {stat['male'][1]:0.3f} & {stat['neutral'][1]:0.3f} & {stat['total'][0]} \\ % {args.dataset}"
 
         print(f'REPORT on  {args.dataset}')
         
@@ -147,7 +149,18 @@ if __name__ == '__main__':
         _df = _df.sort_values("lang")
         for i in range(_df.shape[0]):
             row = _df.iloc[i]
-            print(f" {row['lang']} &  {row['feminine']:0.3f}  &   {row['masculine']:0.3f}  & {row['unspecified']:0.3f} & {row['total']}\\\\" )
+            bold_fem = '\\underline{'
+            bold_fem_end = '}'
+            bold_masc = ''
+            bold_unsp = ''
+            ls = [row['feminine'], row['masculine'], row['unspecified']]
+            sorted = np.argsort(ls) 
+            
+            display = [RANK_TO_BOLD_BOS[sorted[0]]+str(round(row['feminine'], 3))+RANK_TO_BOLD_EOS[sorted[0]], 
+                       RANK_TO_BOLD_BOS[sorted[1]]+str(round(row['masculine'], 3))+RANK_TO_BOLD_EOS[sorted[1]], 
+                       RANK_TO_BOLD_BOS[sorted[2]]+str(round(row['unspecified'], 3))+RANK_TO_BOLD_EOS[sorted[2]]]
+
+            print(f" {row['lang']} &  {display[0]} &   {display[1]}  & {display[2]} & {row['total']}\\\\" )
             
         print('MEAN')
         print(f"avg. &  {_df['feminine'].mean():0.3f} ({_df['feminine'].std():0.2f})  &  {_df['masculine'].mean():0.3f} ({_df['masculine'].std():0.2f}) &  {_df['unspecified'].mean():0.3f} ({_df['unspecified'].std():0.2f})& \\bf {_df['total']} \\\\")

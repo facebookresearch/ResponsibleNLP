@@ -22,12 +22,11 @@ import stanza
 import json 
 
 
+ISO_639_3_TO_1 = {'aar': 'aa', 'abk': 'ab', 'ave': 'ae', 'afr': 'af', 'aka': 'ak', 'amh': 'am', 'arg': 'an', 'ara': 'ar', 'asm': 'as', 'ava': 'av', 'aym': 'ay', 'aze': 'az', 'bak': 'ba', 'bel': 'be', 'bul': 'bg', 'bis': 'bi', 'bam': 'bm', 'ben': 'bn', 'bod': 'bo', 'bre': 'br', 'bos': 'bs', 'cat': 'ca', 'che': 'ce', 'cha': 'ch', 'cos': 'co', 'cre': 'cr', 'ces': 'cs', 'chu': 'cu', 'chv': 'cv', 'cym': 'cy', 'dan': 'da', 'deu': 'de', 'div': 'dv', 'dzo': 'dz', 'ewe': 'ee', 'ell': 'el', 'eng': 'en', 'epo': 'eo', 'spa': 'es', 'est': 'et', 'eus': 'eu', 'fas': 'fa', 'ful': 'ff', 'fin': 'fi', 'fij': 'fj', 'fao': 'fo', 'fra': 'fr', 'fry': 'fy', 'gle': 'ga', 'gla': 'gd', 'glg': 'gl', 'grn': 'gn', 'guj': 'gu', 'glv': 'gv', 'hau': 'ha', 'heb': 'he', 'hin': 'hi', 'hmo': 'ho', 'hrv': 'hr', 'hat': 'ht', 'hun': 'hu', 'hye': 'hy', 'her': 'hz', 'ina': 'ia', 'ind': 'id', 'ile': 'ie', 'ibo': 'ig', 'iii': 'ii', 'ipk': 'ik', 'ido': 'io', 'isl': 'is', 'ita': 'it', 'iku': 'iu', 'jpn': 'ja', 'jav': 'jv', 'kat': 'ka', 'kon': 'kg', 'kik': 'ki', 'kua': 'kj', 'kaz': 'kk', 'kal': 'kl', 'khm': 'km', 'kan': 'kn', 'kor': 'ko', 'kau': 'kr', 'kas': 'ks', 'kur': 'ku', 'kom': 'kv', 'cor': 'kw', 'kir': 'ky', 'lat': 'la', 'ltz': 'lb', 'lug': 'lg', 'lim': 'li', 'lin': 'ln', 'lao': 'lo', 'lit': 'lt', 'lub': 'lu', 'lav': 'lv', 'mlg': 'mg', 'mah': 'mh', 'mri': 'mi', 'mkd': 'mk', 'mal': 'ml', 'mon': 'mn', 'mar': 'mr', 'msa': 'ms', 'mlt': 'mt', 'mya': 'my', 'nau': 'na', 'nob': 'nb', 'nde': 'nd', 'nep': 'ne', 'ndo': 'ng', 'nld': 'nl', 'nno': 'nn', 'nor': 'no', 'nbl': 'nr', 'nav': 'nv', 'nya': 'ny', 'oci': 'oc', 'oji': 'oj', 'orm': 'om', 'ori': 'or', 'oss': 'os', 'pan': 'pa', 'pli': 'pi', 'pol': 'pl', 'pus': 'ps', 'por': 'pt', 'que': 'qu', 'roh': 'rm', 'run': 'rn', 'ron': 'ro', 'rus': 'ru', 'kin': 'rw', 'san': 'sa', 'srd': 'sc', 'snd': 'sd', 'sme': 'se', 'sag': 'sg', 'hbs': 'sh', 'sin': 'si', 'slk': 'sk', 'slv': 'sl', 'smo': 'sm', 'sna': 'sn', 'som': 'so', 'sqi': 'sq', 'srp': 'sr', 'ssw': 'ss', 'sot': 'st', 'sun': 'su', 'swe': 'sv', 'swa': 'sw', 'tam': 'ta', 'tel': 'te', 'tgk': 'tg', 'tha': 'th', 'tir': 'ti', 'tuk': 'tk', 'tgl': 'tl', 'tsn': 'tn', 'ton': 'to', 'tur': 'tr', 'tso': 'ts', 'tat': 'tt', 'twi': 'tw', 'tah': 'ty', 'uig': 'ug', 'ukr': 'uk', 'urd': 'ur', 'uzb': 'uz', 'ven': 've', 'vie': 'vi', 'vol': 'vo', 'wln': 'wa', 'wol': 'wo', 'xho': 'xh', 'yid': 'yi', 'yor': 'yo', 'zha': 'za', 'zho': 'zh', 'zul': 'zu'}
 
-LANGISO = {'arb': 'ar','bel':'be','eng': 'en','ben': 'bn', 'cym': 'cy', 'hun': 'hu', 'lit': 'lt', 'pes': 'fa', 'tam': 'ta', 'urd': 'ur', 'bul': 'bg', 'deu': 'de', 'ind': 'id', 'lug': 'lg', 'por': 'pt', 'tel': 'te', 'vie': 'vi', 'cat': 'ca', 'est': 'et', 'ita': 'it', 'mar': 'mr', 'slv': 'sl', 'tgl': 'tl', 'zul': 'zu', 'ckb': 'ckb', 'fra': 'fr', 'kan': 'kn', 'mlt': 'mt', 'spa': 'es', 'tha': 'th', 'cmn': 'zh', 'hin': 'hi', 'kat': 'ka', 'pan': 'pa', 'swh': 'sw', 'tur': 'tr'}
-LANG = {'ar': 'arb','be':'bel', 'en': 'eng','bn': 'ben', 'cy': 'cym', 'hu': 'hun', 'lt': 'lit', 'fa': 'pes', 'ta': 'tam', 'ur': 'urd', 'bg': 'bul', 'de': 'deu', 'id': 'ind', 'lg': 'lug', 'pt': 'por', 'te': 'tel', 'vi': 'vie', 'ca': 'cat', 'et': 'est', 'it': 'ita', 'mr': 'mar', 'sl': 'slv', 'tl': 'tgl', 'zu': 'zul', 'ckb': 'ckb', 'fr': 'fra', 'kn': 'kan', 'mt': 'mlt', 'es': 'spa', 'th': 'tha', 'zh': 'cmn', 'hi': 'hin', 'ka': 'kat', 'pa': 'pan', 'sw': 'swh', 'tr': 'tur'}
+SUPPORTED_LANGS = ['eng', 'arb', 'asm', 'bel', 'ben', 'bul', 'cat', 'ces', 'ckb', 'cmn', 'cym', 'dan', 'deu', 'ell', 'est', 'fin', 'fra', 'gle', 'hin', 'hun', 'ind', 'ita', 'jpn', 'kan', 'kat', 'khk', 'kir', 'kor', 'lit', 'lug', 'lvs', 'mar', 'mlt', 'nld', 'nou', 'pan', 'pes', 'pol', 'por', 'ron', 'rus', 'slk', 'slv', 'spa', 'swe', 'swh', 'tam', 'tel', 'tgl', 'tha', 'tur', 'urd', 'uzn', 'vie', 'yue', 'zul']
 
-
-GENDER_LS = ['feminine', 'masculine',  'unspecified']
+GENDERS = ['feminine', 'masculine',  'unspecified']
 
 
 def count_lines(filename):
@@ -60,8 +59,6 @@ class MultilingualGenderDistribution(object):
             print('WARNING: self.lang_detect_model set to None cause ft_model_path is None')
             self.lang_detect_model = None
         
-
-
         self.noun_phrases = {lang: {} for lang in langs}
         self.gender_ls =  {lang: {} for lang in langs}
         self.gender_counters =  {lang: {} for lang in langs}
@@ -69,16 +66,19 @@ class MultilingualGenderDistribution(object):
         dataset_folder = os.path.join(base_folder, dataset_version)
         
         
-        self.supported_langs = langs
+        self.langs = langs
         self.stanza_tokenizer = {}
         self.nouns = {}
-        for lang in self.supported_langs:
-            
-                
-            lang_iso = LANGISO.get(lang, lang)
+
+        if langs:
+            for lang in langs:
+                assert lang in SUPPORTED_LANGS, f'{lang} not supported by the pipeline'
+
+        for lang in self.langs:
+            lang_iso = ISO_639_3_TO_1[lang]
             
             try:
-                stanza.download(LANGISO.get(lang, lang))
+                stanza.download(lang_iso)
                 self.stanza_tokenizer[lang] = stanza.Pipeline(lang=lang_iso, processors='tokenize', tokenize_no_ssplit=True)
             except requests.exceptions.ConnectionError as e:
                 print(f'WARNING: Stanza tokenizer  {lang} could not be loaded due to Connection Error so white-space tokenization instead')
@@ -115,7 +115,7 @@ class MultilingualGenderDistribution(object):
     def count_demographics(self, line: str, lang: str)-> None:
         sentence = line.strip()
         # lines counter
-        assert lang in self.supported_langs, f'{lang} not in {self.supported_langs}'
+        assert lang in self.langs, f'{lang} not in {self.langs}'
 
         # for gender, we count words instead of lines, so we do basic tokenization (eng only)
         if  self.stanza_tokenizer[lang]:
@@ -242,7 +242,7 @@ class MultilingualGenderDistribution(object):
     
 
     def final_result(self) -> tp.Tuple[str, Counter, Counter]:
-        return (self.supported_langs, self.count_gender, self.count_np)
+        return (self.langs, self.count_gender, self.count_np)
 
 
     def gender_dist(self, info_file: str):
@@ -255,7 +255,7 @@ class MultilingualGenderDistribution(object):
 
         report = {}
         
-        for gender_cat in GENDER_LS: 
+        for gender_cat in GENDERS: 
             summary += f"{gender_cat} words amounts for {gender_count[gender_cat]} ({gender_count[gender_cat]/gender_count['_total']*100:0.1f}%), "
             report[gender_cat] = [gender_count[gender_cat], gender_count[gender_cat]/gender_count['_total']*100]
             if gender_count[gender_cat]==0:
@@ -275,7 +275,7 @@ class MultilingualGenderDistribution(object):
         summary = f"Report for lang {lang}\n\n"
         
         summary += f"Out of {gender_count['_total']} words: \n" 
-        for gender_cat in GENDER_LS:
+        for gender_cat in GENDERS:
             summary += f"{gender_cat} words amounts for {gender_count[gender_cat]} ({gender_count[gender_cat]/gender_count['_total']*100:0.1f}%), "
         
         summary+="\n\n"
@@ -288,7 +288,7 @@ class MultilingualGenderDistribution(object):
                 
                 gender = demog.split('\t')[2]
                 if axis == '(none)' and bucket == 'null':
-                    assert gender in GENDER_LS
+                    assert gender in GENDERS
                     continue
                 count = demographics[demog]
                 summary += f"{bucket}-{axis} samples amounts for {count} ({count/demographics['_total']*100:0.1f}%),\n"
