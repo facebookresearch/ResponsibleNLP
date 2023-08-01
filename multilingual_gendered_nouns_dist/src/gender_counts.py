@@ -82,10 +82,10 @@ class MultilingualGenderDistribution(object):
                 stanza.download(LANGISO.get(lang, lang))
                 self.stanza_tokenizer[lang] = stanza.Pipeline(lang=lang_iso, processors='tokenize', tokenize_no_ssplit=True)
             except requests.exceptions.ConnectionError as e:
-                print('WARNING: Stanza tokenizer coult not be loaded due to Connection Error so white-space tokenization instead')
+                print(f'WARNING: Stanza tokenizer  {lang} could not be loaded due to Connection Error so white-space tokenization instead')
                 self.stanza_tokenizer[lang] = None
             except:
-                print('WARNING: Stanza tokenizer cound not be loaded so white-space tokenization instead')
+                print(f'WARNING: Stanza tokenizer {lang} could not be loaded so white-space tokenization instead')
                 self.stanza_tokenizer[lang] = None
 
             with open(os.path.join(dataset_folder, f"{lang}_nouns.json") ) as f:
