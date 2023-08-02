@@ -19,10 +19,12 @@ import requests
 import pandas as pd
 import fasttext
 import stanza 
+import nltk
 import json 
 
-
-ISO_639_3_TO_1 = {'aar': 'aa', 'abk': 'ab', 'ave': 'ae', 'afr': 'af', 'aka': 'ak', 'amh': 'am', 'arg': 'an', 'ara': 'ar', 'asm': 'as', 'ava': 'av', 'aym': 'ay', 'aze': 'az', 'bak': 'ba', 'bel': 'be', 'bul': 'bg', 'bis': 'bi', 'bam': 'bm', 'ben': 'bn', 'bod': 'bo', 'bre': 'br', 'bos': 'bs', 'cat': 'ca', 'che': 'ce', 'cha': 'ch', 'cos': 'co', 'cre': 'cr', 'ces': 'cs', 'chu': 'cu', 'chv': 'cv', 'cym': 'cy', 'dan': 'da', 'deu': 'de', 'div': 'dv', 'dzo': 'dz', 'ewe': 'ee', 'ell': 'el', 'eng': 'en', 'epo': 'eo', 'spa': 'es', 'est': 'et', 'eus': 'eu', 'fas': 'fa', 'ful': 'ff', 'fin': 'fi', 'fij': 'fj', 'fao': 'fo', 'fra': 'fr', 'fry': 'fy', 'gle': 'ga', 'gla': 'gd', 'glg': 'gl', 'grn': 'gn', 'guj': 'gu', 'glv': 'gv', 'hau': 'ha', 'heb': 'he', 'hin': 'hi', 'hmo': 'ho', 'hrv': 'hr', 'hat': 'ht', 'hun': 'hu', 'hye': 'hy', 'her': 'hz', 'ina': 'ia', 'ind': 'id', 'ile': 'ie', 'ibo': 'ig', 'iii': 'ii', 'ipk': 'ik', 'ido': 'io', 'isl': 'is', 'ita': 'it', 'iku': 'iu', 'jpn': 'ja', 'jav': 'jv', 'kat': 'ka', 'kon': 'kg', 'kik': 'ki', 'kua': 'kj', 'kaz': 'kk', 'kal': 'kl', 'khm': 'km', 'kan': 'kn', 'kor': 'ko', 'kau': 'kr', 'kas': 'ks', 'kur': 'ku', 'kom': 'kv', 'cor': 'kw', 'kir': 'ky', 'lat': 'la', 'ltz': 'lb', 'lug': 'lg', 'lim': 'li', 'lin': 'ln', 'lao': 'lo', 'lit': 'lt', 'lub': 'lu', 'lav': 'lv', 'mlg': 'mg', 'mah': 'mh', 'mri': 'mi', 'mkd': 'mk', 'mal': 'ml', 'mon': 'mn', 'mar': 'mr', 'msa': 'ms', 'mlt': 'mt', 'mya': 'my', 'nau': 'na', 'nob': 'nb', 'nde': 'nd', 'nep': 'ne', 'ndo': 'ng', 'nld': 'nl', 'nno': 'nn', 'nor': 'no', 'nbl': 'nr', 'nav': 'nv', 'nya': 'ny', 'oci': 'oc', 'oji': 'oj', 'orm': 'om', 'ori': 'or', 'oss': 'os', 'pan': 'pa', 'pli': 'pi', 'pol': 'pl', 'pus': 'ps', 'por': 'pt', 'que': 'qu', 'roh': 'rm', 'run': 'rn', 'ron': 'ro', 'rus': 'ru', 'kin': 'rw', 'san': 'sa', 'srd': 'sc', 'snd': 'sd', 'sme': 'se', 'sag': 'sg', 'hbs': 'sh', 'sin': 'si', 'slk': 'sk', 'slv': 'sl', 'smo': 'sm', 'sna': 'sn', 'som': 'so', 'sqi': 'sq', 'srp': 'sr', 'ssw': 'ss', 'sot': 'st', 'sun': 'su', 'swe': 'sv', 'swa': 'sw', 'tam': 'ta', 'tel': 'te', 'tgk': 'tg', 'tha': 'th', 'tir': 'ti', 'tuk': 'tk', 'tgl': 'tl', 'tsn': 'tn', 'ton': 'to', 'tur': 'tr', 'tso': 'ts', 'tat': 'tt', 'twi': 'tw', 'tah': 'ty', 'uig': 'ug', 'ukr': 'uk', 'urd': 'ur', 'uzb': 'uz', 'ven': 've', 'vie': 'vi', 'vol': 'vo', 'wln': 'wa', 'wol': 'wo', 'xho': 'xh', 'yid': 'yi', 'yor': 'yo', 'zha': 'za', 'zho': 'zh', 'zul': 'zu'}
+from nltk.tokenize import word_tokenize
+from pythainlp.tokenize import word_tokenize as word_tokenize_thai
+ISO_639_3_TO_1 = {'aar': 'aa', 'abk': 'ab', 'ave': 'ae', 'afr': 'af', 'aka': 'ak', 'amh': 'am', 'arg': 'an', 'arb': 'ar', 'asm': 'as', 'ava': 'av', 'aym': 'ay', 'aze': 'az', 'bak': 'ba', 'bel': 'be', 'bul': 'bg', 'bis': 'bi', 'bam': 'bm', 'ben': 'bn', 'bod': 'bo', 'bre': 'br', 'bos': 'bs', 'cat': 'ca', 'che': 'ce', 'cha': 'ch', 'cos': 'co', 'cre': 'cr', 'ces': 'cs', 'chu': 'cu', 'chv': 'cv', 'cym': 'cy', 'dan': 'da', 'deu': 'de', 'div': 'dv', 'dzo': 'dz', 'ewe': 'ee', 'ell': 'el', 'eng': 'en', 'epo': 'eo', 'spa': 'es', 'est': 'et', 'eus': 'eu', 'fas': 'fa', 'ful': 'ff', 'fin': 'fi', 'fij': 'fj', 'fao': 'fo', 'fra': 'fr', 'fry': 'fy', 'gle': 'ga', 'gla': 'gd', 'glg': 'gl', 'grn': 'gn', 'guj': 'gu', 'glv': 'gv', 'hau': 'ha', 'heb': 'he', 'hin': 'hi', 'hmo': 'ho', 'hrv': 'hr', 'hat': 'ht', 'hun': 'hu', 'hye': 'hy', 'her': 'hz', 'ina': 'ia', 'ind': 'id', 'ile': 'ie', 'ibo': 'ig', 'iii': 'ii', 'ipk': 'ik', 'ido': 'io', 'isl': 'is', 'ita': 'it', 'iku': 'iu', 'jpn': 'ja', 'jav': 'jv', 'kat': 'ka', 'kon': 'kg', 'kik': 'ki', 'kua': 'kj', 'kaz': 'kk', 'kal': 'kl', 'khm': 'km', 'kan': 'kn', 'kor': 'ko', 'kau': 'kr', 'kas': 'ks', 'kur': 'ku', 'kom': 'kv', 'cor': 'kw', 'kir': 'ky', 'lat': 'la', 'ltz': 'lb', 'lug': 'lg', 'lim': 'li', 'lin': 'ln', 'lao': 'lo', 'lit': 'lt', 'lub': 'lu', 'lav': 'lv', 'mlg': 'mg', 'mah': 'mh', 'mri': 'mi', 'mkd': 'mk', 'mal': 'ml', 'mon': 'mn', 'mar': 'mr', 'msa': 'ms', 'mlt': 'mt', 'mya': 'my', 'nau': 'na', 'nob': 'nb', 'nde': 'nd', 'nep': 'ne', 'ndo': 'ng', 'nld': 'nl', 'nno': 'nn', 'nor': 'no', 'nbl': 'nr', 'nav': 'nv', 'nya': 'ny', 'oci': 'oc', 'oji': 'oj', 'orm': 'om', 'ori': 'or', 'oss': 'os', 'pan': 'pa', 'pli': 'pi', 'pol': 'pl', 'pus': 'ps', 'por': 'pt', 'que': 'qu', 'roh': 'rm', 'run': 'rn', 'ron': 'ro', 'rus': 'ru', 'kin': 'rw', 'san': 'sa', 'srd': 'sc', 'snd': 'sd', 'sme': 'se', 'sag': 'sg', 'hbs': 'sh', 'sin': 'si', 'slk': 'sk', 'slv': 'sl', 'smo': 'sm', 'sna': 'sn', 'som': 'so', 'sqi': 'sq', 'srp': 'sr', 'ssw': 'ss', 'sot': 'st', 'sun': 'su', 'swe': 'sv', 'swa': 'sw', 'tam': 'ta', 'tel': 'te', 'tgk': 'tg', 'tha': 'th', 'tir': 'ti', 'tuk': 'tk', 'tgl': 'tl', 'tsn': 'tn', 'ton': 'to', 'tur': 'tr', 'tso': 'ts', 'tat': 'tt', 'twi': 'tw', 'tah': 'ty', 'uig': 'ug', 'ukr': 'uk', 'urd': 'ur', 'uzb': 'uz', 'ven': 've', 'vie': 'vi', 'vol': 'vo', 'wln': 'wa', 'wol': 'wo', 'xho': 'xh', 'yid': 'yi', 'yor': 'yo', 'zha': 'za', 'zho': 'zh', 'cmn': 'zh', 'zul': 'zu'}
 
 SUPPORTED_LANGS = ['eng', 'arb', 'asm', 'bel', 'ben', 'bul', 'cat', 'ces', 'ckb', 'cmn', 'cym', 'dan', 'deu', 'ell', 'est', 'fin', 'fra', 'gle', 'hin', 'hun', 'ind', 'ita', 'jpn', 'kan', 'kat', 'khk', 'kir', 'kor', 'lit', 'lug', 'lvs', 'mar', 'mlt', 'nld', 'nou', 'pan', 'pes', 'pol', 'por', 'ron', 'rus', 'slk', 'slv', 'spa', 'swe', 'swh', 'tam', 'tel', 'tgl', 'tha', 'tur', 'urd', 'uzn', 'vie', 'yue', 'zul']
 
@@ -32,6 +34,26 @@ GENDERS = ['feminine', 'masculine',  'unspecified']
 def count_lines(filename):
     with open(filename, 'r') as file:
         return sum(1 for line in file)
+
+
+def load_tokenizer(lang: str):
+    if lang == 'th':
+        print('Tokenizer: for thai using pythainlp')
+        return word_tokenize_thai, 'pythainlp'
+    else:
+        try:    
+            if lang == 'yue':
+                print('Tokenizer: for yue using zh stanza tokenization')
+                lang = 'zh'
+            stanza.download(lang)
+            word_tokenizer = stanza.Pipeline(lang=lang, processors='tokenize', tokenize_no_ssplit=True)
+            return word_tokenizer, 'stanza'
+        except Exception as e:
+            print(f'Stanza model not available {e}: using punctuation tokenizer from nltk')
+            print(f'Tokenizer: fall back on nltk {lang}')
+            return word_tokenize, 'nltk'
+    
+
 
 
 class MultilingualGenderDistribution(object):
@@ -67,25 +89,21 @@ class MultilingualGenderDistribution(object):
         
         
         self.langs = langs
-        self.stanza_tokenizer = {}
+        self.tokenizer = {}
+        self.tokenizer_type = {}
         self.nouns = {}
 
         if langs:
             for lang in langs:
                 assert lang in SUPPORTED_LANGS, f'{lang} not supported by the pipeline'
-
+        # loading nltk as fall back option if stanza not supported
+        nltk.download('punkt')
         for lang in self.langs:
-            lang_iso = ISO_639_3_TO_1[lang]
+            if lang not in ISO_639_3_TO_1:
+                print(f'WARNING lang code {lang}')
+            lang_iso = ISO_639_3_TO_1.get(lang, lang)
             
-            try:
-                stanza.download(lang_iso)
-                self.stanza_tokenizer[lang] = stanza.Pipeline(lang=lang_iso, processors='tokenize', tokenize_no_ssplit=True)
-            except requests.exceptions.ConnectionError as e:
-                print(f'WARNING: Stanza tokenizer  {lang} could not be loaded due to Connection Error so white-space tokenization instead')
-                self.stanza_tokenizer[lang] = None
-            except:
-                print(f'WARNING: Stanza tokenizer {lang} could not be loaded so white-space tokenization instead')
-                self.stanza_tokenizer[lang] = None
+            self.tokenizer[lang], self.tokenizer_type[lang] = load_tokenizer(lang_iso)
 
             with open(os.path.join(dataset_folder, f"{lang}_nouns.json") ) as f:
                 self.nouns[lang] = json.load(f)
@@ -113,25 +131,24 @@ class MultilingualGenderDistribution(object):
 
 
     def count_demographics(self, line: str, lang: str)-> None:
-        sentence = line.strip()
+        sentence = line.strip().lower()
         # lines counter
         assert lang in self.langs, f'{lang} not in {self.langs}'
 
         # for gender, we count words instead of lines, so we do basic tokenization (eng only)
-        if  self.stanza_tokenizer[lang]:
-            sentences = self.stanza_tokenizer[lang](sentence).sentences
-            # verify that segmentation lead to a single sentence
+        if  self.tokenizer_type[lang] == 'stanza':
+            sentences = self.tokenizer[lang](sentence).sentences
             if len(sentences) == 0:
                 print(f'Warning: empty sentence: {lang}')
                 return 
-            assert len(sentences) == 1, sentences
-        
             tokenized_sentence = sentences[0]
-            tokenized_sentence = [token.text.lower() for token in tokenized_sentence.tokens]
-        else:
-            tokenized_sentence = sentence.split(' ')
+            tokenized_sentence = [token.text for token in tokenized_sentence.tokens]
+            # verify that segmentation lead to a single sentence
+            
+        elif self.tokenizer_type[lang] in ['nltk', 'pythainlp']:
+            tokenized_sentence = self.tokenizer[lang](sentence)
         
-        
+        assert len(sentence)>0, 'empty sentence'
         self.count_gender["_total"] += len(tokenized_sentence) # count words
 
         curr_dic = {key: 0 for key in self.gender_counters[lang]}

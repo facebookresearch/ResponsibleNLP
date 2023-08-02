@@ -9,6 +9,8 @@ In addition, you can call the function CountHolisticBias to use in a custom data
 `pip install fasttext`  
 `pip install datasets`
 `pip install stanza`
+`pip install nltk`
+`pip install pythainlp`
 
 `git clone git@github.com:facebookresearch/ResponsibleNLP.git`  
 see https://github.com/facebookresearch/ResponsibleNLP/tree/main/holistic_bias for setting it up.  

@@ -16,24 +16,19 @@ The dataset can be loaded from the HF datasets library or from a text file.
 # HF
 e.g.  python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 10
 
-python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py  --file_dir /private/home/benjaminmuller/dev/biases/data/flores200_dataset/devtest/ \
-    --file_names arb_Arab.devtest bel_Cyrl.devtest vie_Latn.devtest por_Latn.devtest eng_Latn.devtest spa_Latn.devtest  \
-    --langs arb bel vie por eng spa \
-    --max_samples 100
+python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py \
+    --file_names newstest2019-src.eng.txt newstest2019-ref.arb.txt newstest2019-ref.bel.txt newstest2019-ref.ben.txt newstest2019-ref.bul.txt newstest2019-ref.cat.txt newstest2019-ref.ces.txt newstest2019-ref.ckb-Arab.txt newstest2019-ref.cym.txt newstest2019-ref.dan.txt newstest2019-ref.deu.txt newstest2019-ref.ell.txt newstest2019-ref.est.txt newstest2019-ref.fin.txt newstest2019-ref.fra.txt newstest2019-ref.gle.txt newstest2019-ref.hin.txt newstest2019-ref.hun.txt newstest2019-ref.ind.txt newstest2019-ref.ita.txt newstest2019-ref.jpn.txt newstest2019-ref.kan.txt newstest2019-ref.kat.txt \
+        newstest2019-ref.kir.txt newstest2019-ref.kor.txt newstest2019-ref.lit.txt newstest2019-ref.mar.txt newstest2019-ref.mlt.txt newstest2019-ref.nld.txt newstest2019-ref.pan.txt newstest2019-ref.pol.txt newstest2019-ref.por.txt newstest2019-ref.ron.txt newstest2019-ref.rus.txt newstest2019-ref.slk.txt newstest2019-ref.slv.txt newstest2019-ref.spa.txt newstest2019-ref.swe.txt newstest2019-ref.tam.txt newstest2019-ref.tel.txt newstest2019-ref.tha.txt newstest2019-ref.tur.txt newstest2019-ref.urd.txt newstest2019-ref.vie.txt newstest2019-ref.yue.txt newstest2019-ref.zul.txt newstest2019-ref.zho-CN.txt \
+    --langs eng arb bel ben bul cat ces ckb cym dan deu ell est fin fra gle hin hun ind ita jpn kan kat kir kor lit mar mlt nld pan pol por ron rus slk slv spa swe tam tel tha tur urd vie yue zul cmn \
+    --file_dir $DATA/NTREX/NTREX-128 > ./log_ntrex_final_new_tok.txt
 
-python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py  --file_dir /private/home/benjaminmuller/dev/biases/data/flores200_dataset/devtest/ \
-    --file_names arb_Arab.devtest bel_Cyrl.devtest vie_Latn.devtest por_Latn.devtest eng_Latn.devtest spa_Latn.devtest  \
-    --langs arb bel vie por eng spa \
-    --max_samples 100
-python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py  --file_dir /private/home/benjaminmuller/dev/biases/data/flores200_dataset/dev// \
-    --file_names arb_Arab.dev bel_Cyrl.dev vie_Latn.dev por_Latn.dev eng_Latn.dev spa_Latn.dev  \
-    --langs arb bel vie por eng spa 
-
+    
+python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py --file_names eng_Latn.devtest arb_Arab.devtest asm_Beng.devtest bel_Cyrl.devtest ben_Beng.devtest bul_Cyrl.devtest cat_Latn.devtest ces_Latn.devtest ckb_Arab.devtest cym_Latn.devtest dan_Latn.devtest deu_Latn.devtest ell_Grek.devtest est_Latn.devtest fin_Latn.devtest fra_Latn.devtest gle_Latn.devtest hin_Deva.devtest hun_Latn.devtest ind_Latn.devtest ita_Latn.devtest jpn_Jpan.devtest kan_Knda.devtest kat_Geor.devtest khk_Cyrl.devtest kir_Cyrl.devtest kor_Hang.devtest lit_Latn.devtest lug_Latn.devtest lvs_Latn.devtest mar_Deva.devtest \
+        mlt_Latn.devtest nld_Latn.devtest  pan_Guru.devtest pes_Arab.devtest pol_Latn.devtest por_Latn.devtest ron_Latn.devtest rus_Cyrl.devtest slk_Latn.devtest slv_Latn.devtest spa_Latn.devtest swe_Latn.devtest swh_Latn.devtest tam_Taml.devtest tel_Telu.devtest tgl_Latn.devtest tha_Thai.devtest tur_Latn.devtest urd_Arab.devtest uzn_Latn.devtest vie_Latn.devtest yue_Hant.devtest zul_Latn.devtest zho_Hans.devtest \
+    --langs eng arb asm bel ben bul cat ces ckb cym dan deu ell est fin fra gle hin hun ind ita jpn kan kat khk kir kor lit lug lvs mar mlt nld  pan pes pol por ron rus slk slv spa swe swh tam tel tgl tha tur urd uzn vie yue zul cmn\
+    --file_dir $DATA/flores200_dataset/devtest/ > ./log_flrores_devtest_new_tok.txt
 
 
-python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py  --file_dir /private/home/benjaminmuller/dev/biases/data/NTREX/NTREX-128/  \
-    --file_names newstest2019-ref.arb.txt newstest2019-ref.bel.txt newstest2019-ref.vie.txt newstest2019-ref.por.txt newstest2019-src.eng.txt newstest2019-ref.spa.txt newstest2019-ref.spa-MX.txt  \
-    --langs arb bel vie por eng spa spa
  """
 
 import argparse
@@ -46,10 +41,8 @@ sys.path.append('.')
 
 from datasets import load_dataset
 from multilingual_gendered_nouns_dist.src.gender_counts import MultilingualGenderDistribution
-from multilingual_gendered_nouns_dist.src.util import clean_sample
+from multilingual_gendered_nouns_dist.src.util import clean_sample, bold
 
-RANK_TO_BOLD_BOS = ['', '\\underline{', '\\bf ']
-RANK_TO_BOLD_EOS = ['', '}', '']
 
 
 if __name__ == '__main__':
@@ -63,7 +56,7 @@ if __name__ == '__main__':
     parser.add_argument('--langs', type=str, nargs='+', required=True)
 
     #parser.add_argument('--file_dir', type=str, required=False)
-    parser.add_argument('--file_dir', type=str, nargs='+', required=False)
+    parser.add_argument('--file_dir', type=str, nargs='+', required=False, default=None)
     parser.add_argument('--file_names', type=str, nargs='+', required=False)
     parser.add_argument('--nouns_format_version', type=str, required=False, default='v1.0')
     
@@ -72,7 +65,6 @@ if __name__ == '__main__':
     parser.add_argument('--first_level_key', type=str, required=False)
     parser.add_argument('--second_level_key', type=str, default=None)
 
-    parser.add_argument('--count_demographics', action='store_true', default=False)
     parser.add_argument('--lang_detect', action='store_true', default=False)
 
     
@@ -106,7 +98,7 @@ if __name__ == '__main__':
         if len(args.file_dir) != len(args.file_names):
             args.file_dir = [args.file_dir[0] for _ in args.file_names]
 
-        assert len(args.file_names) == len(args.langs) == len(args.file_dir)
+        assert len(args.file_names) == len(args.langs) == len(args.file_dir), f'{len(args.file_names)} <> {len(args.langs)} '
         
         for file_dir, file_name, lang in zip(args.file_dir, args.file_names, args.langs):
             if 'devtest' in file_name and 'flores' in file_dir:
@@ -116,13 +108,9 @@ if __name__ == '__main__':
             else:
                 dataset = 'NA'
             file_dir = Path(file_dir)
-            if not (file_dir/file_name).is_file():
-                print(f'Warning:  {file_dir/file_name} not found so skipping {lang}')
-                continue
             
-            if not Path(f'./multilingual_gendered_nouns_dist/dataset/{args.nouns_format_version}/{lang}_nouns.json').is_file():
-                print(f'WARNING: Gender list for {lang} was not found ./holistic_bias/dataset/{args.nouns_format_version}/{lang}_nouns.json: skipping {lang}')
-                continue
+            assert (file_dir/file_name).is_file(), f'{file_dir/file_name} not found'
+            
             with open(file_dir/file_name) as file:
                 hb_counter = MultilingualGenderDistribution(store_hb_dir='./tmp', langs=[lang], ft_model_path='./fasttext_models/lid.176.bin' if  args.lang_detect else None, 
                                                dataset_version=args.nouns_format_version)
@@ -141,6 +129,9 @@ if __name__ == '__main__':
                     report_df['total'].append(stat['total'][0])
             report_df['dataset'].append(dataset)
             report_df['lang'].append(lang)
+    else:
+        raise(Exception('Argument missing --file_dir or --dataset missing'))
+    
     report_df = pd.DataFrame(report_df)
     
     for dataset in report_df['dataset'].unique():
@@ -148,25 +139,10 @@ if __name__ == '__main__':
         _df = report_df[report_df['dataset']==dataset]
         _df = _df.sort_values("lang")
         for i in range(_df.shape[0]):
-            row = _df.iloc[i]
-            bold_fem = '\\underline{'
-            bold_fem_end = '}'
-            bold_masc = ''
-            bold_unsp = ''
-            ls = [row['feminine'], row['masculine'], row['unspecified']]
-            sorted = np.argsort(ls) 
-            
-            display = [RANK_TO_BOLD_BOS[sorted[0]]+str(round(row['feminine'], 3))+RANK_TO_BOLD_EOS[sorted[0]], 
-                       RANK_TO_BOLD_BOS[sorted[1]]+str(round(row['masculine'], 3))+RANK_TO_BOLD_EOS[sorted[1]], 
-                       RANK_TO_BOLD_BOS[sorted[2]]+str(round(row['unspecified'], 3))+RANK_TO_BOLD_EOS[sorted[2]]]
+            row = _df.iloc[i]            
+            display = bold(fem=row['feminine'], masc=row['masculine'], unsp=row['unspecified'], total=row['total'], lang=row['lang'])
+            print(f" {display}\\\\" )
+        print(f"avg. &  {_df['feminine'].mean():0.3f} ({_df['feminine'].std():0.2f})  &  {_df['masculine'].mean():0.3f} ({_df['masculine'].std():0.2f}) &  {_df['unspecified'].mean():0.3f} ({_df['unspecified'].std():0.2f})& \\bf {_df['total'].mean()} \\\\")
 
-            print(f" {row['lang']} &  {display[0]} &   {display[1]}  & {display[2]} & {row['total']}\\\\" )
-            
-        print('MEAN')
-        print(f"avg. &  {_df['feminine'].mean():0.3f} ({_df['feminine'].std():0.2f})  &  {_df['masculine'].mean():0.3f} ({_df['masculine'].std():0.2f}) &  {_df['unspecified'].mean():0.3f} ({_df['unspecified'].std():0.2f})& \\bf {_df['total']} \\\\")
-
-        #_df.to_csv(f'report_{dataset}.csv', index=None)
         print(f'report_{dataset}.csv copied')
     
-    if args.count_demographics:
-        hb_counter.printout_summary_demographics()
