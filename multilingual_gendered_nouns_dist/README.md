@@ -6,17 +6,21 @@ In addition, you can call the function CountHolisticBias to use in a custom data
 
 ## Setup 
 
-`pip install fasttext`  
-`pip install datasets`
-`pip install stanza`
-`pip install nltk`
-`pip install pythainlp`
+```
+pip install fasttext
+pip install datasets  
+pip install stanza   
+pip install nltk 
+pip install pythainlp
+```
 
 `git clone git@github.com:facebookresearch/ResponsibleNLP.git`  
 see https://github.com/facebookresearch/ResponsibleNLP/tree/main/holistic_bias for setting it up.  
 
-`git checkout count_hb`  
-`cd ./ResponsibleNLP`  
+```
+git checkout count_hb
+cd ./ResponsibleNLP  
+```
 
 Download fastext language detection model:   
 `mkdir fasttext_models`   
@@ -78,11 +82,9 @@ Download fastext language detection model:
 
 For instance: to compute the biases distribution of the dataset `Anthropic/hh-rlhf` of the field `chosen`, split `test`, processing 100 samples at most. 
 
-`python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 100 --langs en`       
-
-To add demographic groups distribution add `--count_demographics`       
-
-`python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 10 --langs en --count_demographics`       
+```
+python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py --dataset "Anthropic/hh-rlhf" --first_level_key 'chosen' --split test --max_samples 100 --langs en
+```       
 
 ## Compute on text file
 
