@@ -184,7 +184,7 @@ class MultilingualGenderDistribution(object):
         
         self.count_gender["_total"] += len(tokenized_sentence) # count words
         self.n_words_with_no_match += len(tokenized_sentence) 
-        curr_dic = {key: 0 for key in self.gender_counters[lang]}
+        curr_dic = {}
         curr_dic_terms = {} if return_terms else None
         matching = 0
         for group_gender in self.gender_counters[lang].keys():            
@@ -198,8 +198,7 @@ class MultilingualGenderDistribution(object):
             if total_match > 0:
                 matching = 1
             self.count_gender[group_gender] += total_match
-            curr_dic[group_gender] += total_match    
-            #curr_dic[group_gender] = total_match    
+            curr_dic[group_gender] = total_match    
             if return_terms:
                 curr_dic_terms[group_gender] =  ', '.join(common_elements)
         self.n_words_per_match.append(self.n_words_with_no_match-len(tokenized_sentence))
@@ -313,7 +312,6 @@ class MultilingualGenderDistribution(object):
         if verbose:
             print(f'{n_sample_counted} sentences were processed')
         
-    
     
 
     def final_result(self) -> tp.Tuple[str, Counter, Counter]:
