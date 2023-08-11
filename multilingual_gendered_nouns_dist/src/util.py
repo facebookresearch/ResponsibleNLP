@@ -74,3 +74,15 @@ def bold(fem, masc, unsp, total, lang):
     
     return latex_line
 
+def get_latex_table(report_df):
+    for dataset in report_df['dataset'].unique():
+        print(f'\% of words in each gender group {dataset} \n')
+        _df = report_df[report_df['dataset']==dataset]
+        _df = _df.sort_values("lang")
+        for i in range(_df.shape[0]):
+            row = _df.iloc[i]            
+            display = bold(fem=row['feminine'], masc=row['masculine'], unsp=row['unspecified'], total=row['total'], lang=row['lang'])
+            print(f" {display} & {row['n_doc_w_match']:0.1f}\\" )
+        print(f"avg. &  {_df['feminine'].mean():0.3f} ({_df['feminine'].std():0.2f})  &  {_df['masculine'].mean():0.3f} ({_df['masculine'].std():0.2f}) &  {_df['unspecified'].mean():0.3f} ({_df['unspecified'].std():0.2f})& \\bf {_df['total'].mean():0.1f} & {_df['n_doc_w_match'].mean():0.1f}\\")
+        
+        

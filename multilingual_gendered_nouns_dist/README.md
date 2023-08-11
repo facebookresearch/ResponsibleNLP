@@ -14,8 +14,7 @@ pip install nltk
 pip install pythainlp
 ```
 
-`git clone git@github.com:facebookresearch/ResponsibleNLP.git`  
-see https://github.com/facebookresearch/ResponsibleNLP/tree/main/holistic_bias for setting it up.  
+`git clone git@github.com:facebookresearch/ResponsibleNLP.git` 
 
 ```
 git checkout count_hb
@@ -23,8 +22,10 @@ cd ./ResponsibleNLP
 ```
 
 Download fastext language detection model:   
-`mkdir fasttext_models`   
-`wget https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin`     
+```
+mkdir fasttext_models
+wget https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin
+```
  
 ## Languages supported and language code
 
