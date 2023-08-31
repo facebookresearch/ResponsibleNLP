@@ -1,0 +1,51 @@
+{
+"feminine": [
+{"singular":"femme", "plural":"femmes"},
+{"singular":"dame", "plural":"dames"},
+{"singular":"demoiselle", "plural":"demoiselles"},
+{"singular":"fille", "plural":"filles"},
+{"singular":"mère", "plural":"mères"},
+{"singular":"maman", "plural":"mamans"},
+{"singular":"épouse", "plural":"épouses"},
+{"singular":"grand-mère", "plural":"grands-mères"},
+{"singular":"mémé", "plural":"mémés"},
+{"singular":"mamie", "plural":"mamies"},
+{"singular":"sœur ", "plural":"sœurs"},
+{"singular":"gamine", "plural":"gamines"},
+{"singular":"vétérane", "plural":"vétéranes"},
+{"singular":"ancienne combattante", "plural":"anciennes combattantes"}
+],
+"masculine": [
+{"singular":"homme", "plural":"hommes"},
+{"singular":"pote", "plural":"potes"},
+{"singular":"ami", "plural":"amis"},
+{"singular":"gars", "plural":"gars"},
+{"singular":"type", "plural":"types"},
+{"singular":"garçon", "plural":"garçons"},
+{"singular":"père", "plural":"pères"},
+{"singular":"papa", "plural":"papas"},
+{"singular":"fils", "plural":"fils"},
+{"singular":"mari", "plural":"maris"},
+{"singular":"époux"},
+{"singular":"conjoint"},
+{"singular":"grand-père", "plural":"grands-pères"},
+{"singular":"pépé", "plural":"pépés"},
+{"singular":"papi", "plural":"papis"},
+{"singular":"frère", "plural":"frères"},
+{"singular":"gamin", "plural":"gamins"},
+{"singular":"vétéran", "plural":"vétérans"},
+{"singular":"ancien combattant", "plural":"anciens combattants"}
+],
+"unspecified": [
+{"singular":"personne", "plural":"personnes"},
+{"singular":"individu", "plural":"individus"},
+{"singular":"enfant", "plural":"enfants"},
+{"plural":"gamins"},
+{"singular":"parent", "plural":"parents"},
+{"plural":"conjoints"},
+{"plural":"époux"},
+{"plural":"potes"},
+{"singular":"grand-parent", "plural":"grands-parents"},
+{"plural":"vétérans"}
+]
+}

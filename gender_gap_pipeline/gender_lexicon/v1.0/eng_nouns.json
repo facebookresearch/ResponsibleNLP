@@ -1,0 +1,136 @@
+{
+  "feminine": [
+    {
+      "singular": "woman",
+      "plural": "women"
+    },
+    {
+      "singular": "lady",
+      "plural": "ladies"
+    },
+    {
+      "singular": "gal",
+      "plural": "gals"
+    },
+    {
+      "singular": "girl",
+      "plural": "girls"
+    },
+    {
+      "singular": "mother",
+      "plural": "mothers"
+    },
+    {
+      "singular": "mom",
+      "plural": "moms"
+    },
+    {
+      "singular": "daughter",
+      "plural": "daughters"
+    },
+    {
+      "singular": "wife",
+      "plural": "wives"
+    },
+    {
+      "singular": "grandmother",
+      "plural": "grandmothers"
+    },
+    {
+      "singular": "grandma",
+      "plural": "grandmas"
+    },
+    {
+      "singular": "sister",
+      "plural": "sisters"
+    },
+    {
+      "singular": "sista",
+      "plural": "sistas"
+    }
+  ],
+  "masculine": [
+    {
+      "singular": "man",
+      "plural": "men"
+    },
+    {
+      "singular": "bro",
+      "plural": "bros"
+    },
+    {
+      "singular": "guy",
+      "plural": "guys"
+    },
+    {
+      "singular": "boy",
+      "plural": "boys"
+    },
+    {
+      "singular": "father",
+      "plural": "fathers"
+    },
+    {
+      "singular": "dad",
+      "plural": "dads"
+    },
+    {
+      "singular": "son",
+      "plural": "sons"
+    },
+    {
+      "singular": "husband",
+      "plural": "husbands"
+    },
+    {
+      "singular": "grandfather",
+      "plural": "grandfathers"
+    },
+    {
+      "singular": "grandpa",
+      "plural": "grandpas"
+    },
+    {
+      "singular": "brother",
+      "plural": "brothers"
+    }
+  ],
+  "unspecified": [
+    {
+      "singular": "individual",
+      "plural": "individuals"
+    },
+    {
+      "singular": "person",
+      "plural": "people"
+    },
+    {
+      "singular": "kid",
+      "plural": "kids"
+    },
+    {
+      "singular": "parent",
+      "plural": "parents"
+    },
+    {
+      "singular": "child",
+      "plural": "children"
+    },
+    {
+      "singular": "spouse",
+      "plural": "spouses"
+    },
+    {
+      "singular": "grandparent",
+      "plural": "grandparents"
+    },
+    {
+      "singular": "sibling",
+      "plural": "siblings"
+    },
+    {
+      "singular": "veteran",
+      "plural": "veterans"
+    }
+  ]
+}

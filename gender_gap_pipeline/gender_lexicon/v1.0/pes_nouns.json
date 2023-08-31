@@ -1,0 +1,53 @@
+{
+"feminine": [
+{"singular":"زن", "plural":"زن‌ها"},
+{"singular":"-", "plural":"زنان"},
+{"singular":"بانو", "plural":"بانوان"},
+{"singular":"خانم", "plural":"خانم‌ها"},
+{"singular":"دختر", "plural":"دخترها"},
+{"singular":"-", "plural":"دختران"},
+{"singular":"مادر", "plural":"مادرها"},
+{"singular":"-", "plural":"مادران"},
+{"singular":"مامان", "plural":"مامان‌ها"},
+{"singular":"مادربزرگ", "plural":"مادربزرگ‌ها"},
+{"singular":"مامان‌بزرگ", "plural":"مامان‌بزرگ‌ها"},
+{"singular":"خواهر", "plural":"خواهرها"},
+{"singular":"-", "plural":"خواهران"}
+],
+"masculine": [
+{"singular":"مرد", "plural":"مردها"},
+{"singular":"-", "plural":"مردان"},
+{"singular":"داداش", "plural":"داداش‌ها"},
+{"singular":"رفیق", "plural":"رفقا"},
+{"singular":"پسر", "plural":"پسرها"},
+{"singular":"-", "plural":"پسران"},
+{"singular":"آدم", "plural":"آدم‌ها"},
+{"singular":"پدر", "plural":"پدرها"},
+{"singular":"-", "plural":"پدران"},
+{"singular":"بابا", "plural":"باباها"},
+{"singular":"شوهر", "plural":"شوهرها"},
+{"singular":"-", "plural":"شوهران"},
+{"singular":"پدربزرگ", "plural":"پدربزرگ‌ها"},
+{"singular":"بابابزرگ", "plural":"بابابزرگ‌ها"},
+{"singular":"برادر", "plural":"برادرها"},
+{"singular":"-", "plural":"برادران"}
+],
+"unspecified": [
+{"singular":"شخص", "plural":"اشخاص"},
+{"singular":"فرد", "plural":"افراد"},
+{"singular":"بچه", "plural":"بچه‌ها"},
+{"singular":"ولی", "plural":"والدین"},
+{"singular":"فرزند", "plural":"فرزندها"},
+{"singular":"-", "plural":"فرزندان"},
+{"singular":"همسر", "plural":"همسران"},
+{"singular":"پدربزرگ یا مادربزرگ", "plural":"پدربزرگ‌ها یا مادربزرگ‌ها"},
+{"singular":"-", "plural":"پدربزرگ‌ها و مادربزرگ‌ها"},
+{"singular":"-", "plural":"پدربزرگ و مادربزرگ"},
+{"singular":"خواهر و برادر", "plural":"خواهران و برادران"},
+{"singular":"-", "plural":"خواهرها و برادرها"},
+{"singular":"-", "plural":"خواهران یا برادران"},
+{"singular":"-", "plural":" خواهرها یا برادرها"},
+{"singular":"کهنه‌سرباز", "plural":"کهنه‌سربازها"},
+{"singular":"-", "plural":"کهنه‌سربازان"}
+]
+}

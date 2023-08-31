@@ -1,0 +1,51 @@
+{
+"feminine": [
+{"singular":"mulher", "plural":"mulheres"},
+{"singular":"senhora", "plural":"senhoras"},
+{"singular":"dama", "plural":"damas"},
+{"singular":"menina", "plural":"meninas"},
+{"singular":"garota", "plural":"garotas"},
+{"singular":"moça", "plural":"moças"},
+{"singular":"guria", "plural":"gurias"},
+{"singular":"mãe", "plural":"mães"},
+{"singular":"mamãe", "plural":"mamães"},
+{"singular":"filha", "plural":"filhas"},
+{"singular":"esposa", "plural":"esposas"},
+{"singular":"avó", "plural":"avós"},
+{"singular":"vovó", "plural":"vovós"},
+{"singular":"vó", "plural":"vós"},
+{"singular":"irmã", "plural":"irmãs"},
+{"singular":"mana", "plural":"manas"},
+{"singular":"veterana", "plural":"veteranas"}
+],
+"masculine": [
+{"singular":"homem", "plural":"homens"},
+{"singular":"mano", "plural":"manos"},
+{"singular":"rapaz", "plural":"rapazes"},
+{"singular":"cara", "plural":"caras"},
+{"singular":"jovem", "plural":"jovens"},
+{"singular":"moço", "plural":"moços"},
+{"singular":"menino", "plural":"meninos"},
+{"singular":"garoto", "plural":"garotos"},
+{"singular":"guri", "plural":"guris"},
+{"singular":"pai", "plural":"pais"},
+{"singular":"papai", "plural":"papais"},
+{"singular":"filho", "plural":"filhos"},
+{"singular":"marido", "plural":"maridos"},
+{"singular":"avô", "plural":"avôs"},
+{"singular":"vovô", "plural":"vovôs"},
+{"singular":"vô", "plural":"vôs"},
+{"singular":"irmão", "plural":"irmãos"},
+{"singular":"veterano", "plural":"veteranos"}
+],
+"unspecified": [
+{"singular":"indivíduo", "plural":"indivíduos"},
+{"singular":"sujeito", "plural":"sujeitos"},
+{"singular":"pessoa", "plural":"pessoas"},
+{"singular":"criança", "plural":"crianças"},
+{"singular":"cônjuge", "plural":"cônjuges"},
+{"singular":"avô", "plural":"avós"},
+{"singular":"avó"},
+{"singular":"ex-combatente", "plural":"ex-combatentes"}
+]
+}

@@ -1,0 +1,39 @@
+{
+"feminine": [
+{"singular":"omukazi", "plural":"abakazi"},
+{"singular":"omukyala", "plural":"abakyala"},
+{"singular":"nabakyala"},
+{"singular":"omuwala", "plural":"abawala"},
+{"singular":"maama", "plural":"ba maama"},
+{"singular":"muwala", "plural":"abawala"},
+{"singular":"mukyala", "plural":"abakyala"},
+{"singular":"jaaja mukyala", "plural":"ba jaaja abakyala"},
+{"singular":"jaaja ", "plural":"ba jaaja"},
+{"singular":"mwanyina", "plural":"banyina"},
+{"singular":"mwanyoko", "plural":"banyoko"}
+],
+"masculine": [
+{"singular":"musajja", "plural":"basajja"},
+{"singular":"muganda", "plural":"ow'oluganda omusajja"},
+{"singular":"owoluganda"},
+{"singular":"muvubuka", "plural":"bavubuka"},
+{"singular":"mulenzi", "plural":"balenzi"},
+{"singular":"taata", "plural":"ba taata"},
+{"singular":"mutabani", "plural":"batabani"},
+{"singular":"mwami", "plural":"baami"},
+{"singular":"bba"},
+{"singular":"jaaja mwami", "plural":"ba jaaja abaami"},
+{"singular":"muganda wo", "plural":"banyinaze"}
+],
+"unspecified": [
+{"singular":"muntu", "plural":"abantu"},
+{"singular":"oyo", "plural":"abo"},
+{"singular":"mwana", "plural":"abaana"},
+{"singular":"muzadde", "plural":"abazadde"},
+{"singular":"mwagalwa", "plural":"abagalwa"},
+{"singular":"mubeezi", "plural":"ababeezi"},
+{"singular":"jaaja", "plural":"ba jaaja"},
+{"singular":"wanganda", "plural":"abenganda"},
+{"singular":"eyazirwanako", "plural":"abazirwanako"}
+]
+}

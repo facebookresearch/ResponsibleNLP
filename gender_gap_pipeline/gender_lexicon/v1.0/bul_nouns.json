@@ -1,0 +1,40 @@
+{
+"feminine": [
+{"singular":"жена", "plural":"жени"},
+{"singular":"дама", "plural":"дами"},
+{"singular":"момиче", "plural":"момичета"},
+{"singular":"майка", "plural":"майки"},
+{"singular":"мама"},
+{"singular":"дъщеря", "plural":"дъщери"},
+{"singular":"съпруга", "plural":"съпруги"},
+{"singular":"баба", "plural":"баби"},
+{"singular":"сестра", "plural":"сестри"}
+],
+"masculine": [
+{"singular":"мъж", "plural":"мъже"},
+{"singular":"брат", "plural":"братя"},
+{"singular":"човек", "plural":"хора"},
+{"plural":"души"},
+{"singular":"тип", "plural":"типове"},
+{"singular":"момче", "plural":"момчета"},
+{"singular":"баща", "plural":"бащи"},
+{"singular":"татко", "plural":"татковци"},
+{"singular":"тате"},
+{"singular":"син", "plural":"синове"},
+{"singular":"съпруг", "plural":"съпрузи"},
+{"singular":"дядо", "plural":"дядовци"}
+],
+"unspecified": [
+{"singular":"индивид", "plural":"индивиди"},
+{"singular":"лице", "plural":"лица"},
+{"singular":"дете", "plural":"деца"},
+{"singular":"хлапе", "plural":"хлапета"},
+{"singular":"родител", "plural":"родители"},
+{"singular":"рожба", "plural":"рожби"},
+{"singular":"чедо", "plural":"чеда"},
+{"singular":"брачен партньор", "plural":"брачни партньори"},
+{"singular":"прародител", "plural":"прародители"},
+{"singular":"брат и сестра", "plural":"братя и сестри"},
+{"singular":"ветеран", "plural":"ветерани"}
+]
+}

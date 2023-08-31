@@ -1,0 +1,45 @@
+{
+"feminine": [
+{"singular":"ಮಹಿಳೆ", "plural":"ಮಹಿಳೆಯರು"},
+{"singular":"ಹೆಂಗಸು ", "plural":"ಹೆಂಗಸರು"},
+{"singular":"ಸ್ತ್ರೀ ", "plural":"ಸ್ತ್ರೀಯರು"},
+{"singular":"ಹೆಣ್ಣು", "plural":"ನಾರಿಯರು"},
+{"singular":"ನಾರಿ", "plural":"ಯುವತಿಯರು"},
+{"singular":"ಯುವತಿ"},
+{"singular":"ಹುಡುಗಿ", "plural":"ಹುಡುಗಿಯರು"},
+{"singular":"ತಾಯಿ", "plural":"ತಾಯಂದಿರು"},
+{"singular":"ಅಮ್ಮ", "plural":"ಅಮ್ಮಂದಿರು"},
+{"singular":"ವಸುಧೆ", "plural":"ವಸುಧೆಯರು"},
+{"singular":"ಮಾತೆ", "plural":"ಮಾತೆಯರು"},
+{"singular":"ಮಗಳು", "plural":"ಹೆಣ್ಣು ಮಕ್ಕಳು"},
+{"singular":"ಹೆಂಡತಿ", "plural":"ಹೆಂಡತಿಯರು"},
+{"singular":"ಅಜ್ಜಿ", "plural":"ಅಜ್ಜಿಯಂದಿರು"},
+{"singular":"ಸಹೋದರಿ", "plural":"ಸಹೋದರಿಯರು"}
+],
+"masculine": [
+{"singular":"ಮನುಷ್ಯ", "plural":"ಮನುಷ್ಯರು"},
+{"singular":"ಸಹೋದರ", "plural":"ಸಹೋದರಿಯರು"},
+{"singular":"ವ್ಯಕ್ತಿ", "plural":"ವ್ಯಕ್ತಿಗಳು"},
+{"singular":"ಹುಡುಗ", "plural":"ಹುಡುಗರು"},
+{"singular":"ತಂದೆ", "plural":"ತಂದೆಯಂದಿರು"},
+{"singular":"ಅಪ್ಪ ", "plural":"ಅಪ್ಪಂದಿರು"},
+{"singular":"ಮಗ", "plural":"ಮಗಂದಿರು"},
+{"singular":"ಗಂಡ", "plural":"ಗಂಡಂದಿರು"},
+{"singular":"ಅಜ್ಜ", "plural":"ಅಜ್ಜಂದಿರು"},
+{"singular":"ತಾತ ", "plural":"ತಾತಂದಿರು"},
+{"singular":"ಸಹೋದರ", "plural":"ಸಹೋದರರು"}
+],
+"unspecified": [
+{"singular":"ಓರ್ವ ವ್ಯಕ್ತಿ ", "plural":"ಅನೇಕ ವ್ಯಕ್ತಿಗಳು"},
+{"plural":"ಗುಂಪು"},
+{"singular":"ವ್ಯಕ್ತಿ", "plural":"ವ್ಯಕ್ತಿಗಳು"},
+{"singular":"ಮನುಷ್ಯ", "plural":"ಮನುಷ್ಯರು"},
+{"singular":"ಪೋಷಕ", "plural":"ಪೋಷಕರು"},
+{"singular":"ಮಗು", "plural":"ಮಕ್ಕಳು"},
+{"singular":"ಸಂಗಾತಿ", "plural":"ಸಂಗಾತಿಯರು"},
+{"singular":"ಅಜ್ಜ ಅಜ್ಜಿ ", "plural":"ಅಜ್ಜ ಅಜ್ಜಿಯಂದಿರು"},
+{"singular":"ಒಡಹುಟ್ಟಿದವರು", "plural":"ಒಡಹುಟ್ಟಿದವರು"},
+{"plural":"ಅನುಭವಿಗಳು"},
+{"singular":"ಅನುಭವಿ", "plural":"ಅನುಭವಿಗಳು"}
+]
+}

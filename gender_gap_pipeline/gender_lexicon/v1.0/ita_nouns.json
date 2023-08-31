@@ -1,0 +1,42 @@
+{
+"feminine": [
+{"singular":"donna", "plural":"donne"},
+{"singular":"signora", "plural":"signore"},
+{"singular":"ragazza", "plural":"ragazze"},
+{"singular":"ragazzina", "plural":"ragazzine"},
+{"singular":"bambina", "plural":"bambine"},
+{"singular":"figlia", "plural":"figlie"},
+{"singular":"bimba", "plural":"bimbe"},
+{"singular":"madre", "plural":"madri"},
+{"singular":"genitrice", "plural":"genitrici"},
+{"singular":"mamma", "plural":"mamme"},
+{"singular":"moglie", "plural":"mogli"},
+{"singular":"nonna", "plural":"nonne"},
+{"singular":"sorella", "plural":"sorelle"},
+{"singular":"veterana", "plural":"veterane"}
+],
+"masculine": [
+{"singular":"uomo", "plural":"uomini"},
+{"singular":"fratello", "plural":"fratelli"},
+{"singular":"amico", "plural":"amici"},
+{"singular":"bro", "plural":"bro"},
+{"singular":"ragazzo", "plural":"ragazzi"},
+{"singular":"ragazzino ", "plural":"ragazzini"},
+{"singular":"bambino", "plural":"bambini"},
+{"singular":"figlio", "plural":"figli"},
+{"singular":"bimbo", "plural":"bimbi"},
+{"singular":"padre", "plural":"padri"},
+{"singular":"genitore", "plural":"genitori"},
+{"singular":"papà", "plural":"papà"},
+{"singular":"babbo", "plural":"babbi"},
+{"singular":"marito", "plural":"mariti"},
+{"singular":"nonno", "plural":"nonni"},
+{"singular":"veterano", "plural":"veterani"}
+],
+"unspecified": [
+{"singular":"individuo", "plural":"individui"},
+{"singular":"persona", "plural":"persone"},
+{"singular":"coniuge ", "plural":"coniugi"},
+{"singular":"consorte", "plural":"consorti"}
+]
+}

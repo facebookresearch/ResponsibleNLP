@@ -1,0 +1,47 @@
+{
+"feminine": [
+{"singular":"মহিলা", "plural":"মহিলারা"},
+{"singular":"নারী", "plural":"নারীরা"},
+{"singular":"ভদ্রমহিলা", "plural":"ভদ্রমহিলারা"},
+{"singular":"মেয়ে", "plural":"মেয়েরা"},
+{"singular":"বালিকা", "plural":"বালিকারা"},
+{"singular":"মা", "plural":"মায়েরা"},
+{"singular":"জননী", "plural":"জননীরা"},
+{"singular":"কন্যা", "plural":"কন্যারা"},
+{"singular":"মেয়ে", "plural":"মেয়েরা"},
+{"singular":"স্ত্রী", "plural":"স্ত্রীরা"},
+{"singular":"বউ", "plural":"বউয়েরা"},
+{"singular":"ঠাকুমা", "plural":"ঠাকুমায়েরা"},
+{"singular":"দিদা", "plural":"দিদারা"},
+{"singular":"বোন", "plural":"বোনেরা"},
+{"singular":"দিদি", "plural":"দিদিরা"}
+],
+"masculine": [
+{"singular":"মানুষ", "plural":"মানুষেরা"},
+{"singular":"পুরুষ", "plural":"পুরুষেরা"},
+{"singular":"লোক", "plural":"লোকেরা"},
+{"singular":"ভাই", "plural":"ভাইয়েরা"},
+{"singular":"দাদা", "plural":"দাদারা"},
+{"singular":"ছেলে", "plural":"ছেলেরা"},
+{"singular":"পিতা", "plural":"পিতারা"},
+{"singular":"বাবা", "plural":"বাবারা"},
+{"singular":"পুত্র", "plural":"ছেলেরা"},
+{"singular":"স্বামী", "plural":"স্বামীরা"},
+{"singular":"বর", "plural":"বরেরা"},
+{"singular":"ঠাকুরদা", "plural":"ঠাকুরদারা"},
+{"singular":"দাদু", "plural":"দাদু্রা"},
+{"singular":"পিতামহ", "plural":"পিতামহরা"},
+{"singular":"দাদা", "plural":"দাদারা"}
+],
+"unspecified": [
+{"singular":"একজন", "plural":"কয়েকজন"},
+{"singular":"ব্যক্তি", "plural":"ব্যক্তি"},
+{"singular":"বাচ্চা", "plural":"বাচ্চারা"},
+{"singular":"অভিভাবক", "plural":"অভিভাবকেরা"},
+{"singular":"শিশু", "plural":"শিশুরা"},
+{"singular":"স্বামী-স্ত্রী", "plural":"স্বামী-স্ত্রীয়েরা"},
+{"singular":"দাদু-ঠাকুমা", "plural":"দাদু-ঠাকুমারা"},
+{"singular":"ভাইবোন", "plural":"ভাইবোনেরা"},
+{"singular":"বয়স্ক", "plural":"বয়স্ক মানুষেরা"}
+]
+}

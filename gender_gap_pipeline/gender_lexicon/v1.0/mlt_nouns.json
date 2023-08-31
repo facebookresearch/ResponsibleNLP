@@ -1,0 +1,47 @@
+{
+"feminine": [
+{"singular":"mara", "plural":"nisa"},
+{"singular":"sinjura", "plural":"sinjuri"},
+{"singular":"tifla", "plural":"tfal"},
+{"singular":"tfajla", "plural":"tfajliet"},
+{"plural":"bniet"},
+{"singular":"xebba", "plural":"xebbiet"},
+{"singular":"omm", "plural":"ommijiet"},
+{"singular":"mamà", "plural":"mamajiet"},
+{"singular":"ma"},
+{"singular":"bint", "plural":"bniet"},
+{"singular":"mara miżżewġa", "plural":"nisa miżżewġin"},
+{"singular":"nanna", "plural":"nanniet"},
+{"singular":"oħt", "plural":"aħwa"}
+],
+"masculine": [
+{"singular":"raġel", "plural":"irġiel"},
+{"singular":"bniedem", "plural":"bnedmin"},
+{"singular":"ħija", "plural":"ħuti"},
+{"singular":"raġel", "plural":"rġiel"},
+{"singular":"ġuvni", "plural":"ġuvintur"},
+{"singular":"ġuvni", "plural":"ġuvnotti"},
+{"singular":"tfajjel", "plural":"subien"},
+{"singular":"żerbinott", "plural":"żerbinotti"},
+{"singular":"missier", "plural":"missirijiet"},
+{"singular":"papà", "plural":"papajiet"},
+{"singular":"pa"},
+{"singular":"tifel", "plural":"tfal"},
+{"singular":"iben"},
+{"singular":"raġel miżżewweġ", "plural":"rġiel miżżewġin"},
+{"singular":"nannu", "plural":"nanniet"},
+{"singular":"ħu", "plural":"aħwa"}
+],
+"unspecified": [
+{"singular":"individwu", "plural":"individwi"},
+{"singular":"persuna", "plural":"persuni"},
+{"singular":"tifel", "plural":"tfal"},
+{"singular":"tfajjel"},
+{"singular":"tifla"},
+{"singular":"ġenitur", "plural":"ġenituri"},
+{"singular":"konjuġi", "plural":"konjuġi"},
+{"singular":"ir-raġel", "plural":"l-irġiel"},
+{"singular":"il-mara", "plural":"in-nisa"},
+{"singular":"veteran", "plural":"veterani"}
+]
+}

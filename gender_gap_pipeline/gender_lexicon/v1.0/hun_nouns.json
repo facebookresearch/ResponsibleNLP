@@ -1,0 +1,57 @@
+{
+"feminine": [
+{"singular":"nő", "plural":"nők"},
+{"singular":"asszony", "plural":"asszonyok"},
+{"singular":"hölgy", "plural":"hölgyek"},
+{"singular":"lány", "plural":"lányok"},
+{"singular":"leány", "plural":"leányok"},
+{"singular":"anya", "plural":"anyák"},
+{"singular":"édesanya", "plural":"édesanyák"},
+{"singular":"anyu"},
+{"singular":"anyuka", "plural":"anyukák"},
+{"singular":"feleség", "plural":"feleségek"},
+{"singular":"nej", "plural":"nejek"},
+{"singular":"nagyanya", "plural":"nagyanyák"},
+{"singular":"öreganya", "plural":"öreganyák"},
+{"singular":"nagymama", "plural":"nagymamák"},
+{"singular":"lánytestvér", "plural":"lánytestvérek"},
+{"singular":"nővér", "plural":"nővérek"},
+{"singular":"húg", "plural":"húgok"}
+],
+"masculine": [
+{"singular":"férfi", "plural":"férfiak"},
+{"singular":"ember", "plural":"emberek"},
+{"singular":"öcsi"},
+{"singular":"öcskös", "plural":"öcskösök"},
+{"singular":"fickó", "plural":"fickók"},
+{"singular":"srác", "plural":"srácok"},
+{"singular":"pasas", "plural":"pasasok"},
+{"singular":"hapsi", "plural":"hapsik"},
+{"singular":"pacák", "plural":"pacákok"},
+{"singular":"fiú", "plural":"fiúk"},
+{"singular":"apa", "plural":"apák"},
+{"singular":"édesapa", "plural":"édesapák"},
+{"singular":"apu"},
+{"singular":"apuka", "plural":"apukák"},
+{"singular":"férj", "plural":"férjek"},
+{"singular":"nagyapa", "plural":"nagyapák"},
+{"singular":"öregapa", "plural":"öregapák"},
+{"singular":"nagypapa", "plural":"nagypapák"},
+{"singular":"fiútestvér", "plural":"fiútestvérek"},
+{"singular":"báty", "plural":"bátyok"},
+{"singular":"öcs", "plural":"öcsök"}
+],
+"unspecified": [
+{"singular":"személy", "plural":"személyek"},
+{"singular":"egyén", "plural":"egyének"},
+{"singular":"kölyök", "plural":"kölykök"},
+{"singular":"gyerek", "plural":"gyerekek"},
+{"singular":"gyermek", "plural":"gyermekek"},
+{"singular":"szülő", "plural":"szülők"},
+{"singular":"házastárs", "plural":"házastársak"},
+{"singular":"nagyszülő", "plural":"nagyszülők"},
+{"singular":"testvér", "plural":"testvérek"},
+{"singular":"veterán", "plural":"veteránok"}
+]
+
+}

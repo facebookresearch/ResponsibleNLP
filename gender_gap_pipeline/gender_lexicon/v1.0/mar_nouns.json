@@ -1,0 +1,46 @@
+{
+"feminine": [
+{"singular":"स्त्री", "plural":"स्त्रिया"},
+{"singular":"महिला", "plural":"महिला"},
+{"singular":"बाई", "plural":"बायका"},
+{"singular":"मुलगी", "plural":"मुली"},
+{"singular":"लेक", "plural":"लेकी"},
+{"singular":"आई", "plural":"आई"},
+{"singular":"माता", "plural":"माता"},
+{"singular":"पत्नी", "plural":"बायका"},
+{"singular":"बायको"},
+{"singular":"आजी", "plural":"आजी"},
+{"singular":"बहीण", "plural":"बहिणी"}
+],
+"masculine": [
+{"singular":"माणूस", "plural":"माणसे"},
+{"singular":"भाऊ", "plural":"भाऊ"},
+{"singular":"दादा", "plural":"दादा"},
+{"singular":"मित्र", "plural":"मित्रांनो"},
+{"singular":"मुलगा", "plural":"मुलगे"},
+{"singular":"वडील", "plural":"वडील"},
+{"singular":"पिता", "plural":"पिता"},
+{"singular":"बाबा", "plural":"बाबा"},
+{"singular":"पुत्र"},
+{"singular":"नवरा", "plural":"नवरे"},
+{"singular":"पती"},
+{"singular":"आजोबा", "plural":"आजोबा"}
+],
+"unspecified": [
+{"singular":"व्यक्ती", "plural":"व्यक्ती"},
+{"singular":"लहान मूल", "plural":"लहान मुले"},
+{"singular":"पालक", "plural":"पालक"},
+{"singular":"आईवडील", "plural":"आईवडील"},
+{"singular":"मूल", "plural":"मुले"},
+{"singular":"बालक"},
+{"singular":"शिशु"},
+{"singular":"जोडीदार", "plural":"जोडीदार"},
+{"singular":"पती-पत्नी"},
+{"singular":"आजी आजोबा", "plural":"आजी आजोबा"},
+{"singular":"भावंड", "plural":"भावंडे"},
+{"singular":"भाऊ-बहीण", "plural":"भाऊ-बहिणी"},
+{"singular":"दिग्गज", "plural":"दिग्गज"},
+{"singular":"जाणता", "plural":"जाणता"},
+{"singular":"अनुभवी", "plural":"अनुभवी"}
+]
+}
