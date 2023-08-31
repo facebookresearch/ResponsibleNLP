@@ -10,7 +10,10 @@ The pipeline is showcased in the paper *The Gender-GAP Pipeline: A Gender-Aware 
 The code was tested with python 3.9. 
 
 ```
+
 pip install -r requirements.txt
+git clone https://github.com/facebookresearch/ResponsibleNLP.git
+cd multilingual_gendered_nouns_dist
 ```
 
 ## Gender-GAP on text file
