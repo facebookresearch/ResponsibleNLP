@@ -12,6 +12,8 @@ This repository hosts code and datasets relating to Responsible NLP projects fro
   - The perturber, pretrained models, code and other artifacts related to the Perturbation Augmentation for Fairer NLP project will be released shortly.
 - [`AdvPromptSet`](https://github.com/facebookresearch/ResponsibleNLP/tree/main/AdvPromptSet)
   - **AdvPromptSet**: a comprehensive and challenging adversarial text prompt set with 197,628 prompts of varying toxicity levels and more than 24 sensitive demographic identity groups and combinations. 
+- [`Gender-GAP`](https://github.com/facebookresearch/ResponsibleNLP/tree/main/multilingual_gendered_nouns_dist)
+  - **Gender-GAP**: The GENDER-GAP Pipeline: A Gender-Aware Polyglot Pipeline for Gender Characterisation in 55 Languages.
 
 -----
 
