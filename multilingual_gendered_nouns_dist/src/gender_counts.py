@@ -22,11 +22,11 @@ import gzip
 import stanza 
 import nltk
 import json 
-
+import numpy as np
 from nltk.tokenize import word_tokenize
 from pythainlp.tokenize import word_tokenize as word_tokenize_thai
 
-ISO_639_3_TO_1 = {'aar': 'aa', 'abk': 'ab', 'ave': 'ae', 'afr': 'af', 'aka': 'ak', 'amh': 'am', 'arg': 'an', 'arb': 'ar', 'asm': 'as', 'ava': 'av', 'aym': 'ay', 'aze': 'az', 'bak': 'ba', 'bel': 'be', 'bul': 'bg', 'bis': 'bi', 'bam': 'bm', 'ben': 'bn', 'bod': 'bo', 'bre': 'br', 'bos': 'bs', 'cat': 'ca', 'che': 'ce', 'cha': 'ch', 'cos': 'co', 'cre': 'cr', 'ces': 'cs', 'chu': 'cu', 'chv': 'cv', 'cym': 'cy', 'dan': 'da', 'deu': 'de', 'div': 'dv', 'dzo': 'dz', 'ewe': 'ee', 'ell': 'el', 'eng': 'en', 'epo': 'eo', 'spa': 'es', 'est': 'et', 'lvs':'lv', 'eus': 'eu', 'pes': 'fa', 'ful': 'ff', 'fin': 'fi', 'fij': 'fj', 'fao': 'fo', 'fra': 'fr', 'fry': 'fy', 'gle': 'ga', 'gla': 'gd', 'glg': 'gl', 'grn': 'gn', 'guj': 'gu', 'glv': 'gv', 'hau': 'ha', 'heb': 'he', 'hin': 'hi', 'hmo': 'ho', 'hrv': 'hr', 'hat': 'ht', 'hun': 'hu', 'hye': 'hy', 'her': 'hz', 'ina': 'ia', 'ind': 'id', 'ile': 'ie', 'ibo': 'ig', 'iii': 'ii', 'ipk': 'ik', 'ido': 'io', 'isl': 'is', 'ita': 'it', 'iku': 'iu', 'jpn': 'ja', 'jav': 'jv', 'kat': 'ka', 'kon': 'kg', 'kik': 'ki', 'kua': 'kj', 'kaz': 'kk', 'kal': 'kl', 'khm': 'km', 'kan': 'kn', 'kor': 'ko', 'kau': 'kr', 'kas': 'ks', 'kur': 'ku', 'kom': 'kv', 'cor': 'kw', 'kir': 'ky', 'lat': 'la', 'ltz': 'lb', 'lug': 'lg', 'lim': 'li', 'lin': 'ln', 'lao': 'lo', 'lit': 'lt', 'lub': 'lu',  'mlg': 'mg', 'mah': 'mh', 'mri': 'mi', 'mkd': 'mk', 'mal': 'ml', 'mon': 'mn', 'mar': 'mr', 'msa': 'ms', 'mlt': 'mt', 'mya': 'my', 'nau': 'na', 'nob': 'nb', 'nde': 'nd', 'nep': 'ne', 'ndo': 'ng', 'nld': 'nl', 'nno': 'nn', 'nor': 'no', 'nbl': 'nr', 'nav': 'nv', 'nya': 'ny', 'oci': 'oc', 'oji': 'oj', 'orm': 'om', 'ori': 'or', 'oss': 'os', 'pan': 'pa', 'pli': 'pi', 'pol': 'pl', 'pus': 'ps', 'por': 'pt', 'que': 'qu', 'roh': 'rm', 'run': 'rn', 'ron': 'ro', 'rus': 'ru', 'kin': 'rw', 'san': 'sa', 'srd': 'sc', 'snd': 'sd', 'sme': 'se', 'sag': 'sg', 'hbs': 'sh', 'sin': 'si', 'slk': 'sk', 'slv': 'sl', 'smo': 'sm', 'sna': 'sn', 'som': 'so', 'sqi': 'sq', 'srp': 'sr', 'ssw': 'ss', 'sot': 'st', 'sun': 'su', 'swe': 'sv', 'swh': 'sw', 'tam': 'ta', 'tel': 'te', 'tgk': 'tg', 'tha': 'th', 'tir': 'ti', 'tuk': 'tk', 'tgl': 'tl', 'tsn': 'tn', 'ton': 'to', 'tur': 'tr', 'tso': 'ts', 'tat': 'tt', 'twi': 'tw', 'tah': 'ty', 'uig': 'ug', 'ukr': 'uk', 'urd': 'ur', 'uzb': 'uz', 'ven': 've', 'vie': 'vi', 'vol': 'vo', 'wln': 'wa', 'wol': 'wo', 'xho': 'xh', 'yid': 'yi', 'yor': 'yo', 'zha': 'za', 'zho': 'zh', 'cmn': 'zh', 'zul': 'zu'}
+ISO_639_3_TO_1 = {'aar': 'aa', 'abk': 'ab', 'ave': 'ae', 'afr': 'af', 'aka': 'ak', 'amh': 'am', 'arg': 'an', 'arb': 'ar', 'asm': 'as', 'ava': 'av', 'aym': 'ay', 'aze': 'az', 'bak': 'ba', 'bel': 'be', 'bul': 'bg', 'bis': 'bi', 'bam': 'bm', 'ben': 'bn', 'bod': 'bo', 'bre': 'br', 'bos': 'bs', 'cat': 'ca', 'che': 'ce', 'cha': 'ch', 'cos': 'co', 'cre': 'cr', 'ces': 'cs', 'chu': 'cu', 'chv': 'cv', 'cym': 'cy', 'dan': 'da', 'deu': 'de', 'div': 'dv', 'dzo': 'dz', 'ewe': 'ee', 'ell': 'el', 'eng': 'en', 'epo': 'eo', 'spa': 'es', 'est': 'et', 'lvs':'lv', 'eus': 'eu', 'pes': 'fa', 'ful': 'ff', 'fin': 'fi', 'fij': 'fj', 'fao': 'fo', 'fra': 'fr', 'fry': 'fy', 'gle': 'ga', 'gla': 'gd', 'glg': 'gl', 'grn': 'gn', 'guj': 'gu', 'glv': 'gv', 'hau': 'ha', 'heb': 'he', 'hin': 'hi', 'hmo': 'ho', 'hrv': 'hr', 'hat': 'ht', 'hun': 'hu', 'hye': 'hy', 'her': 'hz', 'ina': 'ia', 'ind': 'id', 'ile': 'ie', 'ibo': 'ig', 'iii': 'ii', 'ipk': 'ik', 'ido': 'io', 'isl': 'is', 'ita': 'it', 'iku': 'iu', 'jpn': 'ja', 'jav': 'jv', 'kat': 'ka', 'kon': 'kg', 'kik': 'ki', 'kua': 'kj', 'kaz': 'kk', 'kal': 'kl', 'khm': 'km', 'kan': 'kn', 'kor': 'ko', 'kau': 'kr', 'kas': 'ks', 'kur': 'ku', 'kom': 'kv', 'cor': 'kw', 'kir': 'ky', 'lat': 'la', 'ltz': 'lb', 'lug': 'lg', 'lim': 'li', 'lin': 'ln', 'lao': 'lo', 'lit': 'lt', 'lub': 'lu',  'mlg': 'mg', 'mah': 'mh', 'mri': 'mi', 'mkd': 'mk', 'mal': 'ml', 'khk': 'mn', 'mar': 'mr', 'msa': 'ms', 'mlt': 'mt', 'mya': 'my', 'nau': 'na', 'nob': 'nb', 'nde': 'nd', 'nep': 'ne', 'ndo': 'ng', 'nld': 'nl', 'nno': 'nn', 'nor': 'no', 'nbl': 'nr', 'nav': 'nv', 'nya': 'ny', 'oci': 'oc', 'oji': 'oj', 'orm': 'om', 'ori': 'or', 'oss': 'os', 'pan': 'pa', 'pli': 'pi', 'pol': 'pl', 'pus': 'ps', 'por': 'pt', 'que': 'qu', 'roh': 'rm', 'run': 'rn', 'ron': 'ro', 'rus': 'ru', 'kin': 'rw', 'san': 'sa', 'srd': 'sc', 'snd': 'sd', 'sme': 'se', 'sag': 'sg', 'hbs': 'sh', 'sin': 'si', 'slk': 'sk', 'slv': 'sl', 'smo': 'sm', 'sna': 'sn', 'som': 'so', 'sqi': 'sq', 'srp': 'sr', 'ssw': 'ss', 'sot': 'st', 'sun': 'su', 'swe': 'sv', 'swh': 'sw', 'tam': 'ta', 'tel': 'te', 'tgk': 'tg', 'tha': 'th', 'tir': 'ti', 'tuk': 'tk', 'tgl': 'tl', 'tsn': 'tn', 'ton': 'to', 'tur': 'tr', 'tso': 'ts', 'tat': 'tt', 'twi': 'tw', 'tah': 'ty', 'uig': 'ug', 'ukr': 'uk', 'urd': 'ur', 'uzb': 'uz', 'ven': 've', 'vie': 'vi', 'vol': 'vo', 'wln': 'wa', 'wol': 'wo', 'xho': 'xh', 'yid': 'yi', 'yor': 'yo', 'zha': 'za', 'zho': 'zh', 'cmn': 'zh', 'zul': 'zu'}
 ISO_639_1_TO_3 = {iso1:iso3 for iso3, iso1 in ISO_639_3_TO_1.items()}
 
 LANG2Script = {'arb': 'Arab', 'asm': 'Beng', 'bel': 'Cyrl', 'ben': 'Beng', 'bul': 'Cyrl', 'cat': 'Latn', 'ces': 'Latn', 'ckb': 'Arab', 'cmn': 'Hans', 'cym': 'Latn', 'dan': 'Latn', 'deu': 'Latn', 'ell': 'Grek', 'eng': 'Latn', 'est': 'Latn', 'fin': 'Latn', 'fra': 'Latn', 'gle': 'Latn', 'hin': 'Deva', 'hun': 'Latn', 'ind': 'Latn', 'ita': 'Latn', 'jpn': 'Jpan', 'kat': 'Geor', 'khk': 'Cyrl', 'kir': 'Cyrl', 'lit': 'Latn', 'lug': 'Latn', 'lvs': 'Latn', 'mar': 'Deva', 'mlt': 'Latn', 'nld': 'Latn', 'pan': 'Guru', 'pes': 'Arab', 'pol': 'Latn', 'por': 'Latn', 'ron': 'Latn', 'rus': 'Cyrl', 'slk': 'Latn', 'slv': 'Latn', 'spa': 'Latn', 'swe': 'Latn', 'swh': 'Latn', 'tam': 'Taml', 'tha': 'Thai', 'tur': 'Latn', 'ukr': 'Cyrl', 'urd': 'Arab', 'uzn': 'Latn', 'vie': 'Latn', 'yue': 'Hant', 'kan': 'Knda', 'tel': 'Telu', 'tgl': 'Latn', 'zul': 'Latn'}
@@ -35,16 +35,14 @@ GENDERS = ['feminine', 'masculine',  'unspecified']
 
 
 def count_lines(file_dir: str):
-    if str(file_dir).endswith('.txt'):
-        return sum(1 for _ in open(file_dir))
-    elif str(file_dir).endswith('.txt.gz'):
+    
+    if str(file_dir).endswith('.txt.gz'):
         try:
             return sum(1 for _ in gzip.open(file_dir,'rt'))
         except EOFError as e:
             print(e, file_dir)
-            
     else:
-        raise(Exception(f'{str(file_dir)} not supported'))
+        return sum(1 for _ in open(file_dir))
 
 
 def load_tokenizer(lang: str):
@@ -70,7 +68,6 @@ def load_tokenizer(lang: str):
             print(f'Stanza model not available {e}: using punctuation tokenizer from nltk')
             print(f'Tokenizer: fall back on nltk {lang}')
             return word_tokenize, 'nltk'
-    
 
 
 
@@ -96,7 +93,6 @@ class MultilingualGenderDistribution(object):
         if ft_model_path:
             self.lang_detect_model = fasttext.load_model(ft_model_path) 
         else:
-            print('WARNING: self.lang_detect_model set to None cause ft_model_path is None')
             self.lang_detect_model = None
         
         self.noun_phrases = {lang: {} for lang in langs}
@@ -105,7 +101,8 @@ class MultilingualGenderDistribution(object):
         base_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "dataset")
         dataset_folder = os.path.join(base_folder, dataset_version)
         
-        
+        self.stat = {gender: None for gender in GENDERS+['total', 'coverage', 'ste_diff_fem_masc']}
+        self.gender_dic_vec = None
         self.langs = langs
         self.tokenizer = {}
         self.tokenizer_type = {}
@@ -155,12 +152,12 @@ class MultilingualGenderDistribution(object):
         self.n_doc_w_match = []
 
 
-    def count_demographics(self, line: str, lang: str, return_terms=False)-> None:
+    def count_demographics(self, line: str, lang: str, return_terms=False, return_vec=False)-> None:
         sentence = line.strip().lower()
         if len(sentence) == 0:
             print(f'Warning: empty sentence: {lang}')
             return
-        
+        gender_vec = None
         # lines counter
         assert lang in self.langs, f'{lang} not in {self.langs}'
 
@@ -187,6 +184,11 @@ class MultilingualGenderDistribution(object):
         curr_dic = {}
         curr_dic_terms = {} if return_terms else None
         matching = 0
+        if return_vec:
+            masc_vec = [int(word in self.gender_counters[lang]['masculine']) for word in tokenized_sentence]
+            fem_vec = [int(word in self.gender_counters[lang]['feminine']) for word in tokenized_sentence]
+            gender_vec = {'masculine': masc_vec, 'feminine': fem_vec}
+
         for group_gender in self.gender_counters[lang].keys():            
             # match to list of nouns that are feminine and masculine 
             total_match = 0
@@ -204,7 +206,7 @@ class MultilingualGenderDistribution(object):
         self.n_words_per_match.append(self.n_words_with_no_match-len(tokenized_sentence))
         self.n_words_with_no_match = 0
         self.n_doc_w_match.append(matching)
-        return curr_dic, curr_dic_terms
+        return curr_dic, curr_dic_terms, gender_vec
             
 
     def detect_language(self, text: str):
@@ -262,18 +264,18 @@ class MultilingualGenderDistribution(object):
             print(f'{n_sample_counted} samples were counted')
     
     def count_lines(self, file_dir: str):
-        if str(file_dir).endswith('.txt'):
-            return sum(1 for _ in open(file_dir))
-        elif str(file_dir).endswith('.txt.gz'):
+        
+        if str(file_dir).endswith('.txt.gz'):
             return sum(1 for _ in gzip.open(file_dir,'rt'))
         else:
-            raise(Exception(f'{str(file_dir)} not supported'))
+            return sum(1 for _ in open(file_dir))
 
     def process_txt_file(self, file_dir: str,
-                    clean_sample: tp.Callable=None, 
-                    max_samples: int=None,
-                    expected_langs: list = None,
-                    verbose: int =1) -> None:
+                        clean_sample: tp.Callable=None, 
+                        max_samples: int=None,
+                        expected_langs: list = None,
+                        return_vec: bool= False,
+                        verbose: int =1) -> None:
         # iterate over lines
         n_sample_counted = 0
         if max_samples is not None:
@@ -282,14 +284,13 @@ class MultilingualGenderDistribution(object):
         n_samples = count_lines(file_dir)
         if verbose:
             print(f'{n_samples} lines in {file_dir.name}')
-        if str(file_dir).endswith('.txt'):
-            file = open(file_dir)
-        elif str(file_dir).endswith('.txt.gz'):
+        if str(file_dir).endswith('.txt.gz'):
             file = gzip.open(file_dir, 'rt')
         else:
-            raise(Exception(f'{str(file_dir)} not supported'))
+            file = open(file_dir)
         
-        for i, sample in tqdm(enumerate(file), desc=f'Processing {file.name}', total=n_samples):
+        gender_dic = {'masculine': [], 'feminine': []}
+        for _, sample in tqdm(enumerate(file), desc=f'Processing {file.name}', total=n_samples):
             n_sample_counted+=1
             sample = clean_sample(sample)
             
@@ -304,14 +305,20 @@ class MultilingualGenderDistribution(object):
                 print(f'Lang detected {lang_detected} of {sample}  not in {expected_langs} skipped')
                 continue 
                 
-            self.count_demographics(sample, lang_detected)
+            _, _, _gender_dic = self.count_demographics(sample, lang_detected, return_vec=return_vec)
+            if return_vec:
+                gender_dic['masculine'].extend(_gender_dic['masculine'])
+                gender_dic['feminine'].extend(_gender_dic['feminine'])
             if max_samples is not None:
                 if n_sample_counted>=max_samples:
                     break
 
         if verbose:
             print(f'{n_sample_counted} sentences were processed')
-        
+        if return_vec:
+            gender_dic['masculine'] = np.array(gender_dic['masculine'])
+            gender_dic['feminine'] = np.array(gender_dic['feminine'])
+        self.gender_dic_vec = gender_dic
     
 
     def final_result(self) -> tp.Tuple[str, Counter, Counter]:
@@ -323,20 +330,40 @@ class MultilingualGenderDistribution(object):
         lang = final_count[0]
         gender_count = final_count[1]
         
-        summary = f"Report for lang {lang}\n\n"
-        summary += f"Out of {gender_count['_total']} words: \n" 
-
+        
         report = {}
         
         for gender_cat in GENDERS: 
-            summary += f"{gender_cat} words amounts for {gender_count[gender_cat]} ({gender_count[gender_cat]/gender_count['_total']*100:0.1f}%), "
             report[gender_cat] = [gender_count[gender_cat], gender_count[gender_cat]/gender_count['_total']*100]
             if gender_count[gender_cat]==0:
                 print(f'WARNING {lang} {gender_cat}: 0 match file {info_file}')
         report['total'] = [gender_count['_total'], 100]
         report = pd.DataFrame(report)
         
-        return report
+        # fill in self.stat for reporting
+        assert self.stat['masculine'] is None
+        self.stat['masculine'] = report['masculine'][1]
+        self.stat['feminine'] = report['feminine'][1]
+        self.stat['unspecified'] = report['unspecified'][1]
+        self.stat['total'] = report['total'][0]
+        
+        
+        # compute std of the difference masculine vs. feminine
+        assert len(report['masculine']) == len(report['feminine'])
+        size = np.size(self.gender_dic_vec['masculine'])
+        self.stat['ste_diff_fem_masc'] = np.std(self.gender_dic_vec['masculine']-self.gender_dic_vec['feminine'], ddof=1)/np.sqrt(size)
+        # compute coverage statistics
+        self.n_doc_w_match = pd.Series(self.n_doc_w_match)
+        coverage = len(self.n_doc_w_match[self.n_doc_w_match  == 1])/len(self.n_doc_w_match)*100
+
+        #try:
+        #    assert len(coverage.value_counts())>1, f'Lang {lang} No match found: {coverage}'
+        #except Exception as e:
+        #    print(f'Warning {e}')
+        
+        #coverage_stat = coverage.value_counts()[1]/len(coverage)*100 if len(coverage.value_counts())>1 else 0
+        
+        self.stat['coverage'] = coverage
     
 
     def printout_summary_demographics(self, printout=True, write_dir: str=None):

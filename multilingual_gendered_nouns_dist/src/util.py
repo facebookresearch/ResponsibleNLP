@@ -8,6 +8,9 @@
 
 import json
 
+import pandas as pd
+from multilingual_gendered_nouns_dist.src.gender_counts import GENDERS
+
 
 DEFAULT_DATASET_VERSION = "v1.0"
 # Default to the original v1.0 version for compatibility.
@@ -56,7 +59,7 @@ def rang_to_bold(rank):
     elif rank == 2:
         return RANK_TO_BOLD_BOS[2], RANK_TO_BOLD_EOS[2]
 
-def bold(fem, masc, unsp, total, lang):
+def bold(fem, masc, unsp, std, total, lang):
     gender = ['fem', 'masc', 'unsp']
     sorting = [fem, masc, unsp]
     sorted = np.argsort(sorting) 
@@ -66,23 +69,48 @@ def bold(fem, masc, unsp, total, lang):
     else:
         gender_2_rank = {gender[pos]: rank  for rank, pos in enumerate(sorted)}
     
-    display = [RANK_TO_BOLD_BOS[gender_2_rank['fem']]+str(round(fem, 3))+RANK_TO_BOLD_EOS[gender_2_rank['fem']], 
-                RANK_TO_BOLD_BOS[gender_2_rank['masc']]+str(round(masc, 3))+RANK_TO_BOLD_EOS[gender_2_rank['masc']], 
-                RANK_TO_BOLD_BOS[gender_2_rank['unsp']]+str(round(unsp, 3))+RANK_TO_BOLD_EOS[gender_2_rank['unsp']]]
+    display = [RANK_TO_BOLD_BOS[gender_2_rank['fem']]+f'{round(fem, 3):0.3f}'+RANK_TO_BOLD_EOS[gender_2_rank['fem']], 
+                RANK_TO_BOLD_BOS[gender_2_rank['masc']]+f'{round(masc, 3):0.3f}'+RANK_TO_BOLD_EOS[gender_2_rank['masc']], 
+                RANK_TO_BOLD_BOS[gender_2_rank['unsp']]+f'{round(unsp, 3):0.3f}'+RANK_TO_BOLD_EOS[gender_2_rank['unsp']],
+                f'{round(np.abs(fem-masc), 3):0.3f} ({std:0.4f})'
+                ]
 
-    latex_line = f" {lang} &  {display[0]} &   {display[1]}  & {display[2]} & {total}\\\\" 
+    latex_line = f" {lang} &  {display[0]} &   {display[1]}  & {display[2]}& {display[3]} & {total}" 
     
     return latex_line
 
 def get_latex_table(report_df):
     for dataset in report_df['dataset'].unique():
-        print(f'\% of words in each gender group {dataset} \n')
         _df = report_df[report_df['dataset']==dataset]
         _df = _df.sort_values("lang")
         for i in range(_df.shape[0]):
             row = _df.iloc[i]            
-            display = bold(fem=row['feminine'], masc=row['masculine'], unsp=row['unspecified'], total=row['total'], lang=row['lang'])
-            print(f" {display} & {row['n_doc_w_match']:0.1f}\\" )
-        print(f"avg. &  {_df['feminine'].mean():0.3f} ({_df['feminine'].std():0.2f})  &  {_df['masculine'].mean():0.3f} ({_df['masculine'].std():0.2f}) &  {_df['unspecified'].mean():0.3f} ({_df['unspecified'].std():0.2f})& \\bf {_df['total'].mean():0.1f} & {_df['n_doc_w_match'].mean():0.1f}\\")
+            display = bold(fem=row['feminine'], masc=row['masculine'], unsp=row['unspecified'], std=row['ste_diff_fem_masc'], total=row['total'], lang=row['lang'])
+            
+            print(f" {display} & {row['n_doc_w_match']:0.1f}\\\\" )
+        print(f"avg. &  {_df['feminine'].mean():0.3f} &  {_df['masculine'].mean():0.3f}  &  {_df['unspecified'].mean():0.3f} & {np.mean(np.abs(_df['feminine']-_df['masculine'])):0.3f} ({np.mean(_df['ste_diff_fem_masc']):0.4f})  &  {_df['total'].mean():0.0f} & {_df['n_doc_w_match'].mean():0.1f}\\\\")
         
+
+def reporting(report_df, hb_counter, lang, dataset):
+    for gender in GENDERS:
+        report_df[gender].append(hb_counter.stat[gender])
+                
+    report_df['total'].append(hb_counter.stat['total'])
+    report_df['n_doc_w_match'].append(hb_counter.stat['coverage'])
+    report_df['ste_diff_fem_masc'].append(hb_counter.stat['ste_diff_fem_masc'])
+    report_df['dataset'].append(dataset)
+    report_df['lang'].append(lang)
         
+if __name__ == '__main__':
+    dir_oscar10k = 'reports/report-2977/report.csv'
+    dir_flores = 'reports/report-2160/report.csv'
+    dir_ntrex = 'reports/report-8549/report.csv'
+    
+    for name, dir in zip(['oscar', 'flores', 'ntrex'], [dir_oscar10k, dir_flores, dir_ntrex]):
+        df = pd.read_csv(dir)
+        import pdb
+        #pdb.set_trace()
+        print(name)
+        print('MIN:', df['n_doc_w_match'].min(), df['n_doc_w_match'].quantile(0.1), df['n_doc_w_match'].max(),)
+        print("MAsculien > Feminine", len(df[df['masculine']>=df['feminine']]), len(df))
+        #get_latex_table(df)
