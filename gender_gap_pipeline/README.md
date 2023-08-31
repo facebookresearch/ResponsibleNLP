@@ -5,6 +5,9 @@ In a nutshell, given a dataset, you can use `python gender_gap_pipeline/get_mult
 
 The pipeline is showcased in the paper *The Gender-GAP Pipeline: A Gender-Aware Polyglot Pipeline for Gender Characterisation in 55 Languages*. 
 
+![The Gender-GAP Pipeline Illustrated](https://github.com/facebookresearch/ResponsibleNLP/blob/main/gender_gap_pipeline/GenderGAP_img.pdf)
+
+
 ## Setup 
 
 The code was tested with python 3.9. 
@@ -21,7 +24,7 @@ Compute gender distribution of a single file in arb bel vie por eng spa:
 
 ```
 python gender_gap_pipeline/get_multilingual_gender_dist.py \
- --file_dir $DATA_DIR/ \
+--file_dir $DATA_DIR/ \
 --file_names arb_Arab.devtest bel_Cyrl.devtest vie_Latn.devtest por_Latn.devtest eng_Latn.devtest spa_Latn.devtest \
 --langs arb bel vie por eng spa
 ```
