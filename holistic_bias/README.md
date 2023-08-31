@@ -73,6 +73,11 @@ python holistic_bias/run_bias_calculation.py \
 ```
 Set `--use-blenderbot-context True` to specify that BlenderBot-style persona sentences (*"I like to surf. I have two kids."*) should be passed into the model's encoder as context to match the domain of the BlenderBot fine-tuning data.
 
+## Computing the bias distribution of Hugging Datasets
+
+To compute the bias gender and demographic distributions of various datasets go to the following [instructions](./INSTRUCTIONS-count-biases.md). 
+
+
 ## Dataset versioning
 
 The original 1.0 version of the dataset, at `dataset/v1.0/`, contains 620 unique descriptors. A newer 1.1 version, at `dataset/v1.1/`, expands this to 769 descriptors and cleans up various idiosyncrasies with the previous version. (Thanks to Susan Epstein for many of these new descriptors.) When running the commands above, specify which version to use by appending `--dataset-version v1.0` or `--dataset-version v1.1`. The code will default to `v1.0` for back-compatibility.
