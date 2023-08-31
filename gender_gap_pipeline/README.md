@@ -15,8 +15,7 @@ git clone https://github.com/facebookresearch/ResponsibleNLP.git
 cd multilingual_gendered_nouns_dist
 ```
 
-## Gender-GAP on text file
-
+## Run Gender-GAP
 
 Compute gender distribution of a single file in arb bel vie por eng spa:     
 
