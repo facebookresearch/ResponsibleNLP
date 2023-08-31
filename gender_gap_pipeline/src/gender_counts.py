@@ -319,11 +319,9 @@ def load_tokenizer(lang: str):
             return word_tokenize, "nltk"
 
 
-class MultilingualGenderDistribution(object):
+class GenderGAP(object):
     """
-    This is the core class for computing Holistic Biases distribution.
-    It does the counting based on Holistic_Bias list of nouns and noun phrases, return counters
-
+    This is the core class for running the Gender-GAP Pipeline.
     """
 
     def __init__(
@@ -345,8 +343,9 @@ class MultilingualGenderDistribution(object):
         self.noun_phrases = {lang: {} for lang in langs}
         self.gender_ls = {lang: {} for lang in langs}
         self.gender_counters = {lang: {} for lang in langs}
+        gender_lexicon_folder = 'gender_lexicon'
         base_folder = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), "..", "gender_lexicon"
+            os.path.dirname(os.path.abspath(__file__)), "..", gender_lexicon_folder
         )
         dataset_folder = os.path.join(base_folder, dataset_version)
 
@@ -360,7 +359,8 @@ class MultilingualGenderDistribution(object):
         self.tokenizer_type = {}
         self.nouns = {}
         script_path = Path(__file__).resolve().parent
-        base_folder = script_path / ".." / "dataset" / dataset_version
+        base_folder = script_path / ".." / gender_lexicon_folder / dataset_version
+        
         SUPPORTED_LANGS = [
             file.stem.split("_")[0]
             for file in base_folder.iterdir()
@@ -493,13 +493,13 @@ class MultilingualGenderDistribution(object):
 
         label = predictions[0][0].replace("__label__", "")
         return label
+    
+    def count_lines(self, file_dir: str):
 
-    def process_lines(
-        self, lines_with_number: tp.Iterator[tp.Tuple[int, str]], lang: str
-    ) -> None:
-        # iterate over lines
-        for line in lines_with_number:
-            self.count_demographics(line, lang)
+        if str(file_dir).endswith(".txt.gz"):
+            return sum(1 for _ in gzip.open(file_dir, "rt"))
+        else:
+            return sum(1 for _ in open(file_dir))
 
     def process_dataset(
         self,
@@ -545,12 +545,7 @@ class MultilingualGenderDistribution(object):
         if verbose:
             print(f"{n_sample_counted} samples were counted")
 
-    def count_lines(self, file_dir: str):
 
-        if str(file_dir).endswith(".txt.gz"):
-            return sum(1 for _ in gzip.open(file_dir, "rt"))
-        else:
-            return sum(1 for _ in open(file_dir))
 
     def process_txt_file(
         self,
@@ -651,46 +646,4 @@ class MultilingualGenderDistribution(object):
             / len(self.n_doc_w_match)
             * 100
         )
-
-        # try:
-        #    assert len(coverage.value_counts())>1, f'Lang {lang} No match found: {coverage}'
-        # except Exception as e:
-        #    print(f'Warning {e}')
-
-        # coverage_stat = coverage.value_counts()[1]/len(coverage)*100 if len(coverage.value_counts())>1 else 0
-
         self.stat["coverage"] = coverage
-
-    def printout_summary_demographics(self, printout=True, write_dir: str = None):
-        final_count = self.final_result()
-        lang = final_count[0]
-        gender_count = final_count[1]
-        demographics = final_count[2]
-
-        summary = f"Report for lang {lang}\n\n"
-
-        summary += f"Out of {gender_count['_total']} words: \n"
-        for gender_cat in GENDERS:
-            summary += f"{gender_cat} words amounts for {gender_count[gender_cat]} ({gender_count[gender_cat]/gender_count['_total']*100:0.1f}%), "
-
-        summary += "\n\n"
-
-        summary += f"Out of {demographics['_total']} samples: \n"
-        for demog in demographics:
-            if demog != "_total":
-                bucket = demog.split("\t")[1]
-                axis = demog.split("\t")[0]
-
-                gender = demog.split("\t")[2]
-                if axis == "(none)" and bucket == "null":
-                    assert gender in GENDERS
-                    continue
-                count = demographics[demog]
-                summary += f"{bucket}-{axis} samples amounts for {count} ({count/demographics['_total']*100:0.1f}%),\n"
-
-        if printout:
-            print(summary)
-        if write_dir is not None:
-            with open(write_dir, "w") as f:
-                f.write(summary)
-                print(f"Summary was written {write_dir}")
