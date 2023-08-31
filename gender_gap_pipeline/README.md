@@ -1,7 +1,7 @@
 # The Gender-GAP (Gender-Aware Polyglot) Pipeline
 
-You will find below instructions to compute the run the Gender-GAP pipeline. 
-In a nutshell, given a dataset, you can use the script presented below to compute the distributions of genders. 
+You will find below instructions to run the Gender-GAP pipeline. 
+In a nutshell, given a dataset, you can use `python gender_gap_pipeline/get_multilingual_gender_dist.py` to compute the distributions of genders across the three classes: ***feminine, masculine and unspecified***. 
 
 The pipeline is showcased in the paper *The Gender-GAP Pipeline: A Gender-Aware Polyglot Pipeline for Gender Characterisation in 55 Languages*. 
 
@@ -28,7 +28,7 @@ python gender_gap_pipeline/get_multilingual_gender_dist.py \
 
 The final distribution will be written to ```./reports/report.csv``` by default.
 
-## Extra Flags:
+## Extra Options
 
 Add ```--printout_latex``` to printout the distribution per language in a latex-ready format    
 Add ```--max_samples 100``` flag to limit the distribution to the top 100 samples.  
