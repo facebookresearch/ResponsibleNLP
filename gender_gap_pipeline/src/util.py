@@ -9,7 +9,7 @@
 import json
 
 import pandas as pd
-from multilingual_gendered_nouns_dist.src.gender_counts import GENDERS
+from gender_gap_pipeline.src.gender_counts import GENDERS
 
 
 DEFAULT_DATASET_VERSION = "v1.0"

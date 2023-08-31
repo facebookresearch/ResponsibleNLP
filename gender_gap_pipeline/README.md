@@ -22,7 +22,7 @@ cd multilingual_gendered_nouns_dist
 Compute gender distribution of a single file in arb bel vie por eng spa:     
 
 ```
-python multilingual_gendered_nouns_dist/get_multilingual_gender_dist.py  --file_dir $DATA_DIR/ \
+python gender_gap_pipeline/get_multilingual_gender_dist.py  --file_dir $DATA_DIR/ \
     --file_names arb_Arab.devtest bel_Cyrl.devtest vie_Latn.devtest por_Latn.devtest eng_Latn.devtest spa_Latn.devtest  \
     --langs arb bel vie por eng spa
 ```

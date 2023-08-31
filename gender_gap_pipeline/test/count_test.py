@@ -12,8 +12,8 @@ import pathlib
 import sys
 sys.path.append('.')
 
-from multilingual_gendered_nouns_dist.src.gender_counts import MultilingualGenderDistribution
-from multilingual_gendered_nouns_dist.src.util import clean_sample
+from gender_gap_pipeline.src.gender_counts import MultilingualGenderDistribution
+from gender_gap_pipeline.src.util import clean_sample
 
 
 def count_test_eng():

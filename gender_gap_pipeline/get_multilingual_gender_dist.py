@@ -18,16 +18,14 @@ import uuid
 sys.path.append('.')
 
 from datasets import load_dataset
-from multilingual_gendered_nouns_dist.src.gender_counts import MultilingualGenderDistribution, GENDERS
-from multilingual_gendered_nouns_dist.src.util import clean_sample, get_latex_table, reporting
+from gender_gap_pipeline.src.gender_counts import MultilingualGenderDistribution, GENDERS
+from gender_gap_pipeline.src.util import clean_sample, get_latex_table, reporting
 
 
 
 if __name__ == '__main__':
     
     # Load the pre-trained language identification model
-    
-
     parser = argparse.ArgumentParser(description='Example of using argparse')
 
     parser.add_argument('--max_samples', default=None)
