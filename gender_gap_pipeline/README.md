@@ -5,7 +5,7 @@ In a nutshell, given a dataset, you can use `python gender_gap_pipeline/get_mult
 
 The pipeline is showcased in the paper *The Gender-GAP Pipeline: A Gender-Aware Polyglot Pipeline for Gender Characterisation in 55 Languages*. 
 
-![The Gender-GAP Pipeline Illustrated](https://github.com/facebookresearch/ResponsibleNLP/blob/main/gender_gap_pipeline/GenderGAP_img.pdf)
+![The Gender-GAP Pipeline Illustrated](https://github.com/facebookresearch/ResponsibleNLP/blob/main/gender_gap_pipeline/GenderGAP_img.png)
 
 
 ## Setup 
