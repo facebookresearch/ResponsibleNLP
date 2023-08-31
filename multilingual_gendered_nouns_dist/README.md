@@ -3,7 +3,7 @@
 You will find below instructions to compute the run the Gender-GAP pipeline. 
 In a nutshell, given a dataset, you can use the script presented below to compute the distributions of genders. 
 
-The pipeline is showcased in the paper *The GENDER-GAP Pipeline: A Gender-Aware Polyglot Pipeline for Gender Characterisation in 55 Languages*. 
+The pipeline is showcased in the paper *The Gender-GAP Pipeline: A Gender-Aware Polyglot Pipeline for Gender Characterisation in 55 Languages*. 
 
 ## Setup 
 
