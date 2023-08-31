@@ -122,26 +122,3 @@ def reporting(report_df, hb_counter, lang, dataset):
     report_df["lang"].append(lang)
 
 
-if __name__ == "__main__":
-    dir_oscar10k = "reports/report-2977/report.csv"
-    dir_flores = "reports/report-2160/report.csv"
-    dir_ntrex = "reports/report-8549/report.csv"
-
-    for name, dir in zip(
-        ["oscar", "flores", "ntrex"], [dir_oscar10k, dir_flores, dir_ntrex]
-    ):
-        df = pd.read_csv(dir)
-        import pdb
-
-        # pdb.set_trace()
-        print(name)
-        print(
-            "MIN:",
-            df["n_doc_w_match"].min(),
-            df["n_doc_w_match"].quantile(0.1),
-            df["n_doc_w_match"].max(),
-        )
-        print(
-            "MAsculien > Feminine", len(df[df["masculine"] >= df["feminine"]]), len(df)
-        )
-        # get_latex_table(df)

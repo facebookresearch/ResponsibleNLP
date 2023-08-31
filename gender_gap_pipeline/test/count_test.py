@@ -13,7 +13,7 @@ import sys
 
 sys.path.append(".")
 
-from gender_gap_pipeline.src.gender_counts import MultilingualGenderDistribution
+from gender_gap_pipeline.src.gender_counts import GenderGAP
 from gender_gap_pipeline.src.util import clean_sample
 
 
@@ -37,28 +37,22 @@ def count_test_eng():
         for line in DATA:
             f.write(line + "\n")
 
-    hb_counter = MultilingualGenderDistribution(
-        store_hb_dir="./tmp", langs=[LANG], ft_model_path=None, dataset_version="v1.0"
+    hb_counter = GenderGAP(
+        store_hb_dir="./tmp", lang=LANG, ft_model_path=None, dataset_version="v1.0"
     )
-    with open(file_dir / "test.txt") as file:
-        hb_counter.process_txt(
-            file=file,
-            clean_sample=clean_sample,
-            max_samples=None,
-            expected_langs=[LANG],
-        )
-    report = hb_counter.gender_dist()
-
-    print(report["total"])
-    assert report["total"][0] == 8, report
-    print(f"TEST:Total number of words is correct {report['total'][0]}")
-    assert report["feminine"][0] == 0, report["feminine"]
-    print(f"TEST:Total number of feminine words is correct {report['feminine'][0]}")
-    assert report["masculine"][0] == 1
-    print(f"TEST:Total number of masculine words is correct {report['masculine'][0]}")
-    assert report["unspecified"][0] == 0, report["unspecified"][0]
+    hb_counter.process_txt_file(file_dir=file_dir / "test.txt", clean_sample=clean_sample,  
+                                max_samples=None,  return_vec=True)
+    hb_counter.gender_dist(info_file='test')
+    
+    assert hb_counter.stat["total"] == 8, hb_counter.stat
+    print(f"TEST:Total number of words is correct {hb_counter.stat['total']}")
+    assert hb_counter.stat["feminine"] == 0,  hb_counter.stat["feminine"]
+    print(f"TEST:Total number of feminine words is correct {hb_counter.stat['feminine']}")
+    assert hb_counter.stat["masculine"]*hb_counter.stat["total"] == 100, hb_counter.stat
+    print(f"TEST:Total number of masculine words is correct {hb_counter.stat['masculine']}")
+    assert hb_counter.stat["unspecified"] == 0, hb_counter.stat["unspecified"]
     print(
-        f"TEST:Total number of unspecified words is correct {report['unspecified'][0]}"
+        f"TEST:Total number of unspecified words is correct {hb_counter.stat['unspecified']}"
     )
 
     print("All test counting done (v1.0 nouns list eng)")
@@ -88,17 +82,14 @@ def count_test_spa():
         for line in DATA:
             f.write(line + "\n")
 
-    hb_counter = MultilingualGenderDistribution(
-        store_hb_dir="./tmp", langs=[LANG], ft_model_path=None, dataset_version="v1.0"
+    hb_counter = GenderGAP(
+        store_hb_dir="./tmp", lang=LANG, ft_model_path=None, dataset_version="v1.0"
     )
-    with open(file_dir / "test.txt") as file:
-        hb_counter.process_txt(
-            file=file,
-            clean_sample=clean_sample,
-            max_samples=None,
-            expected_langs=[LANG],
-        )
-    report = hb_counter.gender_dist()
+    
+    hb_counter.process_txt_file(file_dir=file_dir / "test.txt", clean_sample=clean_sample,  
+                                    max_samples=None,  return_vec=True)
+        
+    report = hb_counter.gender_dist(info_file='test')
 
     print(report["total"])
     assert report["total"][0] == 40
@@ -138,17 +129,16 @@ def count_test_eng_2():
         for line in DATA:
             f.write(line + "\n")
 
-    hb_counter = MultilingualGenderDistribution(
-        store_hb_dir="./tmp", langs=[LANG], ft_model_path=None, dataset_version="v1.0"
+    hb_counter = GenderGAP(
+        store_hb_dir="./tmp", lang=LANG, ft_model_path=None, dataset_version="v1.0"
     )
     with open(file_dir / "test.txt") as file:
         hb_counter.process_txt(
             file=file,
             clean_sample=clean_sample,
             max_samples=None,
-            expected_langs=[LANG],
         )
-    report = hb_counter.gender_dist()
+    report = hb_counter.gender_dist(info_file='test')
 
     print(report["total"])
     assert report["total"][0] == 20
@@ -189,17 +179,16 @@ def ratio_test():
         for line in DATA:
             f.write(line + "\n")
 
-    hb_counter = MultilingualGenderDistribution(
-        store_hb_dir="./tmp", langs=[LANG], ft_model_path=None, dataset_version="v1.0"
+    hb_counter = GenderGAP(
+        store_hb_dir="./tmp", lang=LANG, ft_model_path=None, dataset_version="v1.0"
     )
     with open(file_dir / "test.txt") as file:
         hb_counter.process_txt(
             file=file,
             clean_sample=clean_sample,
             max_samples=None,
-            expected_langs=[LANG],
         )
-    report = hb_counter.gender_dist()
+    report = hb_counter.gender_dist(info_file='test')
 
     count = report.iloc[0]
     ratio = report.iloc[1]
@@ -216,7 +205,7 @@ def ratio_test():
 
 
 if __name__ == "__main__":
-    count_test_spa()
     count_test_eng()
+    count_test_spa()
     count_test_eng_2()
     ratio_test()

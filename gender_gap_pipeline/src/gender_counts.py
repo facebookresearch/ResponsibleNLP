@@ -289,6 +289,8 @@ def count_lines(file_dir: str):
 
 
 def load_tokenizer(lang: str):
+    # stanza take iso 1 as input
+    lang = ISO_639_3_TO_1.get(lang, lang)
     if lang == "th":
         print("Tokenizer: for thai using pythainlp")
         return word_tokenize_thai, "pythainlp"
@@ -319,7 +321,7 @@ def load_tokenizer(lang: str):
             return word_tokenize, "nltk"
 
 
-class GenderGAP(object):
+class GenderGAP():
     """
     This is the core class for running the Gender-GAP Pipeline.
     """
@@ -328,92 +330,93 @@ class GenderGAP(object):
         self,
         store_hb_dir: str,
         ft_model_path: str,
-        langs: list = ["en"],
+        lang: str = None,
         dataset_version="v1.0",
     ) -> None:
 
         store_hb_dir = Path(store_hb_dir)
         store_hb_dir.mkdir(exist_ok=True)
 
-        if ft_model_path:
-            self.lang_detect_model = fasttext.load_model(ft_model_path)
-        else:
-            self.lang_detect_model = None
-
-        self.noun_phrases = {lang: {} for lang in langs}
-        self.gender_ls = {lang: {} for lang in langs}
-        self.gender_counters = {lang: {} for lang in langs}
+        self.lang_detect_model = fasttext.load_model(ft_model_path) if ft_model_path else None
+        
+        self.gender_ls = {}
+        self.gender_counters = {}
         gender_lexicon_folder = 'gender_lexicon'
         base_folder = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), "..", gender_lexicon_folder
         )
-        dataset_folder = os.path.join(base_folder, dataset_version)
+        self.dataset_version = dataset_version
+        self.dataset_folder = os.path.join(base_folder, self.dataset_version)
 
         self.stat = {
             gender: None
             for gender in GENDERS + ["total", "coverage", "ste_diff_fem_masc"]
         }
         self.gender_dic_vec = None
-        self.langs = langs
+        self.lang = lang
         self.tokenizer = {}
         self.tokenizer_type = {}
         self.nouns = {}
         script_path = Path(__file__).resolve().parent
         base_folder = script_path / ".." / gender_lexicon_folder / dataset_version
         
-        SUPPORTED_LANGS = [
+        self.SUPPORTED_LANGS = [
             file.stem.split("_")[0]
             for file in base_folder.iterdir()
             if file.is_file()
             if file.suffix == ".json"
         ]
 
-        if langs:
-            for lang in langs:
-                assert lang in SUPPORTED_LANGS, f"{lang} not supported by the pipeline"
-        # loading nltk as fall back option if stanza not supported
+        if lang:
+            assert lang in self.SUPPORTED_LANGS, f"{lang} not supported by the pipeline. Supported languages are: {' '.join(self.SUPPORTED_LANGS)}"
+        # loading nltk as fallback option if stanza not supported
         nltk.download("punkt")
-        for lang in self.langs:
-            if lang not in ISO_639_3_TO_1:
-                print(f"WARNING lang code {lang}")
-            lang_iso = ISO_639_3_TO_1.get(lang, lang)
 
-            self.tokenizer[lang], self.tokenizer_type[lang] = load_tokenizer(lang_iso)
-
-            with open(os.path.join(dataset_folder, f"{lang}_nouns.json")) as f:
-                self.nouns[lang] = json.load(f)
-            for group_gender, gender_noun_tuples in self.nouns[lang].items():
-
-                if group_gender not in self.gender_ls[lang]:
-                    self.gender_ls[lang][group_gender] = []
-
-                if dataset_version == "v1.0":
-                    for nouns_dict in gender_noun_tuples:
-                        assert (
-                            "singular" in nouns_dict or "plural" in nouns_dict
-                        ), f"boken dictionary: {nouns_dict}"
-                        if "singular" in nouns_dict:
-                            self.gender_ls[lang][group_gender].append(
-                                nouns_dict["singular"].lower()
-                            )
-                        if "plural" in nouns_dict:
-                            self.gender_ls[lang][group_gender].append(
-                                nouns_dict["plural"].lower()
-                            )
-                else:
-                    raise (Exception(f"{dataset_version} not supported"))
-
-                self.gender_counters[lang][group_gender] = Counter(
-                    self.gender_ls[lang][group_gender]
-                )
+        if lang:
+            # if lang is provided, we preload the lexicon and the tokenizer. Otherwise we run lang-detect and load them on the fly
+            self.tokenizer[lang], self.tokenizer_type[lang] = load_tokenizer(lang)
+            self.load_lexicon(lang)
+        else:
+            assert self.lang_detect_model is not None 
 
         # Language agnostic counters
-
-        self.count_np: Counter = Counter()
         self.count_gender: Counter = Counter()
         self.n_words_per_match = []
         self.n_words_with_no_match = 0
         self.n_doc_w_match = []
+
+
+    def load_lexicon(self, lang):
+        lexicon_dir = os.path.join(self.dataset_folder, f"{lang}_nouns.json")
+        with open(lexicon_dir) as f:
+            self.nouns[lang] = json.load(f)
+        self.gender_ls[lang] = {}
+        self.gender_counters[lang] = {}
+        for group_gender, gender_noun_tuples in self.nouns[lang].items():
+            if group_gender not in self.gender_ls[lang]:
+                self.gender_ls[lang][group_gender] = []
+
+            if self.dataset_version == "v1.0":
+                for nouns_dict in gender_noun_tuples:
+                    assert (
+                        "singular" in nouns_dict or "plural" in nouns_dict
+                    ), f"boken dictionary: {nouns_dict}"
+                    if "singular" in nouns_dict:
+                        self.gender_ls[lang][group_gender].append(
+                            nouns_dict["singular"].lower()
+                        )
+                    if "plural" in nouns_dict:
+                        self.gender_ls[lang][group_gender].append(
+                            nouns_dict["plural"].lower()
+                        )
+            else:
+                raise (Exception(f"{self.dataset_version} not supported"))
+
+            self.gender_counters[lang][group_gender] = Counter(
+                self.gender_ls[lang][group_gender]
+            )
+        print(f'Lexicon loaded from {lexicon_dir}')
+        
 
     def count_demographics(
         self, line: str, lang: str, return_terms=False, return_vec=False
@@ -424,7 +427,14 @@ class GenderGAP(object):
             return
         gender_vec = None
         # lines counter
-        assert lang in self.langs, f"{lang} not in {self.langs}"
+        if lang not in self.SUPPORTED_LANGS:
+            print(f"{lang} not supported by the pipeline. Supported languages are: {' '.join(self.SUPPORTED_LANGS)}")
+            return
+
+        if lang not in self.tokenizer_type:
+            self.tokenizer[lang], self.tokenizer_type[lang] = load_tokenizer(lang)
+            self.load_lexicon(lang)
+        
 
         # for gender, we count words instead of lines, so we do basic tokenization (eng only)
         if self.tokenizer_type[lang].startswith("stanza"):
@@ -492,6 +502,9 @@ class GenderGAP(object):
         # Extract the predicted label (language code)
 
         label = predictions[0][0].replace("__label__", "")
+        
+        label = ISO_639_1_TO_3.get(label, label)
+        
         return label
     
     def count_lines(self, file_dir: str):
@@ -509,12 +522,14 @@ class GenderGAP(object):
         second_level_key: str = None,
         clean_sample: tp.Callable = None,
         max_samples: int = None,
+        return_vec: bool = False,
         verbose: int = 1,
     ) -> None:
         # iterate over lines
         n_sample_counted = 0
         if max_samples is not None:
             max_samples = int(max_samples)
+        gender_dic = {"masculine": [], "feminine": []}
         for i, sample in tqdm(enumerate(dataset[split])):
 
             first_level_val = sample[first_level_key]
@@ -525,7 +540,10 @@ class GenderGAP(object):
                         sample = clean_sample(sample)
                     n_sample_counted += 1
                     lang_detected = self.detect_language(text=sample)
-                    self.count_demographics(sample, lang_detected)
+                    _, _, _gender_dic = self.count_demographics(sample, lang_detected, return_vec=return_vec)
+                    if return_vec:
+                        gender_dic["masculine"].extend(_gender_dic["masculine"])
+                        gender_dic["feminine"].extend(_gender_dic["feminine"])
             else:
                 if clean_sample is not None:
                     first_level_val = clean_sample(first_level_val)
@@ -533,15 +551,19 @@ class GenderGAP(object):
                 if self.lang_detect_model is not None:
                     lang_detected = self.detect_language(text=first_level_val)
                 else:
-                    print("WARNING: default lang 'en' ")
-                    lang_detected = "en"
-
-                lang_detected = ISO_639_3_TO_1.get(lang_detected, lang_detected)
-                self.count_demographics(first_level_val, lang_detected)
+                    lang_to_process = self.lang
+                _, _, _gender_dic = self.count_demographics(first_level_val, lang_to_process, return_vec=return_vec)
+                if return_vec:
+                    gender_dic["masculine"].extend(_gender_dic["masculine"])
+                    gender_dic["feminine"].extend(_gender_dic["feminine"])
+            
             if max_samples is not None:
                 if n_sample_counted >= max_samples:
                     break
-
+        if return_vec:
+            gender_dic["masculine"] = np.array(gender_dic["masculine"])
+            gender_dic["feminine"] = np.array(gender_dic["feminine"])
+        self.gender_dic_vec = gender_dic
         if verbose:
             print(f"{n_sample_counted} samples were counted")
 
@@ -552,7 +574,6 @@ class GenderGAP(object):
         file_dir: str,
         clean_sample: tp.Callable = None,
         max_samples: int = None,
-        expected_langs: list = None,
         return_vec: bool = False,
         verbose: int = 1,
     ) -> None:
@@ -575,22 +596,10 @@ class GenderGAP(object):
         ):
             n_sample_counted += 1
             sample = clean_sample(sample)
-
-            if self.lang_detect_model:
-                lang_detected = self.detect_language(text=sample)
-                lang_detected = ISO_639_3_TO_1.get(lang_detected, lang_detected)
-            else:
-                assert len(expected_langs) == 1
-                lang_detected = expected_langs[0]
-
-            if lang_detected not in expected_langs:
-                print(
-                    f"Lang detected {lang_detected} of {sample}  not in {expected_langs} skipped"
-                )
-                continue
-
+            
+            lang = self.detect_language(text=sample) if self.lang_detect_model else self.lang
             _, _, _gender_dic = self.count_demographics(
-                sample, lang_detected, return_vec=return_vec
+                sample, lang, return_vec=return_vec
             )
             if return_vec:
                 gender_dic["masculine"].extend(_gender_dic["masculine"])
@@ -607,7 +616,7 @@ class GenderGAP(object):
         self.gender_dic_vec = gender_dic
 
     def final_result(self) -> tp.Tuple[str, Counter, Counter]:
-        return (self.langs, self.count_gender, self.count_np)
+        return (self.lang, self.count_gender)
 
     def gender_dist(self, info_file: str):
         final_count = self.final_result()

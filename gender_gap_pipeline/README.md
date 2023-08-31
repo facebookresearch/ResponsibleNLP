@@ -3,7 +3,7 @@
 You will find below instructions to run the Gender-GAP pipeline. 
 In a nutshell, given a dataset, you can use `python gender_gap_pipeline/get_multilingual_gender_dist.py` to compute the distributions of genders across the three classes: ***feminine, masculine and unspecified***. 
 
-The pipeline is showcased in the paper *The Gender-GAP Pipeline: A Gender-Aware Polyglot Pipeline for Gender Characterisation in 55 Languages*. 
+The pipeline is showcased in the paper *The Gender-GAP Pipeline: A Gender-Aware Polyglot Pipeline for Gender Characterisation in 55 Languages* and illustrated here:
 
 ![The Gender-GAP Pipeline Illustrated](https://github.com/facebookresearch/ResponsibleNLP/blob/main/gender_gap_pipeline/GenderGAP_img.png)
 
@@ -36,6 +36,10 @@ The final distribution will be written to ```./reports/report.csv``` by default.
 Add ```--printout_latex``` to printout the distribution per language in a latex-ready format    
 Add ```--max_samples 100``` flag to limit the distribution to the top 100 samples.  
 Add ```--write_dir $TARGET_DIR``` to specify the directory to write the report.csv to.  
+Add ```--skip_failed_files``` to skip failed files processing and not to raise an error. A Warning will be logged if a file fails to be processed. 
+
+
+
 
  
 ## Languages supported and language code
