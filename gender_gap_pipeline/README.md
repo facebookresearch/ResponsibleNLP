@@ -15,7 +15,7 @@ The code was tested with python 3.9.
 ```
 pip install -r requirements.txt
 git clone https://github.com/facebookresearch/ResponsibleNLP.git
-cd multilingual_gendered_nouns_dist
+cd ./ResponsibleNLP
 ```
 
 ## Run Gender-GAP
@@ -37,7 +37,6 @@ Add ```--printout_latex``` to printout the distribution per language in a latex-
 Add ```--max_samples 100``` flag to limit the distribution to the top 100 samples.  
 Add ```--write_dir $TARGET_DIR``` to specify the directory to write the report.csv to.  
 Add ```--skip_failed_files``` to skip failed files processing and not to raise an error. A Warning will be logged if a file fails to be processed. 
-
 
 
 
