@@ -19,6 +19,16 @@ pip install -r requirements.txt
 cd ../
 ```
 
+
+Download fastext language detection model (only needed when --langs is not provided, or --lang_detect is triggered):   
+```
+cd ./ResponsibleNLP
+mkdir fasttext_models
+cd fasttext_models
+wget https://dl.fbaipublicfiles.com/fasttext/supervised-models/lid.176.bin
+```
+
+
 ## Run the Gender-GAP Pipeline
 
 ### Gender-GAP on Text files or .gzip
