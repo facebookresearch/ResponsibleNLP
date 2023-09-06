@@ -91,3 +91,18 @@ Add ```--skip_failed_files``` to skip failed files processing and not to raise a
 | Thai        | tha  |
 | Zulu        | zul  |
 
+
+
+
+## Citation
+
+If you use the Gender-GAP pipeline or the underlying lexicon in your work, please cite:
+
+```bibtex
+@article{muller2023gender,
+  title={The Gender-GAP Pipeline: A Gender-Aware Polyglot Pipeline for Gender Characterisation in 55 Languages},
+  author={Muller, Benjamin and Alastruey, Belen and Hansanti, Prangthip and Kalbassi, Elahe and Ropers, Christophe and Smith, Eric Michael and Williams, Adina and Zettlemoyer, Luke and Andrews, Pierre and Costa-juss{\`a}, Marta R},
+  journal={arXiv preprint arXiv:2308.16871},
+  year={2023}
+}
+```

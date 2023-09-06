@@ -55,7 +55,7 @@ def count_test_eng():
         f"TEST:Total number of unspecified words is correct {hb_counter.stat['unspecified']}"
     )
 
-    print("All test counting done (v1.0 nouns list eng)")
+    print(f"All test counting done (v1.0 nouns list {LANG})")
 
 
 def count_test_spa():
@@ -89,21 +89,22 @@ def count_test_spa():
     hb_counter.process_txt_file(file_dir=file_dir / "test.txt", clean_sample=clean_sample,  
                                     max_samples=None,  return_vec=True)
         
-    report = hb_counter.gender_dist(info_file='test')
+    hb_counter.gender_dist(info_file='test')
 
-    print(report["total"])
-    assert report["total"][0] == 40
-    print(f"TEST:Total number of words is correct {report['total'][0]}")
-    assert report["feminine"][0] == 7 + 3, report["feminine"]
-    print(f"TEST:Total number of feminine words is correct {report['feminine'][0]}")
-    assert report["masculine"][0] == 3 + 3
-    print(f"TEST:Total number of masculine words is correct {report['masculine'][0]}")
-    assert report["unspecified"][0] == 2, report["unspecified"][0]
+    print(hb_counter.stat)
+    
+    assert hb_counter.stat["total"] == 40, hb_counter.stat
+    print(f"TEST:Total number of words is correct {hb_counter.stat['total']}")
+    assert hb_counter.stat['feminine'] == (7 + 3)/hb_counter.stat["total"]*100, hb_counter.stat
+    print(f"TEST:Total number of feminine words is correct {hb_counter.stat['feminine']}")
+    assert hb_counter.stat["masculine"] == (3 + 3)/hb_counter.stat["total"]*100, hb_counter.stat
+    print(f"TEST:Total number of masculine words is correct {hb_counter.stat['masculine']}")
+    assert hb_counter.stat["unspecified"] == 2/hb_counter.stat["total"]*100, hb_counter.stat
     print(
-        f"TEST:Total number of unspecified words is correct {report['unspecified'][0]}"
+        f"TEST:Total number of unspecified words is correct {hb_counter.stat['unspecified']}"
     )
 
-    print("All test counting done (v1.0 nouns list spa)")
+    print(f"All test counting done (v1.0 nouns list {LANG})")
 
 
 def count_test_eng_2():
@@ -132,80 +133,32 @@ def count_test_eng_2():
     hb_counter = GenderGAP(
         store_hb_dir="./tmp", lang=LANG, ft_model_path=None, dataset_version="v1.0"
     )
-    with open(file_dir / "test.txt") as file:
-        hb_counter.process_txt(
-            file=file,
+    
+    hb_counter.process_txt_file(
+            file_dir=file_dir / "test.txt",
             clean_sample=clean_sample,
             max_samples=None,
+            return_vec=True,
         )
-    report = hb_counter.gender_dist(info_file='test')
+    hb_counter.gender_dist(info_file='test')
 
-    print(report["total"])
-    assert report["total"][0] == 20
-    print(f"TEST:Total number of words is correct {report['total'][0]}")
-    assert report["feminine"][0] == 1, report["feminine"]
-    print(f"TEST:Total number of feminine words is correct {report['feminine'][0]}")
-    assert report["masculine"][0] == 2
-    print(f"TEST:Total number of masculine words is correct {report['masculine'][0]}")
-    assert report["unspecified"][0] == 2, report["unspecified"][0]
+    print(hb_counter.stat)
+    assert hb_counter.stat["total"] == 20
+    print(f"TEST:Total number of words is correct {hb_counter.stat['total']}")
+    assert hb_counter.stat["feminine"] == 1/hb_counter.stat["total"]*100, hb_counter.stat["feminine"]
+    print(f"TEST:Total number of feminine words is correct {hb_counter.stat['feminine']}")
+    assert hb_counter.stat["masculine"] == 2/hb_counter.stat["total"]*100, hb_counter.stat
+    print(f"TEST:Total number of masculine words is correct {hb_counter.stat['masculine']}")
+    assert hb_counter.stat["unspecified"] == 2/hb_counter.stat["total"]*100, hb_counter.stat["unspecified"]
     print(
-        f"TEST:Total number of unspecified words is correct {report['unspecified'][0]}"
+        f"TEST:Total number of unspecified words is correct {hb_counter.stat['unspecified']}"
     )
 
-    print("All test counting done (v1.0 nouns list spa)")
-
-
-def ratio_test():
-    LANG = "spa"
-
-    DATA = [
-        "Este desconcierto surge de los planes de cambiar el nombre de la Asamblea a Parlamento de Gales.",  # 0
-        "empty sentence ",  # 0
-        "esposa esposa esposas et tu che va",  # 3 female
-        "abuelos abuelos abuelo",  # abuelos is both unspecified and make: 3 male, 2 underspecified
-        "esposa. esposa! ?esposa esposa",  # testing tokenizer: 1 female
-        "ABU Abu aBU",  # testing case:  3 female and 3 male
-    ]
-
-    # data includes:
-    ## 36 words with white-space tokenization
-    ## 41 with stanza
-
-    file_dir = pathlib.Path("./tmp")
-    file_dir.mkdir(exist_ok=True)
-
-    # writing test data
-    with open(file_dir / "test.txt", "w") as f:
-        for line in DATA:
-            f.write(line + "\n")
-
-    hb_counter = GenderGAP(
-        store_hb_dir="./tmp", lang=LANG, ft_model_path=None, dataset_version="v1.0"
-    )
-    with open(file_dir / "test.txt") as file:
-        hb_counter.process_txt(
-            file=file,
-            clean_sample=clean_sample,
-            max_samples=None,
-        )
-    report = hb_counter.gender_dist(info_file='test')
-
-    count = report.iloc[0]
-    ratio = report.iloc[1]
-
-    n_words = count["total"]
-    for col in report.columns:
-        if col == "total":
-            continue
-        assert (
-            ratio[col] == count[col] / n_words * 100
-        ), f"{col}: {ratio[col]} <> {count[col]/n_words}"
-        print(f"TEST: {col} ratio correct {ratio[col]}")
-    print("All test ratio done")
+    print(f"All test counting done (v1.0 nouns list {LANG})")
 
 
 if __name__ == "__main__":
     count_test_eng()
     count_test_spa()
     count_test_eng_2()
-    ratio_test()
+    
