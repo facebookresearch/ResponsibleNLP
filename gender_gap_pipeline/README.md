@@ -19,7 +19,7 @@ pip install -r requirements.txt
 cd ../
 ```
 
-Stanza relies on pytorch for deep-learning-based word segmentation. Processing will therefore be faster on GPU.     
+Gender-GAP uses [Stanza](https://stanfordnlp.github.io/stanza/available_models.html) for word segmentation. Stanza relies on pytorch for deep-learning-based word segmentation. The pipeline will therefore be significantly faster running on GPU. However, CPU is supported.     
 If you face any issues with importing pytorch, first install pytorch independently (e.g. with `conda install pytorch pytorch-cuda=11.8 -c pytorch -c nvidia`
 ) then run `pip install -r requirements.txt` to install stanza: 
 
