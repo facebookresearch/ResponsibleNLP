@@ -31,7 +31,7 @@ python gender_gap_pipeline/get_multilingual_gender_dist.py
 --langs $lang1 $lang2  # [OPTIONAL] single or space-seperated list of languages. If a single language is provideed, it will assume that all files are in this language. if --langs is not provided: language detection is triggered. Cf.  'Languages supported and language code' section for supported languages
 ```
 
-For instance, you can run Gender-GAP on [FLORES-200 devtest data](https://github.com/facebookresearch/flores) on the Arabic, Belarusian, Vietnamese, Porthughese, English and Spanish split:
+For instance, you can run Gender-GAP on [FLORES-200 devtest data](https://github.com/facebookresearch/flores) on the Arabic, Belarusian, Vietnamese, Porthughese, English and Spanish split located in `$DATA_DIR` with:
 
 ```
 python gender_gap_pipeline/get_multilingual_gender_dist.py \
@@ -60,6 +60,8 @@ with reports/report.csv:
 
 ### Gender-GAP on HuggingFace Datasets
 
+Compute gender distribution of any datasets hosted in the HuggingFace [dataset hub](https://huggingface.co/datasets).
+
 ```
 python gender_gap_pipeline/get_multilingual_gender_dist.py \
 --hf_datasets  "$HUGGING_FACE_DATASET" \ # Single or space-seperated list of hugging-face datasets as found in https://huggingface.co/datasets 
@@ -71,6 +73,8 @@ python gender_gap_pipeline/get_multilingual_gender_dist.py \
 
 
 For instance, you can run Gender-GAP on the [dell-research-harvard/AmericanStories](https://huggingface.co/datasets/dell-research-harvard/AmericanStories) dataset on the 'article' text field on the '1804' .
+
+
 ```
 python gender_gap_pipeline/get_multilingual_gender_dist.py \
 --hf_datasets  "dell-research-harvard/AmericanStories" \
