@@ -19,11 +19,14 @@ pip install -r requirements.txt
 cd ../
 ```
 
-Gender-GAP uses [Stanza](https://stanfordnlp.github.io/stanza/available_models.html) for word segmentation. Stanza relies on pytorch for deep-learning-based word segmentation. The pipeline will therefore be significantly faster running on GPU. However, CPU is supported.     
-If you face any issues with importing pytorch, first install pytorch independently (e.g. with `conda install pytorch pytorch-cuda=11.8 -c pytorch -c nvidia`
+NBs:
+- Gender-GAP uses [Stanza](https://stanfordnlp.github.io/stanza/available_models.html) for word segmentation. 
+- Stanza relies on pytorch for deep-learning-based word segmentation. The pipeline will therefore be significantly faster running on GPU. However, CPU is supported.     
+- If you face any issues with importing pytorch, first install pytorch independently (e.g. with `conda install pytorch pytorch-cuda=11.8 -c pytorch -c nvidia`
 ) then run `pip install -r requirements.txt` to install stanza: 
 
-Download fastext language detection model (only needed when --langs is not provided, or --lang_detect is triggered):   
+
+If the language of your data is unknown, language detection is supported in the pipeline. Download fastext language detection model (only needed when --langs is not provided, or --lang_detect is triggered):   
 ```
 cd ./ResponsibleNLP
 mkdir fasttext_models
