@@ -25,10 +25,10 @@ cd ./ResponsibleNLP
 Compute gender distribution of txt files. It also supports gzip text files ending with .gzip . 
 
 ```
-python gender_gap_pipeline/get_multilingual_gender_dist.py \
---file_dir $DATA_DIR_1 $DATA_DIR_2/ # single or space-seperated list of directories where files_names are located. If a single directory is provided, it will assume that all file names are in it. If several directory are provided, one directory per file names is assumed. 
---file_names $file_1 $file_2 \  # space-seperated list of file names
---langs $lang1 $lang2 \ # [OPTIONAL] single or space-seperated list of languages. If a single language is provideed, it will assume that all files are in this language. if --langs is not provided: language detection is triggered. Cf. ## Languages supported and language code section for supported languages
+python gender_gap_pipeline/get_multilingual_gender_dist.py 
+--file_dir $DATA_DIR_1 $DATA_DIR_2  # single or space-seperated list of directories where files_names are located. If a single directory is provided, it will assume that all file names are in it. If several directory are provided, one directory per file names is assumed. 
+--file_names $file_1 $file_2   # space-seperated list of file names
+--langs $lang1 $lang2  # [OPTIONAL] single or space-seperated list of languages. If a single language is provideed, it will assume that all files are in this language. if --langs is not provided: language detection is triggered. Cf. ## Languages supported and language code section for supported languages
 ```
 
 For instance, you can run Gender-GAP on [FLORES-200 devtest data](https://github.com/facebookresearch/flores) on the Arabic, Belarusian, Vietnamese, Porthughese, English and Spanish split:
@@ -45,15 +45,17 @@ This will output:
 ```
 >> 1012 sentences were processed
 >> reports/report.csv
-with reports/report.csv: 
-dataset,lang,masculine,feminine,unspecified,total,n_doc_w_match,ste_diff_fem_masc
-flores,arb,0.04696857019844221,0.05088261771497906,0.09393714039688442,25549,4.051383399209486,0.00019570605268052815
-flores,bel,0.4344951355435912,0.16057428922263153,0.4439406819684519,21174,12.747035573122531,0.000529808161936923
-flores,vie,0.300835213553418,0.13854253255749516,1.4408423385979494,25263,30.632411067193676,0.0004016076337256879
-flores,por,0.07828917549136759,0.10301207301495735,0.33787959948906016,24269,10.869565217391305,0.0002733229399289237
-flores,eng,0.06462453147214682,0.1206324587480074,0.3791305846365947,23211,11.16600790513834,0.00028249642743351656
-flores,spa,0.2007733491969066,0.10410469958358119,0.26026174895895304,26896,12.25296442687747,0.00033663613796724475
 ```
+
+with reports/report.csv: 
+|dataset|lang|masculine          |feminine           |unspecified        |total|n_doc_w_match     |ste_diff_fem_masc     |
+|-------|----|-------------------|-------------------|-------------------|-----|------------------|----------------------|
+|flores |arb |0.04696857019844221|0.05088261771497906|0.09393714039688442|25549|4.051383399209486 |0.00019570605268052815|
+|flores |bel |0.4344951355435912 |0.16057428922263153|0.4439406819684519 |21174|12.747035573122531|0.000529808161936923  |
+|flores |vie |0.300835213553418  |0.13854253255749516|1.4408423385979494 |25263|30.632411067193676|0.0004016076337256879 |
+|flores |por |0.07828917549136759|0.10301207301495735|0.33787959948906016|24269|10.869565217391305|0.0002733229399289237 |
+|flores |eng |0.06462453147214682|0.1206324587480074 |0.3791305846365947 |23211|11.16600790513834 |0.00028249642743351656|
+|flores |spa |0.2007733491969066 |0.10410469958358119|0.26026174895895304|26896|12.25296442687747 |0.00033663613796724475|
 
 
 ### HuggingFace Datasets Files
@@ -65,10 +67,8 @@ python gender_gap_pipeline/get_multilingual_gender_dist.py \
 --second_level_key $KEY \  # [OPTIONAL], For  datasets with a two-level dictionary structure: provide the second-level key to run Gender-GAP on. 
 --split $SPLIT  \ # split of the dataset or list of split to run the pipeline on (e.g. 'valid' 'test')
 --langs $LANG \ #  # [OPTIONAL] single or space-seperated list of languages. If a single language is provideed, it will assume that all files are in this language. if --langs is not provided: language detection is triggered.  Cf. ## Languages supported and language code section for supported languages
-
-dataset,lang,masculine,feminine,unspecified,total,n_doc_w_match,ste_diff_fem_masc
-dell-research-harvard/AmericanStories,eng,0.25665704202759065,0.0962463907603465,0.12832852101379533,3117,11.650485436893204,0.001063826559203403
 ```
+
 
 For instance, you can run Gender-GAP on the [dell-research-harvard/AmericanStories](https://huggingface.co/datasets/dell-research-harvard/AmericanStories) dataset on the 'article' text field on the '1804' .
 ```
@@ -84,10 +84,13 @@ This will output:
 >> 103 samples were counted
 >> REPORT on dell-research-harvard/AmericanStories
 >> reports/report.csv
-with reports/report.csv: 
-dataset,lang,masculine,feminine,unspecified,total,n_doc_w_match,ste_diff_fem_masc
-dell-research-harvard/AmericanStories-1804-article,eng,0.25665704202759065,0.0962463907603465,0.12832852101379533,3117,11.650485436893204,0.001063826559203403
 ```
+with report.csv:
+
+|dataset                              |lang|masculine          |feminine          |unspecified        |total|n_doc_w_match     |ste_diff_fem_masc   |
+|-------------------------------------|----|-------------------|------------------|-------------------|-----|------------------|--------------------|
+|dell-research-harvard/AmericanStories|eng |0.25665704202759065|0.0962463907603465|0.12832852101379533|3117 |11.650485436893204|0.001063826559203403|
+
 
 The final distribution will be written to ```./reports/report.csv``` by default.
 
