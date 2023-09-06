@@ -20,7 +20,7 @@ cd ./ResponsibleNLP
 
 ## Run the Gender-GAP Pipeline
 
-### Text files 
+### Gender-GAP on Text files or .gzip
 
 Compute gender distribution of txt files. It also supports gzip text files ending with .gzip . 
 
@@ -28,7 +28,7 @@ Compute gender distribution of txt files. It also supports gzip text files endin
 python gender_gap_pipeline/get_multilingual_gender_dist.py 
 --file_dir $DATA_DIR_1 $DATA_DIR_2  # Single or space-seperated list of directories where files_names are located. If a single directory is provided, it will assume that all file names are in it. If several directory are provided, one directory per file names is assumed. 
 --file_names $file_1 $file_2   # Space-seperated list of file names
---langs $lang1 $lang2  # [OPTIONAL] single or space-seperated list of languages. If a single language is provideed, it will assume that all files are in this language. if --langs is not provided: language detection is triggered. Cf. ## Languages supported and language code section for supported languages
+--langs $lang1 $lang2  # [OPTIONAL] single or space-seperated list of languages. If a single language is provideed, it will assume that all files are in this language. if --langs is not provided: language detection is triggered. Cf.  'Languages supported and language code' section for supported languages
 ```
 
 For instance, you can run Gender-GAP on [FLORES-200 devtest data](https://github.com/facebookresearch/flores) on the Arabic, Belarusian, Vietnamese, Porthughese, English and Spanish split:
@@ -58,7 +58,7 @@ with reports/report.csv:
 |flores |spa |0.2007733491969066 |0.10410469958358119|0.26026174895895304|26896|12.25296442687747 |0.00033663613796724475|
 
 
-### HuggingFace Datasets Files
+### Gender-GAP on HuggingFace Datasets
 
 ```
 python gender_gap_pipeline/get_multilingual_gender_dist.py \
@@ -66,7 +66,7 @@ python gender_gap_pipeline/get_multilingual_gender_dist.py \
 --first_level_key $KEY \  #  First-level key (or list of first-level keys) of the hugging face datasets provided in --hf_datasets
 --second_level_key $KEY \  # [OPTIONAL] For  datasets with a two-level dictionary structure: provide the second-level key (or list of second-level keys) to run Gender-GAP on. 
 --split $SPLIT  \ # split of the dataset (or list of splits) to run the pipeline on (e.g. 'valid' 'test')
---langs $LANG \ #  # [OPTIONAL] single or space-seperated list of languages. If a single language is provideed, it will assume that all files are in this language. if --langs is not provided: language detection is triggered.  Cf. ## Languages supported and language code section for supported languages
+--langs $LANG \ #  # [OPTIONAL] single or space-seperated list of languages. If a single language is provideed, it will assume that all files are in this language. if --langs is not provided: language detection is triggered.  Cf. 'Languages supported and language code' section for supported languages
 ```
 
 
