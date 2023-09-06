@@ -25,7 +25,7 @@ cd ./ResponsibleNLP
 
 Compute gender distribution of txt files in e.g. arb bel vie por eng spa:     
 
-NB: It also supports gzip text files ending with .gzip. 
+NB: It also supports gzip text files ending with .gzip . 
 
 ```
 python gender_gap_pipeline/get_multilingual_gender_dist.py \
