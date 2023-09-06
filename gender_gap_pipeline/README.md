@@ -89,7 +89,7 @@ with report.csv:
 
 |dataset                              |lang|masculine          |feminine          |unspecified        |total|n_doc_w_match     |ste_diff_fem_masc   |
 |-------------------------------------|----|-------------------|------------------|-------------------|-----|------------------|--------------------|
-|dell-research-harvard/AmericanStories|eng |0.25665704202759065|0.0962463907603465|0.12832852101379533|3117 |11.650485436893204|0.001063826559203403|
+|dell-research-harvard/AmericanStories-1804-article|eng |0.25665704202759065|0.0962463907603465|0.12832852101379533|3117 |11.650485436893204|0.001063826559203403|
 
 
 The final distribution will be written to ```./reports/report.csv``` by default.
