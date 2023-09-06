@@ -13,8 +13,9 @@ The pipeline is described and showcased in the paper [*The Gender-GAP Pipeline: 
 The code was tested with python 3.9. 
 
 ```
-pip install -r requirements.txt
 git clone https://github.com/facebookresearch/ResponsibleNLP.git
+cd ResponsibleNLP/gender_gap_pipeline/
+pip install -r requirements.txt
 cd ./ResponsibleNLP
 ```
 
