@@ -26,7 +26,7 @@ NBs:
 ) then run `pip install -r requirements.txt` to install stanza: 
 
 
-If the language of your data is unknown, language detection is supported in the pipeline. To use language id, download fastext language detection model (only needed when --langs is not provided, or --lang_detect is triggered):   
+If the language of your data is unknown, language detection is supported in the pipeline. To use language detection, download fastext language detection model (only needed when --langs is not provided, or --lang_detect is triggered):   
 ```
 cd ./ResponsibleNLP
 mkdir fasttext_models
