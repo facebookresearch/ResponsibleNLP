@@ -125,53 +125,65 @@ Add ```--skip_failed_files``` to skip failed files processing and not to raise a
  
 ## Languages supported and language code
 
-| Language    | Code |
-|-------------|------|
-| Arabic      | arb  |
-| Czech       | ces  |
-| Greek       | ell  |
-| Hindi       | hin  |
-| Georgian    | kat  |
-| Marathi     | mar  |
-| Portuguese  | por  |
-| Swedish     | swe  |
-| Turkish     | tur  |
-| Assamese    | asm  |
-| Kurdish     | ckb  |
-| English     | eng  |
-| Hungarian   | hun  |
-| Khakas      | khk  |
-| Maltese     | mlt  |
-| Romanian    | ron  |
-| Swahili     | swh  |
-| Urdu        | urd  |
-| Belarusian  | bel  |
-| Mandarin    | cmn  |
-| Estonian    | est  |
-| Indonesian  | ind  |
-| Kirghiz     | kir  |
-| Dutch       | nld  |
-| Russian     | rus  |
-| Tamil       | tam  |
-| Uzbek       | uzn  |
-| Bengali     | ben  |
-| Welsh       | cym  |
-| Finnish     | fin  |
-| Italian     | ita  |
-| Korean      | kor  |
-| Punjabi     | pan  |
-| Slovak      | slk  |
-| Telugu      | tel  |
-| Vietnamese  | vie  |
-| Bulgarian   | bul  |
-| Danish      | dan  |
-| Irish       | gle  |
-| Kannada     | kan  |
-| Luganda     | lug  |
-| Polish      | pol  |
-| Spanish     | spa  |
-| Thai        | tha  |
-| Zulu        | zul  |
+The Gender-GAP pipeline supports the 55 languages listed here:
+
+|code|Language                     |
+|----|-----------------------------|
+|arb |Modern Standard Arabic              |
+|asm |Assamese                     |
+|bel |Belarusian                   |
+|ben |Bengali                      |
+|bul |Bulgarian                    |
+|cat |Catalan                      |
+|ces |Czech                        |
+|ckb |Central Kurdish              |
+|cmn |Mandarin Chinese             |
+|cym |Welsh                        |
+|dan |Danish                       |
+|deu |German                       |
+|ell |Modern Greek                 |
+|eng |English                      |
+|est |Estonian                     |
+|fin |Finnish                      |
+|fra |French                       |
+|gle |Irish                        |
+|hin |Hindi                        |
+|hun |Hungarian                    |
+|ind |Indonesian                   |
+|ita |Italian                      |
+|jpn |Japanese                     |
+|kan |Kannada                      |
+|kat |Georgian                     |
+|khk |Halh Mongolian               |
+|kir |Kirghiz                      |
+|kor |Korean                       |
+|lit |Lithuanian                   |
+|lug |Ganda                        |
+|lvs |Standard Latvian             |
+|mar |Marathi                      |
+|mlt |Maltese                      |
+|nld |Dutch                        |
+|pan |Panjabi                      |
+|pes |Iranian Persian              |
+|pol |Polish                       |
+|por |Portuguese                   |
+|ron |Romanian                     |
+|rus |Russian                      |
+|slk |Slovak                       |
+|slv |Slovenian                    |
+|spa |Spanish                      |
+|swe |Swedish                      |
+|swh |Swahili                      |
+|tam |Tamil                        |
+|tel |Telugu                       |
+|tgl |Tagalog                      |
+|tha |Thai                         |
+|tur |Turkish                      |
+|urd |Urdu                         |
+|uzn |Northern Uzbek               |
+|vie |Vietnamese                   |
+|yue |Yue Chinese                  |
+|zul |Zulu                         |
 
 
 
