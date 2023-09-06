@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--file_dir', type=str, nargs='+', required=False, default=None)
     parser.add_argument('--file_names', type=str, nargs='+', required=False)
-    parser.add_argument('--skip_failed_files', action='store_true', default=True)
+    parser.add_argument('--skip_failed_files', action='store_true', default=False)
 
     parser.add_argument('--write_dir', type=str, default='reports')
     parser.add_argument('--nouns_format_version', type=str, required=False, default='v1.0')
@@ -79,13 +79,6 @@ if __name__ == '__main__':
                                 ft_model_path='./fasttext_models/lid.176.bin' if args.lang_detect else None, 
                                 dataset_version=args.nouns_format_version)
             #
-            dataset = load_dataset(dataset_name) 
-            hb_counter.process_dataset(dataset, split=args.split[i_dataset], 
-                                        first_level_key=args.first_level_key[i_dataset], 
-                                        second_level_key=args.second_level_key[i_dataset] if args.second_level_key else None, 
-                                        clean_sample=clean_sample, 
-                                        max_samples=args.max_samples, 
-                                        return_vec=True)
             try:
                 dataset = load_dataset(dataset_name) 
                 hb_counter.process_dataset(dataset, split=args.split[i_dataset], 

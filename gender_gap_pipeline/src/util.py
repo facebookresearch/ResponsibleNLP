@@ -84,8 +84,8 @@ def bold(fem, masc, unsp, std, total, lang):
         + RANK_TO_BOLD_EOS[gender_2_rank["unsp"]],
         f"{round(np.abs(fem-masc), 3):0.3f} ({std:0.4f})",
     ]
-
-    latex_line = f" {lang} &  {display[0]} &   {display[1]}  & {display[2]}& {display[3]} & {total}"
+    
+    latex_line = f" {lang} &  {display[0]} &   {display[1]}  & {display[2]} & {display[3]} & {total}"
 
     return latex_line
 
@@ -94,6 +94,7 @@ def get_latex_table(report_df):
     for dataset in report_df["dataset"].unique():
         _df = report_df[report_df["dataset"] == dataset]
         _df = _df.sort_values("lang")
+        print('lang  & feminine & masculine & unspecified & #words & PCT matched docs.')
         for i in range(_df.shape[0]):
             row = _df.iloc[i]
             display = bold(

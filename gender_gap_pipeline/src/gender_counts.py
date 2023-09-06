@@ -279,7 +279,7 @@ GENDERS = ["feminine", "masculine", "unspecified"]
 
 def count_lines(file_dir: str):
 
-    if str(file_dir).endswith(".txt.gz"):
+    if str(file_dir).endswith(".gz"):
         try:
             return sum(1 for _ in gzip.open(file_dir, "rt"))
         except EOFError as e:
@@ -509,7 +509,7 @@ class GenderGAP():
     
     def count_lines(self, file_dir: str):
 
-        if str(file_dir).endswith(".txt.gz"):
+        if str(file_dir).endswith(".gz"):
             return sum(1 for _ in gzip.open(file_dir, "rt"))
         else:
             return sum(1 for _ in open(file_dir))
@@ -530,8 +530,7 @@ class GenderGAP():
         if max_samples is not None:
             max_samples = int(max_samples)
         gender_dic = {"masculine": [], "feminine": []}
-        for i, sample in tqdm(enumerate(dataset[split])):
-
+        for i, sample in tqdm(enumerate(dataset[split]), total=len(dataset[split])):
             first_level_val = sample[first_level_key]
             if second_level_key:
                 for sample in first_level_val:
@@ -585,7 +584,7 @@ class GenderGAP():
         n_samples = count_lines(file_dir)
         if verbose:
             print(f"{n_samples} lines in {file_dir.name}")
-        if str(file_dir).endswith(".txt.gz"):
+        if str(file_dir).endswith(".gz"):
             file = gzip.open(file_dir, "rt")
         else:
             file = open(file_dir)
