@@ -3,7 +3,7 @@
 You will find below instructions to run the Gender-GAP pipeline. 
 In a nutshell, given a dataset, you can use `python gender_gap_pipeline/get_multilingual_gender_dist.py` to compute the distributions of genders across the three classes: ***feminine, masculine and unspecified*** on text files, .gzip files or Hugging-Face hosted [datasets](https://huggingface.co/datasets).
 
-The pipeline is showcased in the paper [*The Gender-GAP Pipeline: A Gender-Aware Polyglot Pipeline for Gender Characterisation in 55 Languages*](https://arxiv.org/pdf/2308.16871.pdf) and illustrated here:
+The pipeline is described and showcased in the paper [*The Gender-GAP Pipeline: A Gender-Aware Polyglot Pipeline for Gender Characterisation in 55 Languages*](https://arxiv.org/pdf/2308.16871.pdf) and illustrated here:
 
 ![The Gender-GAP Pipeline Illustrated](https://github.com/facebookresearch/ResponsibleNLP/blob/main/gender_gap_pipeline/GenderGAP_img.png)
 
