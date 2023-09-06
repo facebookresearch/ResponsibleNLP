@@ -134,9 +134,6 @@ if __name__ == '__main__':
             hb_counter = GenderGAP(store_hb_dir='./tmp', lang=args.langs[i_file] if args.langs is not None else None, 
                                    ft_model_path='./fasttext_models/lid.176.bin' if  args.lang_detect else None, 
                                    dataset_version=args.nouns_format_version)
-            hb_counter.process_txt_file(file_dir=file_dir/file_name, clean_sample=clean_sample,  
-                                            max_samples=args.max_samples, 
-                                             return_vec=True)
             try:
                 hb_counter.process_txt_file(file_dir=file_dir/file_name, clean_sample=clean_sample,  
                                             max_samples=args.max_samples, 
