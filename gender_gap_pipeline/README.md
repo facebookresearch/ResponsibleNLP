@@ -16,7 +16,7 @@ The code was tested with python 3.9.
 git clone https://github.com/facebookresearch/ResponsibleNLP.git
 cd ResponsibleNLP/gender_gap_pipeline/
 pip install -r requirements.txt
-cd ./ResponsibleNLP
+cd ../
 ```
 
 ## Run the Gender-GAP Pipeline
