@@ -424,7 +424,7 @@ class GenderGAP():
         sentence = line.strip().lower()
         if len(sentence) == 0:
             print(f"Warning: empty sentence: {lang}")
-            return
+            return None, None, {"masculine": [], "feminine": []}
         gender_vec = None
         # lines counter
         if lang not in self.SUPPORTED_LANGS:
@@ -494,6 +494,8 @@ class GenderGAP():
         )
         self.n_words_with_no_match = 0
         self.n_doc_w_match.append(matching)
+        import pdb
+        pdb.set_trace()
         return curr_dic, curr_dic_terms, gender_vec
 
     def detect_language(self, text: str):
@@ -594,12 +596,11 @@ class GenderGAP():
             enumerate(file), desc=f"Processing {file.name}", total=n_samples
         ):
             n_sample_counted += 1
-            sample = clean_sample(sample)
             
+            sample = clean_sample(sample)
             lang = self.detect_language(text=sample) if self.lang_detect_model else self.lang
-            _, _, _gender_dic = self.count_demographics(
-                sample, lang, return_vec=return_vec
-            )
+            
+            _, _, _gender_dic = self.count_demographics(sample, lang, return_vec=return_vec)
             if return_vec:
                 gender_dic["masculine"].extend(_gender_dic["masculine"])
                 gender_dic["feminine"].extend(_gender_dic["feminine"])
