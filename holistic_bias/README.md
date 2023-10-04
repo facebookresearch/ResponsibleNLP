@@ -20,7 +20,7 @@ pip install -r holistic_bias/requirements.txt
 
 ## Generating the dataset
 
-Run the following to generate a CSV of all sentences in the dataset:
+Run the following in the root folder of the repo to generate a CSV of all sentences in the dataset:
 
 ```
 python holistic_bias/generate_sentences.py ${SAVE_FOLDER}
