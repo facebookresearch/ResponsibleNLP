@@ -1,0 +1,1 @@
+Code for the ROBBIE paper will be released October 28th. See [`AdvPromptSet`](https://github.com/facebookresearch/ResponsibleNLP/tree/main/AdvPromptSet) for instructions on how to create the AdvPromptSet dataset.
