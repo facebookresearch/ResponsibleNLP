@@ -1,0 +1,6 @@
+google-api-python-client
+ratelimit
+retrying
+requests
+transformers
+torch

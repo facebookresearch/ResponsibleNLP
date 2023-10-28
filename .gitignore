@@ -1,2 +1,10 @@
 # PyCharm
 .idea
+
+__pycache__
+*.egg-info
+
+# ROBBIE output dirs
+_results/
+data/
+out/

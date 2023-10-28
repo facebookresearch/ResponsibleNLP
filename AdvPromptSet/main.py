@@ -21,9 +21,15 @@ Please refer to README.md for detailed instruction.
 
 
 if __name__ == "__main__":
-    dat_folder = "jigsaw_data"
-    meta_folder = "metadata"
-    out_folder = "out_data"
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("data", default=".")
+    args = parser.parse_args()
+
+    dat_folder = os.path.join(args.data, "jigsaw_data")
+    meta_folder = os.path.join(args.data, "metadata")
+    out_folder = os.path.join(args.data, "out_data")
 
     df_jigsaw1 = process_jigsaw_1(dat_folder)
     df_toxic_only, df_has_group = process_jigsaw_2(dat_folder)
