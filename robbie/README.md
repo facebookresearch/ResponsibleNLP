@@ -119,3 +119,24 @@ Metric.register(
     factory=lambda _: MyMetric()
 )
 ```
+
+## Bias Score
+To bootsrapped the evaluation results for fairness analysis:
+```
+# For regard or holisticbiasr benchmarks
+robbie/fairness_analysis/bootsrap_regard_pct.py \
+  --task {holisticbiasr, regard} \
+  --input <path to the evaluation result> 
+
+# For bold or safetyscore or advpromptset benchmarks
+robbie/fairness_analysis/bootsrap_toxicity_pct.py \
+  --task {advpromptset, bold, safetyscore} \
+  --input <path to the evaluation result> 
+```
+
+For computing bias score for a baseline of 0.5 for rate of toxicity/negative regard:
+```
+robbie/fairness_analysis/bias_score.py \
+  --input <path to the bootsrapped results> \
+  --baseline 0.5 
+```
