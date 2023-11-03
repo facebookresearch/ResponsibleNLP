@@ -13,7 +13,7 @@ pip install -r robbie/requirements.txt
 
 ## Running Evaluations
 
-We include support for automatically fetching most of the benchmarks in the paper (except for AdvPromptSet which has specific instructions [here](https://github.com/facebookresearch/ResponsibleNLP/blob/main/AdvPromptSet/README.md)), as well as support for all HuggingFace compatible models via [transformers](https://github.com/huggingface/transformers/tree/main).
+We include support for automatically fetching most of the benchmarks in the paper (except for AdvPromptSet and SafetyScore, which have specific instructions [here](https://github.com/facebookresearch/ResponsibleNLP/blob/main/AdvPromptSet/README.md) and [here](https://github.com/facebookresearch/ResponsibleNLP/blob/main/robbie/datasets/safetyscore.py), respectively), as well as support for all HuggingFace compatible models via [transformers](https://github.com/huggingface/transformers/tree/main).
 
 These can be launched using `robbie/scripts/run_eval.sh`:
 
@@ -29,10 +29,10 @@ This will select decoding presets that match the paper for recognized models (e.
 ## Mitigations
 
 In the paper we examine a number of techniques for reducing measured bias and toxicity:
-- fine-tuning with CRINGE loss ([Adolphs et al, 2023](https://aclanthology.org/2023.acl-long.493/))
 - auto-prompting ([Zhou et al, 2022](https://arxiv.org/abs/2211.01910))
 - self-debiasing ([Schick, Udupa and Schütze, 2021](https://arxiv.org/abs/2103.00453))
 - adversarial triggering ([Sheng et al, 2020](https://aclanthology.org/2020.findings-emnlp.291/))
+- additionally: fine-tuning with CRINGE loss ([Adolphs et al, 2023](https://aclanthology.org/2023.acl-long.493/))
 
 We plan to release components of these methods in this toolkit shortly.
 
@@ -121,7 +121,7 @@ Metric.register(
 ```
 
 ## Bias Score
-To bootsrapped the evaluation results for fairness analysis:
+To bootstrap the evaluation results for fairness analysis:
 ```
 # For regard or holisticbiasr benchmarks
 robbie/fairness_analysis/bootsrap_regard_pct.py \
