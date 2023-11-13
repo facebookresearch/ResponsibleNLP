@@ -1,6 +1,6 @@
 # Perturbation Augmentation for Fairer NLP
 
-This folder contains datasets and other artifacts for the Perturbation Augmentation for Fairer NLP project. 
+This folder contains datasets and other artifacts for the Perturbation Augmentation for Fairer NLP project.
 
 [Paper: Rebecca Qian, Candace Ross, Jude Fernandes, Eric Smith, Douwe Kiela, Adina Williams. *Perturbation Augmentation for Fairer NLP.* 2022.](https://aclanthology.org/2022.emnlp-main.646/)
 
@@ -10,5 +10,7 @@ Perturbation Augmentation NLP DAtaset (PANDA) consists of approximately 100K pai
 ## Models
 - The perturber seq2seq model that rewrites text along a specified demographic axis and attribute can be found at https://huggingface.co/facebook/perturber .
 - The FairBERTa LLM trained on demographically perturbed corpora can be found at https://huggingface.co/facebook/FairBERTa .
+
+Rewind the repo to before November 13, 2023 to view crowdsourcing code (no longer supported).
 
 Please reach out with feedback, issues and suggestions!
