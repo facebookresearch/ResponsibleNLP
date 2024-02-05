@@ -14,7 +14,6 @@ License information available [here](https://github.com/facebookresearch/Respons
 
 Starting in the root folder of the repo, `ResponsibleNLP/`:
 ```
-pip install .
 pip install -r holistic_bias/requirements.txt
 ```
 
