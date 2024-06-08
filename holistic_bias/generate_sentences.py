@@ -8,15 +8,16 @@
 
 import argparse
 
-from holistic_bias.src.sentences import HolisticBiasSentenceGenerator
-from holistic_bias.src.util import DEFAULT_DATASET_VERSION
-
+from src.sentences import HolisticBiasSentenceGenerator
+from src.util import DEFAULT_DATASET_VERSION
+# holistic_bias.src.sentences
+# holistic_bias.src.util
 
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser("Generate HolisticBias sentences")
     parser.add_argument(
-        "save_folder",
+        "--save_folder",
         type=str,
         help="Folder to save CSVs of all noun phrases and base sentences to",
     )

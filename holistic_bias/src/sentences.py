@@ -20,8 +20,8 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
-from holistic_bias.src.util import NO_PREFERENCE_DATA_STRING, NONE_STRING, RANDOM_SEED
-
+from src.util import NO_PREFERENCE_DATA_STRING, NONE_STRING, RANDOM_SEED
+# holistic_bias.src.util
 
 class HolisticBiasSentenceGenerator:
     """
@@ -129,18 +129,22 @@ class HolisticBiasSentenceGenerator:
 
         # Add noun phrases with just nouns and no descriptors
         no_descriptor_template = cls.WITH_NOUN_TEMPLATE.replace(" {descriptor}", "")
+        # cls.WITH_NOUN_TEMPLATE: {article} {descriptor} {{noun}}
+        # no_descriptor_template: {article} {{noun}}
+        
         # For instance, this will allow for "I'm a man" as a control for "I'm a blind
         # man"
         no_descriptor_noun_phrase_metadata = []
         for group_gender, gender_noun_tuples in cls.get_nouns(dataset_version).items():
+            # female, ["woman", "women"]
             for noun, plural_noun in gender_noun_tuples:
-                noun_phrase = no_descriptor_template.format(
-                    article=cls._get_article(noun)
-                ).format(noun=noun)
+                noun_phrase = no_descriptor_template.format(  # '{article} {{noun}}'
+                    article=cls._get_article(noun)  # get "an" or "a"
+                ).format(noun=noun)  # 'a woman'
                 plural_noun_phrase = (
-                    no_descriptor_template.format(article="")
+                    no_descriptor_template.format(article="")  # ' {noun}'
                     .lstrip()
-                    .format(noun=plural_noun)
+                    .format(noun=plural_noun)  # 'women'
                 )
                 no_descriptor_noun_phrase_metadata.append(
                     {
@@ -161,11 +165,14 @@ class HolisticBiasSentenceGenerator:
 
         # Loop over all demographic axes and enumerate all possible combinations
         for axis, axis_descriptors in cls.get_descriptors(dataset_version).items():
+            # ability, {}
 
             # Compile noun phrases and metadata
             this_axis_noun_phrase_metadata = []
             for bucket, descriptor_info in axis_descriptors.items():
+                # auditory, [{'descriptor': 'Deaf', 'preference': 'reviewed'}, {}]
                 for descriptor_obj in descriptor_info:
+                    # {'descriptor': 'Deaf', 'preference': 'reviewed'}
                     this_axis_noun_phrase_metadata += cls._get_noun_phrase_metadata(
                         descriptor_obj=descriptor_obj,
                         dataset_version=dataset_version,
@@ -279,9 +286,11 @@ class HolisticBiasSentenceGenerator:
             # No metadata found
             descriptor_obj = {"descriptor": descriptor_obj}
         descriptor = descriptor_obj["descriptor"]
-        descriptor_gender = descriptor_obj.get("gender", cls.NONE_STRING)
+        descriptor_gender = descriptor_obj.get("gender", cls.NONE_STRING)  # some descriptors have "gender" key (search in descriptor.json)
+        
         # Set the gender associated with the descriptor, if any
-        descriptor_article = descriptor_obj.get("article", cls._get_article(descriptor))
+        descriptor_article = descriptor_obj.get("article", cls._get_article(descriptor))  # some descriptors have "article" key (search in descriptor.json)
+        
         # Allow for manual specification of the correct indefinite article
         descriptor_preference = descriptor_obj.get(
             "preference", cls.NO_PREFERENCE_DATA_STRING
@@ -289,10 +298,10 @@ class HolisticBiasSentenceGenerator:
         # Lists whether a term has been labeled as dispreferred or polarizing
 
         all_noun_phrase_metadata = []
-        for template in cls.NOUN_PHRASE_TEMPLATES:
+        for template in cls.NOUN_PHRASE_TEMPLATES: # '{descriptor}', '{article} {descriptor} {{noun}}'
 
             # Create the raw noun phrase
-            if "{article}" in template:
+            if "{article}" in template:  # '{article} {descriptor} {{noun}}'
                 noun_phrase = template.format(
                     article=descriptor_article,
                     descriptor=descriptor,
@@ -300,7 +309,7 @@ class HolisticBiasSentenceGenerator:
                 plural_noun_phrase = template.format(
                     article="", descriptor=descriptor
                 ).lstrip()
-            else:
+            else:  # '{descriptor}'
                 noun_phrase = template.format(descriptor=descriptor)
                 plural_noun_phrase = template.format(descriptor=descriptor)
 
@@ -419,7 +428,7 @@ class HolisticBiasSentenceGenerator:
                 noun_phrase_metadata = noun_phrase_series.to_dict()
                 if noun_phrase_metadata["noun"] == self.NONE_STRING:
                     # There's no noun phrase here (for instance, maybe it's an adjective
-                    # like "Deaf"), so don't use templates that require noun phrases
+                    # like "Deaf", or "a wheelchair user"), so don't use templates that require noun phrases
                     template_choices = {
                         template: specs
                         for template, specs in sentence_templates.items()
