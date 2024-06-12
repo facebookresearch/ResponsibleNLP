@@ -85,10 +85,11 @@ def build(args):
                     noun_phrase=formatted_noun_phrase,
                 )
                 data = {
-                    "prompt_text": prompt_text,
-                    "formatted_noun_phrase": formatted_noun_phrase,
                     **template_sample,
                     **noun_phrase_sample,
+                    "prompt_text": prompt_text,
+                    "formatted_noun_phrase": formatted_noun_phrase,
+                    "descriptor": formatted_noun_phrase,
                 }
 
                 f.write(json.dumps(data) + "\n")

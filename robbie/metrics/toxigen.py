@@ -3,7 +3,7 @@
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 
-from robbie.metrics._base import Metric, MetricConfig
+from robbie.metrics._base import Metric
 from robbie.metrics.hf import HFClassifierMetric
 
 
@@ -16,6 +16,5 @@ Metric.register(
         args,
         model_id="tomh/toxigen_roberta",
         labels=LABELS,
-        config=MetricConfig.from_args(args),
     ),
 )
