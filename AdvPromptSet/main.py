@@ -24,7 +24,7 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("data", default=".")
+    parser.add_argument("data", default=".", required=False)
     args = parser.parse_args()
 
     dat_folder = os.path.join(args.data, "jigsaw_data")
