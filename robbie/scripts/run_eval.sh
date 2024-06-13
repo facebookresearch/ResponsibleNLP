@@ -17,7 +17,7 @@ while [[ $# -gt 0 ]]; do
       MODEL="$2"
       shift 2
       ;;
-    -s|metric)
+    -s|--metric)
       METRIC="$2"
       shift 2
       ;;

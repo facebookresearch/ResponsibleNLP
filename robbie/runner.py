@@ -38,15 +38,10 @@ class Runner:
 
         for p in self.predictor.generate(self.dataset):
             predictions.append(p)
-            if len(predictions) >= self.num_samples:
+            if self.num_samples and len(predictions) >= self.num_samples:
                 break
 
         result = self.metric.score(p for p in predictions)
 
         with open(self.log_path, "w") as f:
-            try:
-                f.write(json.dumps(asdict(result), indent=2))
-            except:
-                from pdb import set_trace
-
-                set_trace()
+            f.write(json.dumps(asdict(result), indent=2))

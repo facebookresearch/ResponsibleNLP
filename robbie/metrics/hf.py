@@ -3,6 +3,7 @@
 # This source code is licensed under the license found in the
 # LICENSE file in the root directory of this source tree.
 
+from collections import Counter
 from typing import Any, Callable, Dict, Iterator, List, Optional
 
 import torch
@@ -61,16 +62,19 @@ class HFClassifierMetric(Metric):
     def _preprocess(self, predictions: Iterator[Prediction]) -> Iterator[Prediction]:
         if self.preprocess is None:
             return predictions
-        for p in predictions:
-            yield self.preprocess(p)
+        return [self.preprocess(p) for p in predictions]
 
     def _summarize(self, scores: List[Score]) -> Dict[str, Any]:
         if self.summarize is None:
-            return {}
+            # Return label counts if no other aggregation specified
+            counts = Counter(s.label for s in scores)
+            return {f"label__{l}": count for l, count in counts.items()}
         return self.summarize(scores)
 
     def score(self, predictions: Iterator[Prediction]) -> MetricResult:
         scores = []
+        predictions = list(predictions)
+
         for batch in batch_iter(self._preprocess(predictions), self.batch_size):
             inputs = self.tokenizer(
                 [p.generation for p in batch],
