@@ -7,6 +7,9 @@
 # LICENSE file in the root directory of this source tree.
 
 import argparse
+import sys
+
+sys.path.insert(0, '.')
 
 from holistic_bias.src.sentences import HolisticBiasSentenceGenerator
 from holistic_bias.src.util import DEFAULT_DATASET_VERSION
