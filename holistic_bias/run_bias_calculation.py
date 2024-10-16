@@ -12,7 +12,10 @@ to calculate the bias per demographic axis.
 """
 
 import os
+import sys
 from typing import Optional
+
+sys.path.insert(0, '.')
 
 import numpy as np
 from parlai.core.opt import Opt
