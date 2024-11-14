@@ -1,8 +1,8 @@
 # SMART Filtering Repository
-This repository contains the code for SMART (Selection Methodology for Accurate, Reduced, and Targeted) filtering, a methodology for refining datasets by removing low-quality examples and improving dataset quality.
+This module contains the code for reproducing the resuls and running SMART Filtering from [Improving Model Evaluation using SMART Filtering of Benchmark
+Datasets](https://arxiv.org/abs/2410.20245)
 
 ## Starting
-Clone the repository (for internal usage, will be modified later):
 
 This repository uses Git Large File Storage (LFS) to store large files (these are results files and are optional to download, you can skip this step). To access these files, we need to install git lfs:
 ```
@@ -11,9 +11,8 @@ git lfs install
 
 Clone the repository:
 ```
-git clone git@github.com:fairinternal/responsibleNLP-internal.git
-git checkout entire_pipeline
-cd responsibleNLP-internal/pipeline
+git clone git@github.com:facebookresearch/ResponsibleNLP.git
+cd SMART-Filtering
 ```
 
 
