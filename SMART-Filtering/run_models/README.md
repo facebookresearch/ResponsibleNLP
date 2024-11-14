@@ -13,6 +13,7 @@ This folder contains scripts to evaluate Large Language Models (LLMs) on entire 
 To evaluate a model on the entire dataset and store the output probabilities for each answer option, follow these steps:
 
 ```
+cd run_models
 cd <dataset_name>/entire_dataset
 
 python evaluate_hf.py --model <model_name_as_on_huggingface>
