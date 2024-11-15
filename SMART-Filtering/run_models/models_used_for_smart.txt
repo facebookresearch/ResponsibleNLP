@@ -1,0 +1,7 @@
+microsoft/Phi-3-medium-4k-instruct
+01-ai/Yi-34B
+Qwen/Qwen2-72B-Instruct
+databricks/dbrx-instruct
+google/gemma-2-27b-it
+mistralai/Mixtral-8x22B-Instruct-v0.1
+meta-llama/Meta-Llama-3.1-70B-Instruct
