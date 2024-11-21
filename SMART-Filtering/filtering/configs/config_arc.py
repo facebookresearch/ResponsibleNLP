@@ -1,3 +1,9 @@
+# Copyright (c) Meta Platforms, Inc. and affiliates.
+# All rights reserved.
+
+# This source code is licensed under the CC BY NC license found in the
+# LICENSE-CC-BY-NC file in the project directory.
+
 CONFIG = {
     'DATA_DIR': '../datasets/ai2_arc/test/',
     'MODEL_RESULTS_DIR': '../results/ai2_arc/entire_dataset',

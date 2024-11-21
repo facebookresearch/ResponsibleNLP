@@ -1,3 +1,9 @@
+# Copyright (c) Meta Platforms, Inc. and affiliates.
+# All rights reserved.
+
+# This source code is licensed under the CC BY NC license found in the
+# LICENSE-CC-BY-NC file in the project directory.
+
 ## This method is wrong as decoder only models like LLMs cannot be used to get sentence embeddings. A combine emebedding doesn't
 ## exists and last token embeddings is modified embeddings of last input token with contexts mixed from all input tokens
 

@@ -1,3 +1,9 @@
+# Copyright (c) Meta Platforms, Inc. and affiliates.
+# All rights reserved.
+
+# This source code is licensed under the CC BY NC license found in the
+# LICENSE-CC-BY-NC file in the project directory.
+
 import csv 
 import sys, pdb, os
 sys.path.append('../../../filtering')
