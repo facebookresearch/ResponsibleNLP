@@ -16,6 +16,11 @@ This repository hosts code and datasets relating to Responsible NLP projects fro
   - Code to calculate **Likelihood Bias**, a metric of the amount of bias in a language model, defined on HolisticBias demographic terms
 - [`robbie`](https://github.com/facebookresearch/ResponsibleNLP/tree/main/robbie):
   - **ROBBIE**: we test 6 bias/toxicity metrics (including 2 novel ones) across 5 model families and 3 bias/toxicity mitigation techniques, and show that using a broad array of metrics enables much better assessment of safety issues in these models and mitigations.
+- [SMART-Filtering](https://github.com/facebookresearch/ResponsibleNLP/tree/main/SMART-Filtering)
+  - from [Vipul Gupta, Candace Ross, David Pantoja, Rebecca J. Passonneau, Megan Ung, Adina Williams. *Improving Model Evaluation using SMART Filtering of Benchmark Datasets.* 2024.](https://arxiv.org/pdf/2410.20245)
+  - **SMART Filtering**: a new approach to select high quality subset of examples from existing benchmark datasets. The methodology applies three filtering steps: 1) removing easy examples, 2) removing data-contaminated examples that are highly
+likely to have been leaked into the training datasets,
+and 3) removing similar examples.
 
 -----
 
