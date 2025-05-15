@@ -2,6 +2,11 @@
 This module contains the code for reproducing the resuls and running SMART Filtering from [Improving Model Evaluation using SMART Filtering of Benchmark
 Datasets](https://arxiv.org/abs/2410.20245)
 
+### SMART-Filtered Datasets 
+- https://huggingface.co/datasets/vipulgupta/arc-smart
+- https://huggingface.co/datasets/vipulgupta/mmlu-smart
+- https://huggingface.co/datasets/vipulgupta/commonsense_qa_smart
+
 ## Starting
 
 This repository uses Git Large File Storage (LFS) to store large files (these are results files and are optional to download, you can skip this step). To access these files, we need to install git lfs:
