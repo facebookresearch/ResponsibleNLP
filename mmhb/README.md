@@ -17,6 +17,7 @@ This folder contains code for MMHB (Massive Multilingual Holistic Bias) dataset 
     * Vietnamese
     * Chinese (added on August 14, 2024)
     * Korean (added on August 14, 2024)
+ - [mmhb descriptors](https://github.com/facebookresearch/ResponsibleNLP/blob/main/mmhb/MMHB_descriptors.zip) (added on Feb 2, 2026)
 
 
 ### Analysis code
