@@ -1,5 +1,5 @@
 datasets==2.12.0
 fasttext
 stanza==1.5.0 
-nltk==3.8.1
+nltk==3.9.3
 pythainlp==4.0.2
